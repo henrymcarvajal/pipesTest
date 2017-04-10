@@ -1,0 +1,196 @@
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Ayax</title>
+
+        <!-- Bootstrap -->
+        <link href="css/bootstrap.min.css" rel="stylesheet">
+
+        <!-- Bootstrap -->
+        <link href="css/animate.css" rel="stylesheet">
+		<link href="css/detalleOferta.css" rel="stylesheet">
+
+        <!-- Google Font Lato -->
+        <link href='https://fonts.googleapis.com/css?family=Lato:400,700,900,400italic,700italic,900italic' rel='stylesheet' type='text/css'>
+        <link rel="stylesheet" href="css/font-awesome.min.css">
+
+        <link href="css/map.css" rel="stylesheet">
+        <!-- Main Styles -->
+        <link href="css/styles.css" rel="stylesheet">
+        <!-- Available main styles: styles-red.css, styles-green.css -->
+        <!-- Fav and touch icons -->
+        <link rel="apple-touch-icon-precomposed" sizes="144x144" href="img/ico/apple-touch-icon-144-precomposed.png">
+        <link rel="apple-touch-icon-precomposed" sizes="114x114" href="img/ico/apple-touch-icon-114-precomposed.png">
+        <link rel="apple-touch-icon-precomposed" sizes="72x72" href="img/ico/apple-touch-icon-72-precomposed.png">
+        <link rel="apple-touch-icon-precomposed" href="img/ico/apple-touch-icon-57-precomposed.png">
+        <link rel="shortcut icon" href="img/ico/ayax.ico">
+		
+		<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-74062161-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+
+    </head>
+    <body id="top" data-spy="scroll" data-target=".navbar" data-offset="260">
+
+        <!-- Header start -->
+        <!-- 12/12/2016 11:29 pm AYAX-->
+        <header>
+
+            <div class="row container box">
+                <div class="col-md-5">
+                    <!-- Logo start -->
+                    <div class="brand">
+                        <h1><a class="scroll-to" href="#top"><img class="img-responsive" src="img/logo.png" alt="Ayax"></a></h1>
+                    </div>
+                    <!-- Logo end -->
+                </div>
+
+                <div class="col-md-7">
+                    <div class="pull-right">
+                        <div class="header-info pull-right">
+                            <div class="contact pull-left">CONTACTO WHATSAPP: 322 880-4995</div>
+                            <!-- Language Switch start -->
+                            <!-- Language Switch end -->
+                        </div>
+                    </div>
+
+                    <div class="clearfix"></div>
+
+                    <!-- start navigation -->
+                    <nav class="navbar navbar-default" role="navigation">
+                        <div class="container-fluid">
+                            <!-- Toggle get grouped for better mobile display -->
+                            <div class="navbar-header">
+                                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                                    <span class="sr-only">Toggle navigation</span>
+                                    <span class="icon-bar"></span>
+                                    <span class="icon-bar"></span>
+                                    <span class="icon-bar"></span>
+                                </button>
+                                <a class="navbar-brand scroll-to" href="#top"><img class="img-responsive"  src="img/logo.png" alt="Ayax"></a>
+                            </div>
+                            <!-- Collect the nav links, for toggling -->
+                            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                                <!-- Nav-Links start -->
+                                <ul class="nav navbar-nav navbar-right">
+                                    <li><a href="login.html" class="scroll-to">Soy Transportador</a></li>
+                                    <!--<li><a href="#contact" class="scroll-to">Contactanos</a></li>-->
+                                </ul>
+                                <!-- Nav-Links end -->
+                            </div>
+                        </div>
+                    </nav>
+                    <!-- end navigation -->
+                </div>
+            </div>
+
+        </header>
+
+        <section id="vehicles" class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <h2 class="title wow fadeInDown" data-wow-offset="200">Información de la oferta</h2>
+                </div>
+
+                <!-- Vehicle nav start -->
+                <div class="col-md-3 vehicle-nav-row wow fadeInUp" data-wow-offset="100">
+                    <div id="vehicle-nav-container">
+                        <ul class="vehicle-nav">
+                            <li class="active"><a href="#vehicle-1" id="nombre-transportador">Transportador</a><span class="active">&nbsp;</span></li>
+                        </ul>
+                    </div>
+
+                </div>
+                <!-- Vehicle nav end -->
+
+                <!-- Vehicle 1 data start -->
+                <div class="vehicle-data" id="vehicle-1">
+                    <div class="col-md-6 wow fadeIn" data-wow-offset="100">
+                        <div class="vehicle-img">
+                            <img id="foto-vehiculo" class="img-responsive" alt="Vehiculo">
+                        </div>
+                    </div>
+                    <div class="col-md-3 wow fadeInUp" data-wow-offset="200">
+                        <div class="vehicle-price"><span id="valor-oferta"></span> <span class="info">Oferta</span></div>
+                        <table class="table vehicle-features">
+                            <tr>
+                                <td>Modelo</td>
+                                <td><span id="modelo-vehiculo"></span></td>
+                            </tr>
+                            <tr>
+                                <td>Marca</td>
+                                <td><span id="marca-vehiculo"></span></td>
+                            </tr>
+                            <tr>
+                                <td>Capacidad</td>
+                                <td><span id="capacidad-vehiculo"></span></td>
+                            </tr>
+                            <tr>
+                                <td>Aire Acondicionado</td>
+                                <td><span id="aire-vehiculo"></span></td>
+                            </tr>
+                            <tr>
+                                <td>Servicios ejecutados</td>
+                                <td><span id="servicios-ejecutados"></span></td>
+                            </tr>
+                            <tr>
+                                <td>Reputación</td>
+                                <td><!--<div class="rating">
+                                        <span id="primera-estrella"></span><span id="segunda-estrella"></span><span id="tercera-estrella"></span><span id="cuarta-estrella"></span><span id="quinta-estrella"></span>
+                                    </div>-->
+									<span class="stars"></span>
+								</td>
+                            </tr>
+                        </table>
+                        <a href="#" id="boton-contratar" class="reserve-button scroll-to"><center>Contactar</center></a>
+                    </div>
+                </div>
+        </section>
+        <!-- Footer start -->
+        <footer>
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12 text-center">
+                        <ul class="footer-nav">
+                            <li><a class="scroll-to" href="login.html">Soy transportador</a></li>
+                            <!--<li><a class="scroll-to" href="#contact">Contactanos</a></li>-->
+                        </ul>
+                        <div class="clearfix"></div>
+                        <p class="copyright">©2016 Ayax, All Rights Reserved</p>
+                    </div>
+                </div>
+            </div>
+        </footer>
+        <!-- Footer end -->
+
+        <script src="js/jquery-1.11.0.min.js"></script>
+        <script src="js/general.js"></script>
+        <script src="js/detalleOferta.js"></script>
+        <script src="js/bootstrap.min.js"></script>
+        <script src="js/jquery.autocomplete.min.js"></script>
+        <script src="js/jquery.placeholder.js"></script>
+        
+
+
+        <!--[if !(gte IE 8)]><!-->
+        <script src="js/wow.min.js"></script>
+        <script>
+            // Initialize WOW
+            //-------------------------------------------------------------
+            new WOW({mobile: false}).init();
+        </script>
+        <!--<![endif]-->
+    </body>
+</html>

@@ -1,0 +1,226 @@
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Ayax</title>
+
+    <!-- Bootstrap -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Bootstrap -->
+    <link href="css/animate.css" rel="stylesheet">
+
+    <!-- Google Font Lato -->
+    <link href='https://fonts.googleapis.com/css?family=Lato:400,700,900,400italic,700italic,900italic' rel='stylesheet'
+          type='text/css'>
+    <link rel="stylesheet" href="css/font-awesome.min.css">
+
+    <!-- Main Styles -->
+    <link href="css/styles.css" rel="stylesheet">
+	<link href="css/servicios.css" rel="stylesheet">
+    <!-- Fav and touch icons -->
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="img/ico/apple-touch-icon-144-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="img/ico/apple-touch-icon-114-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="img/ico/apple-touch-icon-72-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" href="img/ico/apple-touch-icon-57-precomposed.png">
+    <link rel="shortcut icon" href="img/ico/ayax.ico">
+
+</head>
+<body id="top" data-spy="scroll" data-target=".navbar" data-offset="260">
+
+
+<!-- Header start -->
+<header  class="large">
+
+    <div class="row container box">
+        <div class="col-md-5">
+            <!-- Logo start -->
+            <div class="brand">
+                <h1><a class="scroll-to" href="#top"><img class="img-responsive" src="img/logo.png" alt="Ayax"></a></h1>
+            </div>
+            <!-- Logo end -->
+        </div>
+
+        <div class="col-md-7">
+		<a href style="text-align:right;" id="cerrar-sesion">Salir</a>	<br/>
+            <div class="pull-right">
+				<div class="header-info pull-right">
+                                    <div class="contact pull-left"><span id="nombreUsuario">Jorge Leonardo Espinosa Tovar</span> Crédito: <span id="valorRecargado">50.000</span><form action="/cuenta" method="post"><input type ="number" min="30000" name="monto" style="width:40%;height:40%;"> <input type="submit" class="btn submit-message recargar-cuenta" style ="background-color: #ffbf00;" value="RECARGA TU CUENTA"/></form></div>
+				</div>
+			</div>
+			
+			
+
+            <div class="clearfix"></div>
+
+            <!-- start navigation -->
+            <nav class="navbar navbar-default" role="navigation">
+                <div class="container-fluid">
+                    <!-- Toggle get grouped for better mobile display -->
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                            <span class="sr-only">Toggle navigation</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                        <a class="navbar-brand scroll-to" href="#top"><img class="img-responsive"  src="img/logo.png" alt="Ayax"></a>
+                    </div>
+                    <!-- Collect the nav links, for toggling -->
+                    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                        <!-- Nav-Links start -->
+                        <ul class="nav navbar-nav navbar-right">
+							<li><a href="index.html" class="scroll-to">Necesito un Servicio</a></li>
+							<li><a href="login.html" class="scroll-to">Soy Transportador</a></li>
+                        </ul>
+                        <!-- Nav-Links end -->
+                    </div>
+                </div>
+            </nav>
+            <!-- end navigation -->
+        </div>
+    </div>
+
+</header>
+<!-- Header end -->
+
+
+<!-- Teaser start -->
+<section id="teaser-blog">
+    <div class="container">
+        <div class="row">
+
+            <div class="col-md-6">
+                <h2 class="title">Servicios Disponibles</h2>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Teaser end -->
+
+<section class="blog-posts">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8" style="overflow-x:auto;">
+                <table class="table">
+				<thead>
+					<tr>
+						<th>#</th>
+            <th>Origen</th>
+            <th>Fecha Partida</th>
+			<th>Número Pasajeros </th>
+			<th>Detalle</th>
+					</tr>
+				</thead>
+			<tbody id="records_table">
+			</tbody>
+			</table>
+            </div>
+            
+        </div>
+</div>
+</section>
+
+<!-- Footer start -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 text-center">
+                <ul class="footer-nav">
+                    <li class="active"><a href="index.html" class="scroll-to">Necesito un Servicio</a></li>
+                    <li><a href="login.html" class="scroll-to">Soy Transportador</a></li>
+                </ul>
+                <div class="clearfix"></div>
+                <p class="copyright">©2016 Ayax, All Rights Reserved</p>
+            </div>
+        </div>
+    </div>
+</footer>
+<!-- Footer end -->
+
+<!--<div class="modal fade" id="modal-ofertar" tabindex="-1" role="dialog" aria-labelledby="checkoutModalLabel" aria-hidden="true" data-backdrop="static">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">&times;</button>
+				<h3>
+					<span class="glyphicon glyphicon-thumbs-up"/> Enviar Oferta</h3>
+			</div>
+                        <div class="modal-body" style="margin: 0 auto">
+					<label>Precio a ofertar:</label>
+					<input type='number' class="form-control input-modal-servicios" placeholder="Ingresa el precio que cobras" id="precioOfertar" onkeyup="calcularValores(); return false;" style="max-width:50%;" required/>
+					<br/><h4 class="info-box-title"><strong><span id="ofertaEnviar"></span></strong></h4>
+                                        <br/><label><strong>A continuación podrás estimar los gastos generales de tu vehículo (esta es una herramienta, por lo que depende de ti usarla o no)  No olvides tener en cuenta todos los gastos directos e indirectos del servicio como:</strong> </label>
+	                    <div class="info-box">
+                                <span class="glyphicon glyphicon-tint"></span>
+                                <h4 class="info-box-title">Combustible</h4>
+                                <p class="info-box-description">(<span id="verDistancia"> </span> / (35 km/ galon) ) x 8000 precio galon  =  <strong><span id="resultadoKms"></span></strong>  </p>
+						</div>
+					    <div class="info-box">
+                                <span class="glyphicon glyphicon-road"></span>
+                                <h4 class="info-box-title">Desgaste y devaluación del vehículo</h4>
+                                <p class="info-box-description">llantas cada 60.000 kms: <strong> <span id="desgasteLlantas"></span> </strong> </p>
+								<p class="info-box-description">Aceite y filtros cada 5.000 kms = <strong> <span id="desgasteAceite"> </span> </strong> </p>
+								<p class="info-box-description">Frenos cada 10.000 kms = <strong> <span id="desgasteFrenos"> </span> </strong> </p>
+								<p class="info-box-description">Un vehículo se devalua un 10% anual = <strong> <span id="devaluacion"> </span> </strong> </p>
+						</div>
+						<div class="info-box">
+                                <span class="glyphicon glyphicon-briefcase"></span>
+                                <h4 class="info-box-title">Papeles, seguros e impuestos</h4>
+                                <p class="info-box-description">Seguro obligatorio, se asume 50.000 kms al año:  <strong> <span id="resultadoSeguroObligatorio"></span> </strong> </p>
+								<p class="info-box-description">Tecnomecanica = <strong> <span id="resultadoTecnomecanica"> </span> </strong> </p>
+								<p class="info-box-description">Seguro contractual y extracontractual <strong> <span id="resultadosSegurosAdicional"> </span> </strong> </p>
+								<p class="info-box-description">Retención a la fuente (Digite el precio a ofertar) <strong> <span id="resultadoRetencion">Digite un precio a ofertar </span> </strong> </p>
+						</div>
+						<div class="info-box">
+                                <span class="glyphicon glyphicon-user"></span>
+                                <h4 class="info-box-title">Conductor</h4>
+                                <p class="info-box-description">Salario (25% del precio ofertado) :  <strong> <span id="salarioConductor">Digite un precio a ofertar</span> </strong> </p>
+								<p class="info-box-description">Viáticos : <input type="number" id="viaticos" placeholder="ingresa el costo de viaticos" onkeyup="calcularValores(); return false;" value="0"/></p>
+								<p class="info-box-description">Peajes : <input type="number" id="peajes" placeholder="ingresa el costo de peajes" value="0" onkeyup="calcularValores(); return false;"/> </p>
+						</div>
+						<div class="info-box">
+							<h4 class="info-box-title">Tu ganancia es de: <strong><span id="gananciaTotal"></span></strong></h4>
+						</div>
+						<input type="hidden" id="distancia"  value=""/>
+				
+                                
+                         </div>
+				<div class="modal-footer">
+					<span class="btn-border btn-gray">
+						<button type="button" class="btn btn-default btn-gray" data-dismiss="modal">Cancelar</button>
+					</span>
+					<span class="btn-border btn-yellow">
+						<button type="button" data-dismiss="modal" id="enviar-oferta-boton" class="btn btn-primary active">Enviar Oferta</button>
+					</span>
+				</div>
+	
+		</div>
+	</div>
+</div>
+
+  <div class="modal-dialog">-->
+
+    <!-- Modal content-->
+
+
+<script src="js/jquery-1.11.0.min.js"></script> 
+<script src="js/bootstrap.min.js"></script>
+<script src="js/jquery.autocomplete.min.js"></script>
+<script src="js/jquery.placeholder.js"></script>
+<!--[if !(gte IE 8)]><!-->
+<script src="js/wow.min.js"></script>
+<script src="js/servicios.js"></script>
+<script src="js/general.js"></script>
+<script>
+    // Initialize WOW
+    //-------------------------------------------------------------
+    new WOW({mobile: false}).init();
+</script>
+<!--<![endif]-->
+
+</body>
+</html>

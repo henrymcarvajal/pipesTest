@@ -1,0 +1,6 @@
+{
+  "name": "Ayax Landing Page",
+  "description": "Landing page for Ayax web site",
+  "image": "heroku/java",
+  "addons": [ "heroku-postgresql" ]
+}

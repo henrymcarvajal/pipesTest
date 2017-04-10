@@ -1,0 +1,160 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Ayax</title>
+
+    <!-- Bootstrap -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+
+	<link href="css/login.css" rel="stylesheet">
+
+    <!-- Main Styles -->
+    <link href="css/styles.css" rel="stylesheet">
+
+    <!-- Fav and touch icons -->
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="img/ico/apple-touch-icon-144-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="img/ico/apple-touch-icon-114-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="img/ico/apple-touch-icon-72-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" href="img/ico/apple-touch-icon-57-precomposed.png">
+    <link rel="shortcut icon" href="img/ico/ayax.ico">
+	
+	<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-74062161-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+
+</head>
+<body id="top" data-spy="scroll" data-target=".navbar" data-offset="260">
+
+<!-- Header start -->
+<header class="large">
+
+    <div class="row container box">
+        <div class="col-md-5">
+            <!-- Logo start -->
+            <div class="brand">
+                <h1><a class="scroll-to" href="#top"><img class="img-responsive" src="img/logo.png" alt="Ayax"></a></h1>
+            </div>
+            <!-- Logo end -->
+        </div>
+
+        <div class="col-md-7">
+            <div class="pull-right">
+                <div class="header-info pull-right">
+                    <div class="contact pull-left">CONTACTO WHATSAPP: 322 880-4995</div>
+                    <!-- Language Switch start -->
+                    <!-- Language Switch end -->
+                </div>
+            </div>
+
+            <div class="clearfix"></div>
+
+            <!-- start navigation -->
+            <nav class="navbar navbar-default" role="navigation">
+                <div class="container-fluid">
+                    <!-- Toggle get grouped for better mobile display -->
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                            <span class="sr-only">Toggle navigation</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                        <a class="navbar-brand scroll-to" href="#top"><img class="img-responsive"  src="img/logo.png" alt="Ayax"></a>
+                    </div>
+                    <!-- Collect the nav links, for toggling -->
+                    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                        <!-- Nav-Links start -->
+                        <ul class="nav navbar-nav navbar-right">
+                            <li class="active"><a href="index.html" class="scroll-to">Necesito un Servicio</a></li>
+                            <li><a href="login.html" class="scroll-to">Soy Transportador</a></li>
+                        </ul>
+                        <!-- Nav-Links end -->
+                    </div>
+                </div>
+            </nav>
+            <!-- end navigation -->
+        </div>
+    </div>
+
+</header>
+<!-- Header end -->
+<section id="teaser-blog">
+    <div class="container">
+        <div class="row">
+
+            <div class="col-md-6">
+                <h2 class="title">Inicia Sesión</h2>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="container">
+<div class="wrapper">
+    <form class="form-signin"> 
+        <div class="alert alert-danger hidden" id="divMensajeError">
+            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+            <strong>Error!</strong> <span id="errorMensaje">Mensaje de error</span>
+        </div>
+        <h2 class="form-signin-heading">Por favor Ingresa</h2>
+        <input type="text" class="form-control" name="email-address" id="usuario" placeholder="Correo Electrónico" required autofocus="" /></br>
+        <input type="password" id="contrasena" onkeypress="capLock(event)" class="form-control" name="password" placeholder="Contraseña" required/> 
+        <div id="divMayus" style="visibility:hidden;color:red;">Mayúscula activada.</div> 
+        <label class="checkbox">
+            <input type="checkbox" value="remember-me" id="mostrarContrasena" name="mostrarContrasena"> Mostrar Contraseña   <a href="recuperarContrasena.html" id="enlaceRecuperarContrasena">¿Olvidaste tu contraseña?</a>
+        </label>
+        <button class="btn btn-lg btn-primary btn-block" type="submit">Ingresar</button>
+        <label class="registrate">¿No estas registrado? <a href="registroTransportadores.html">Crea tu cuenta</a></label>
+    </form>
+  </div>
+</section>
+<!-- Footer start -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 text-center">
+                <ul class="footer-nav">
+                    <li class="active"><a href="index.html" class="scroll-to">Necesito un Servicio</a></li>
+                    <li><a href="login.html" class="scroll-to">Soy Transportador</a></li>
+                </ul>
+                <div class="clearfix"></div>
+                <p class="copyright">©2016 Ayax, All Rights Reserved</p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+
+
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+<script src="js/jquery-1.11.0.min.js"></script>
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+
+<script src="js/bootstrap.min.js"></script>
+<script src="js/jquery.autocomplete.min.js"></script>
+<script src="js/jquery.placeholder.js"></script>
+<script src="js/login.js"></script>
+<script src="js/general.js"></script>
+<!--[if !(gte IE 8)]><!-->
+<script src="js/wow.min.js"></script>
+<script>
+    // Initialize WOW
+    //-------------------------------------------------------------
+    new WOW({mobile: false}).init();
+</script>
+<!--<![endif]-->
+
+</body>
+</html>
