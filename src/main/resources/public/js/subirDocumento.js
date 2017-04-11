@@ -148,5 +148,3 @@ $('input[type=file]').change(function () {
         $('#F-vehiculo').val($(this).val());
    
 });
-
-
