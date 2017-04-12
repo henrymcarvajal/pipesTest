@@ -52,6 +52,8 @@ public class Usuario implements Serializable {
     private String empresa;
     private BigInteger identificacion;
     private BigInteger telefono;
+    @Column(name = "tipo_usuario")
+    private String tipo_usuario;
     private Short edad;
     @Column(name = "servicios_completados")
     private Short serviciosCompletados;
@@ -62,7 +64,7 @@ public class Usuario implements Serializable {
     private Date fechaCreacion;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuario")
     private Collection<Servicio> servicioCollection;
-
+    
     public Usuario() {
     }
 
@@ -84,6 +86,14 @@ public class Usuario implements Serializable {
 
     public void setNombre(String nombre) {
         this.nombre = nombre;
+    }
+
+    public String getTipo_usuario() {
+        return tipo_usuario;
+    }
+
+    public void setTipo_usuario(String tipo_usuario) {
+        this.tipo_usuario = tipo_usuario;
     }
 
     public String getBuzonElectronico() {

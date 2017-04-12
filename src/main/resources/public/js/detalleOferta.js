@@ -19,6 +19,16 @@ $(window).load(function () {
                 $("#servicios-ejecutados").text(oferta.serviciosEjecutados);
                 document.getElementById("foto-vehiculo").src = oferta.fotoVehiculo;
                 $('span.stars').stars(oferta.reputacionTransportador);
+                
+                
+                if (typeof oferta.numeroContacto !== 'undefined') {
+
+                    $("#numeroContactotr").text(oferta.numeroContacto);
+                    $("#boton-contratar").css("display", "none");
+                } else {
+
+                    $("#oferta-table tbody tr.numeroContacto").hide();
+                }
             } else {
                 var mensaje = 'No es posible mostrar la oferta realizada. Por favor escr\u00EDbenos a soporte@ayax.co';
                 var codigo = '001';

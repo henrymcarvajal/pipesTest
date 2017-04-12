@@ -159,6 +159,9 @@ public class RouteServer {
                 obj.put("distancia", item.getDistancia());
                 obj.put("redondo", item.getRedondo());
                 obj.put("descripcion", item.getDetalle());
+                String servicioGratis=AdminServicio.TIPO_USUARIO_ESERVICIOESPECIAL.
+                        equalsIgnoreCase(item.getUsuario().getTipo_usuario())?"1":null;
+                obj.put("servicioGratis", servicioGratis);
             } catch (JSONException ex) {
                 Logger.getLogger(RouteServer.class.getName()).log(Level.SEVERE, null, ex);
 

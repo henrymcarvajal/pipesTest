@@ -40,11 +40,15 @@ public class AdminServicio {
 
     public AdminServicio() {
     }
+    
+    private static final String CODIGO_ESERVICIO_ESPECIAL="CESE1A";
+    public static final String TIPO_USUARIO_ESERVICIOESPECIAL="1";
 
     public Respuesta crearServicio(Request req, Response res) {
         Respuesta respuesta = new Respuesta();
 
         String pick_up = req.queryParams("pick-up");
+        String codigo_promocional =req.queryParams("codigop");
         String pickup_location = req.queryParams("pickup-location");
 
         String drop_off = req.queryParams("drop-off");
@@ -112,6 +116,11 @@ public class AdminServicio {
             usuario.setIdentificacion(BigInteger.valueOf(Long.parseLong(nit)));
             usuario.setTelefono(BigInteger.valueOf(Long.parseLong(phone_number)));
             usuario.setFechaCreacion(new Date(System.currentTimeMillis()));
+            
+            if (codigo_promocional.equalsIgnoreCase(CODIGO_ESERVICIO_ESPECIAL)) {
+                
+                usuario.setTipo_usuario(TIPO_USUARIO_ESERVICIOESPECIAL);
+            }
         } else if (usuario == null && usuarioRegistrado.equalsIgnoreCase("yes")) {
             
             Logger.getLogger(AdminServicio.class.getName()).log(Level.INFO, "Usuario registrado no existe");

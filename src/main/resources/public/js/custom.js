@@ -37,10 +37,10 @@ $(document).on("scroll",function(){
 });
 
 
+
 $(function(){
   $('#text_detalle').on('blur',function(){
-	 
-	 datosContacto=true
+     datosContacto=true
      var str = $('#text_detalle').val();
      $('#datos-contacto').css('visibility','hidden').addClass('hidden');
      var email = extractEmails(str);
@@ -460,7 +460,8 @@ $("#usuarioRegistrado").on("click", function(){
 	if ($('#usuarioRegistrado').is(":checked")){
 		
 		$('#divcodigo').css('display','block');
-		$('#email-address').prop('required',false);
+                $('#codigopdiv').css('display','none');
+                $('#email-address').prop('required',false);
 		$('#phone-number').prop('required',false);
 		$('#last-name').prop('required',false);
 		$('#first-name').prop('required',false);
@@ -473,6 +474,7 @@ $("#usuarioRegistrado").on("click", function(){
 		$('.checkout-personal-info').css('display','block');
 		$('#divcodigo').css('display','none');
 		$('#codigoautorizacion').prop('required',false);
+                $('#codigopdiv').css('display','block');
 	}
 });
 

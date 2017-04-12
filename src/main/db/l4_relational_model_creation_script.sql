@@ -172,3 +172,5 @@ alter table l4_usuario rename column correo to buzon_electronico;
 alter table l4_transportador rename column correo to buzon_electronico;
 
 alter table l4_usuario add column fecha_creacion timestamp without time zone;
+
+alter table l4_usuario add column tipo_usuario character varying(2);

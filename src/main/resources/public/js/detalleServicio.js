@@ -1,4 +1,5 @@
 var idServicio;
+var esEmpS=false;
 $(window).load(function() {
     idServicio = getUrlParameter('id');
     $.ajax({
@@ -28,6 +29,12 @@ function renderizarDetalleServicios(detalleServicio) {
     $('#fecha-fin').text(detalleServicio.map.horaLlegada);
     $('#numero-pasajeros').text(detalleServicio.map.numeroPasajeros);
     $('#ida-vuelta').text(detalleServicio.map.redondo);
+    
+    if (detalleServicio.map.servicioGratis === '1') {
+        $('#valor').prop('required',false);
+        $("#servicio-tabla tbody tr.valor-cobra").hide();
+        esEmpS=true;
+    }
 }
 
 
@@ -48,7 +55,7 @@ function mostrarValor(){
         $('#valorServicio').val($('#valor').val());
 		$('#idServicio').val(idServicio);
 		
-        if($('#valor').val()!="" && $('#valor').val()>1000){
+        if(($('#valor').val()!=="" && $('#valor').val()>1000)|| esEmpS){
 		$.ajax({
             type: "POST",
             url: "/oferta",
@@ -92,7 +99,7 @@ function mostrarValor(){
                 $('#mensaje-informativo').modal('show');
             }
         });
-		}else{
+		}else {
 			$('#titulo-informativo').text("Valor de oferta vacia");
                 $('#mensaje-informativo-texto').text("Por favor digita cuánto cobras por el servicio");
                 $('#mensaje-informativo').modal('show');

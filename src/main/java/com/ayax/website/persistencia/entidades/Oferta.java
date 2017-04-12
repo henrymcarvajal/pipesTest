@@ -5,6 +5,7 @@
  */
 package com.ayax.website.persistencia.entidades;
 
+import com.ayax.website.procesos.AdminServicio;
 import com.ayax.website.procesos.util.ImageUtils;
 import java.io.Serializable;
 import java.util.Date;
@@ -140,10 +141,11 @@ public class Oferta implements Serializable {
     }
 
     public Oferta.OfertaDTO toDTO() {
-
+        
         Oferta.OfertaDTO dto = new Oferta.OfertaDTO();
         Vehiculo vehiculo = (Vehiculo) transportador.getVehiculoCollection().iterator().next();
-
+        Usuario usuario = servicio.getUsuario();
+        boolean isEmpresaSEspecial = AdminServicio.TIPO_USUARIO_ESERVICIOESPECIAL.equalsIgnoreCase(usuario.getTipo_usuario());
         dto.setNombreTransportador(transportador.getNombres());
         dto.setMarcaVehiculo(vehiculo.getMarca());
         dto.setModeloVehiculo(vehiculo.getModelo());
@@ -153,7 +155,11 @@ public class Oferta implements Serializable {
         dto.setServiciosEjecutados(transportador.getServiciosAtendidos());
         dto.setAireAcondicionado(vehiculo.getAcondicionado());
         dto.setFotoVehiculo(ImageUtils.encodeImage(vehiculo.getFotoVehiculo()));
-
+        
+        if (isEmpresaSEspecial) {
+            dto.setNumeroContacto(transportador.getNumeroContacto().toString());
+        }
+        
         return dto;
     }
 
@@ -168,6 +174,7 @@ public class Oferta implements Serializable {
         private Boolean aireAcondicionado;
         private Short serviciosEjecutados;
         private String fotoVehiculo;
+        private String numeroContacto;
 
         public OfertaDTO() {
         }
@@ -180,6 +187,14 @@ public class Oferta implements Serializable {
             this.fotoVehiculo = fotoVehiculo;
         }
 
+        public String getNumeroContacto() {
+            return numeroContacto;
+        }
+
+        public void setNumeroContacto(String numeroContacto) {
+            this.numeroContacto = numeroContacto;
+        }
+        
         public Boolean getAireAcondicionado() {
             return aireAcondicionado;
         }

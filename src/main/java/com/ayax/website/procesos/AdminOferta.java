@@ -15,23 +15,19 @@ import com.ayax.website.persistencia.entidades.Vehiculo;
 import com.ayax.website.persistencia.fachadas.OfertaFacade;
 import com.ayax.website.persistencia.fachadas.ServicioFacade;
 import com.ayax.website.persistencia.fachadas.ServicioJpaController;
-import com.ayax.website.persistencia.fachadas.TransportadorFacade;
 import com.ayax.website.persistencia.fachadas.TransportadorJpaController;
 import com.ayax.website.persistencia.fachadas.UsuarioJpaController;
-import com.ayax.website.persistencia.fachadas.VehiculoFacade;
 import com.ayax.website.persistencia.fachadas.exceptions.NonexistentEntityException;
 import com.ayax.website.util.Util;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.persistence.EntityManager;
-import javax.persistence.NoResultException;
 import javax.persistence.Query;
 import spark.Request;
 import spark.Response;
@@ -72,10 +68,15 @@ public class AdminOferta {
                         oferta.setId(java.util.UUID.randomUUID().toString());
                         oferta.setServicio(servicio);
                         oferta.setTransportador(transportador);
-                        oferta.setValor(calcularValorOferta(transportador, Integer.parseInt(valor)));
+                        if (!"".equals(valor) && valor != null) {
+
+                            oferta.setValor(calcularValorOferta(transportador, Integer.parseInt(valor)));
+                        } else{
+                            oferta.setValor(0);
+                        }
                         oferta.setFecha(Date.from(LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant()));
 
-                        if (oferta.getComision() < transportador.getCredito() || transportador.getServiciosAtendidos() == 0) {
+//                        if (oferta.getComision() < transportador.getCredito() || transportador.getServiciosAtendidos() == 0) {
                             if (of.crear(oferta)) {
                                 respuesta.setCodigo("000");
                                 respuesta.setResultado("exito");
@@ -88,10 +89,10 @@ public class AdminOferta {
                                 respuesta.setCodigo("003");
                                 respuesta.setResultado("error de BD: ");
                             }
-                        } else {
-                            respuesta.setCodigo("001");
-                            respuesta.setResultado("Transportador (" + transportador.getBuzonElectronico() + ") sin credito");
-                        }
+//                        } else {
+//                            respuesta.setCodigo("001");
+//                            respuesta.setResultado("Transportador (" + transportador.getBuzonElectronico() + ") sin credito");
+//                        }
                     } else {
                         respuesta.setCodigo("002");
                         respuesta.setResultado("No se encontro servicio con el id especificado [" + idServicio + "]");
