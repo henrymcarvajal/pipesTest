@@ -9,7 +9,7 @@
 
     </head>
     <body id="top" data-spy="scroll" data-target=".navbar" data-offset="260">
-        <form name="accessFrm" action="/accessAdmin" method="POST">
+        <form name="accessFrm" action="/admin/access" method="POST">
             <table border="0">
                 <tbody>
                     <tr>

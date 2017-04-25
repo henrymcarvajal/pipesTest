@@ -305,7 +305,7 @@ public class RouteServer {
         }, new FreeMarkerEngine());
 
         post("/admin/access", (req, res) -> {
-            return new ModelAndView(null, "/admin/index.ftl");
+            return new ModelAndView(null, "/admin/servicios.ftl");
         }, new FreeMarkerEngine());
     }
 }
