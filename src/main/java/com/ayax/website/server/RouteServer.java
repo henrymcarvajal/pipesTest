@@ -303,5 +303,9 @@ public class RouteServer {
         get("/admin", (req, res) -> {
             return new ModelAndView(null, "/admin/index.ftl");
         }, new FreeMarkerEngine());
+
+        post("/admin/access", (req, res) -> {
+            return new ModelAndView(null, "/admin/index.ftl");
+        }, new FreeMarkerEngine());
     }
 }
