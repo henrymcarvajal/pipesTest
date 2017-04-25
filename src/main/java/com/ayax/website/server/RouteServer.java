@@ -299,5 +299,9 @@ public class RouteServer {
             AdminSuscriptor As = new AdminSuscriptor();
             return As.crearSuscriptor(req, res);
         }, json());
+
+        post("/admin", (req, res) -> {
+            return new ModelAndView(null, "/admin/index.ftl");
+        }, new FreeMarkerEngine());
     }
 }
