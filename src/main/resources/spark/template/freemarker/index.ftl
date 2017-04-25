@@ -82,6 +82,10 @@
                                 <li><a href="servicios.html" class="scroll-to">Servicios disponibles</a></li>
                                 <!--<li><a href="#contact" class="scroll-to">Contactanos</a></li>-->
                             </ul>
+                            <ul class="nav navbar-nav navbar-right">
+                                <li class="active"><a href="/admin" class="scroll-to">Para administradores</a></li>
+                                <!--<li><a href="#contact" class="scroll-to">Contactanos</a></li>-->
+                            </ul>
                             <!-- Nav-Links end -->
                         </div>
                     </div>
@@ -568,7 +572,7 @@
                             <textarea rows="4" cols="50" name="detalle" id="text_detalle"class="form-control" placeholder="Si necesitas incluir detalles del servicio que solicitas, digítalo en este espacio"></textarea>
                         </div><br/>
                         <div class="checkout-personal-info">
-                            <!--<div class="newsletter">
+<!--                            <div class="newsletter">
                                 <div class="radio">
                                     <label><input id="check1" type="radio" style="top:-15px;" name="solicitante" value="empresa">
                                         Servicio para transportar empleados de la misma empresa/ Estudiantes de una institución</label>
@@ -584,7 +588,7 @@
                                 <label for="first-name">Nombre Completo:</label>
                                 <input type="text" class="form-control" name="first-name" id="first-name" placeholder="Ingresa tu nombre completo" required/>
                             </div>
-                           <!-- <div class="form-group" id="input_empresa">
+<!--                            <div class="form-group" id="input_empresa">
                                 <label for="last-name" id="label-empresa">Empresa</label>
                                 <input type="text" class="form-control" name="company-name" id="last-name" placeholder="Si el servicio es para una empresa">
                             </div>-->
