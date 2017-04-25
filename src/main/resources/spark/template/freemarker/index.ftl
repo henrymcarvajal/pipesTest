@@ -82,10 +82,6 @@
                                 <li><a href="servicios.html" class="scroll-to">Servicios disponibles</a></li>
                                 <!--<li><a href="#contact" class="scroll-to">Contactanos</a></li>-->
                             </ul>
-                            <ul class="nav navbar-nav navbar-right">
-                                <li class="active"><a href="/admin" class="scroll-to">Para administradores</a></li>
-                                <!--<li><a href="#contact" class="scroll-to">Contactanos</a></li>-->
-                            </ul>
                             <!-- Nav-Links end -->
                         </div>
                     </div>
@@ -456,6 +452,10 @@
                         <li><a href="servicios.html" class="scroll-to">Servicios disponibles</a></li>
                         <!--<li><a class="scroll-to" href="#contact">Contactanos</a></li>-->
                     </ul>
+                            <ul class="nav navbar-nav navbar-right">
+                                <li class="active"><a href="/admin" class="scroll-to">Para administradores</a></li>
+                                <!--<li><a href="#contact" class="scroll-to">Contactanos</a></li>-->
+                            </ul>
                     <div class="clearfix"></div>
                     <p class="copyright">©2016 Ayax, All Rights Reserved</p>
                 </div>
