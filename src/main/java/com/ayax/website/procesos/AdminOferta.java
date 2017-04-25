@@ -18,6 +18,7 @@ import com.ayax.website.persistencia.fachadas.ServicioJpaController;
 import com.ayax.website.persistencia.fachadas.TransportadorJpaController;
 import com.ayax.website.persistencia.fachadas.UsuarioJpaController;
 import com.ayax.website.persistencia.fachadas.exceptions.NonexistentEntityException;
+import com.ayax.website.procesos.util.singleton.OfertaPendienteSingleton;
 import com.ayax.website.util.Util;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -46,69 +47,86 @@ public class AdminOferta {
         Respuesta respuesta = new Respuesta();
         respuesta.setRecurso("oferta");
         respuesta.setVerbo("POST");
+        
+        String idServicio=null;
+        String valor=null;
+        
+        if (!"".equals(req.queryParams("id-servicio")) && req.queryParams("id-servicio")!=null ) {
+            
+            idServicio = req.queryParams("id-servicio");
+            valor = req.queryParams("valor");
+            Logger.getLogger(AdminVehiculo.class.getName()).log(Level.INFO, "Oferta normal idServicio : ",idServicio);
+        } else if (OfertaPendienteSingleton.getInstance().getIdServicio() != null) {
+            
+            idServicio=OfertaPendienteSingleton.getInstance().getIdServicio();
+            valor = OfertaPendienteSingleton.getInstance().getValorOferta();
+            Logger.getLogger(AdminVehiculo.class.getName()).log(Level.INFO, "Oferta pendiente idServicio : ",idServicio);
+        }
+        
+        Transportador transportador = AdminTransportador.obtenerUsuarioSesion(req);
+        if (transportador != null && transportador.getNumeroIdentificacion() != null
+                && Transportador.ESTADO_REGISTRO_EXITOSO.equalsIgnoreCase(transportador.getEstadoRegistro()) 
+                && idServicio!=null) {
 
-        Transportador transportador = (Transportador) req.session().attribute("usuario");
-        if (transportador.getNumeroIdentificacion() != null) {
-            Collection<Vehiculo> veh = transportador.getVehiculoCollection();
-            Object[] lveh = veh.toArray();
-            Vehiculo v = (Vehiculo) lveh[0];
-            if (v.esVehiculoRevisado()) {
+            OfertaFacade of = new OfertaFacade();
+            Oferta oferta = of.buscarPorServicioTransportador(idServicio, transportador.getId());
+            if (oferta == null) {
 
-                String idServicio = req.queryParams("id-servicio");
-                String valor = req.queryParams("valor");
+                ServicioFacade sf = new ServicioFacade();
+                Servicio servicio = sf.buscarPorId(idServicio);
+                if (servicio != null) {
+                    oferta = new Oferta();
+                    oferta.setId(java.util.UUID.randomUUID().toString());
+                    oferta.setServicio(servicio);
+                    oferta.setTransportador(transportador);
+                    if (!"".equals(valor) && valor != null) {
 
-                OfertaFacade of = new OfertaFacade();
-                Oferta oferta = of.buscarPorServicioTransportador(idServicio, transportador.getId());
-                if (oferta == null) {
-
-                    ServicioFacade sf = new ServicioFacade();
-                    Servicio servicio = sf.buscarPorId(idServicio);
-                    if (servicio != null) {
-                        oferta = new Oferta();
-                        oferta.setId(java.util.UUID.randomUUID().toString());
-                        oferta.setServicio(servicio);
-                        oferta.setTransportador(transportador);
-                        if (!"".equals(valor) && valor != null) {
-
-                            oferta.setValor(calcularValorOferta(transportador, Integer.parseInt(valor)));
-                        } else{
-                            oferta.setValor(0);
-                        }
-                        oferta.setFecha(Date.from(LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant()));
+                        oferta.setValor(calcularValorOferta(transportador, Integer.parseInt(valor)));
+                    } else {
+                        oferta.setValor(0);
+                    }
+                    oferta.setFecha(Date.from(LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant()));
 
 //                        if (oferta.getComision() < transportador.getCredito() || transportador.getServiciosAtendidos() == 0) {
-                            if (of.crear(oferta)) {
-                                respuesta.setCodigo("000");
-                                respuesta.setResultado("exito");
+                    if (of.crear(oferta)) {
+                        respuesta.setCodigo("000");
+                        respuesta.setResultado("exito");
 
-                                MessageCreator mc = new MessageCreator();
+                        MessageCreator mc = new MessageCreator();
 
-                                Messenger mess = new Messenger();
-                                mess.sendMail("Oferta de Servicio Especial en Ayax.co", mc.crearMensajeOfertaNueva(oferta), new String[]{oferta.getServicio().getUsuario().getBuzonElectronico()});
-                            } else {
-                                respuesta.setCodigo("003");
-                                respuesta.setResultado("error de BD: ");
-                            }
+                        Messenger mess = new Messenger();
+                        mess.sendMail("Oferta de Servicio Especial en Ayax.co", mc.crearMensajeOfertaNueva(oferta), new String[]{oferta.getServicio().getUsuario().getBuzonElectronico()});
+                    } else {
+                        respuesta.setCodigo("003");
+                        respuesta.setResultado("error de BD: ");
+                    }
 //                        } else {
 //                            respuesta.setCodigo("001");
 //                            respuesta.setResultado("Transportador (" + transportador.getBuzonElectronico() + ") sin credito");
 //                        }
-                    } else {
-                        respuesta.setCodigo("002");
-                        respuesta.setResultado("No se encontro servicio con el id especificado [" + idServicio + "]");
-                    }
                 } else {
-                    respuesta.setCodigo("004");
-                    respuesta.setResultado("Transportador (" + transportador.getBuzonElectronico() + ") ya ha ofertado para este servicio [" + transportador.getId() + "]");
+                    respuesta.setCodigo("002");
+                    respuesta.setResultado("No se encontro servicio con el id especificado [" + idServicio + "]");
                 }
             } else {
-                respuesta.setCodigo("006");
-                respuesta.setResultado("Vehiculo con documentacion vencida");
+                respuesta.setCodigo("004");
+                respuesta.setResultado("Transportador (" + transportador.getBuzonElectronico() + ") ya ha ofertado para este servicio [" + transportador.getId() + "]");
             }
+
+        } else if (transportador != null && Transportador.ESTADO_REGISTRO_INCOMPLETO.
+                equalsIgnoreCase(transportador.getEstadoRegistro())) {
+
+            OfertaPendienteSingleton.getInstance().setIdServicio(idServicio);
+            OfertaPendienteSingleton.getInstance().setValorOferta(valor);
+            respuesta.setCodigo("001");
+            respuesta.setResultado("No se ha subido la informacion del vehiculo");
+            respuesta.setValor(transportador.getId());
+
         } else {
             respuesta.setCodigo("005");
-            respuesta.setResultado("Transportador no ha completado registro");
+            respuesta.setResultado("Usuario no logueado o no registrado");
         }
+        System.out.println("respuesta codigo: "+respuesta.getCodigo());
         return respuesta;
     }
 
@@ -142,6 +160,7 @@ public class AdminOferta {
     }
 
     public Respuesta iniciarServicio(Request req, Response res) {
+
         Respuesta respuesta = new Respuesta();
         respuesta.setRecurso("oferta/id/inicio");
         respuesta.setVerbo("PUT");
@@ -149,24 +168,40 @@ public class AdminOferta {
         String idOferta = req.params("id");
         OfertaFacade of = new OfertaFacade();
         Oferta oferta = of.buscarPorId(idOferta);
-        res.redirect("/informativo.html?codigo=000&mensaje=Tu solicitud ha sido procesada");
         if (oferta != null) {
-            oferta.getServicio().setFechaEjecucion(new Date(System.currentTimeMillis()));
-            ServicioFacade sf = new ServicioFacade();
-            sf.actualizar(oferta.getServicio());
 
-            MessageCreator mc = new MessageCreator();
+            Collection<Vehiculo> veh = oferta.getTransportador().getVehiculoCollection();
+            Object[] lveh = veh.toArray();
+            Vehiculo v = (Vehiculo) lveh[0];
 
-            Messenger mess = new Messenger();
-            mess.sendMail("Datos de cliente para Servicio Especial en Ayax.co", mc.crearMensajeServicioIniciado(oferta.getServicio()), new String[]{oferta.getTransportador().getBuzonElectronico()});
+            if (v.esVehiculoRevisado()) {
 
-            mess.sendMail("Datos de tu transportador de Servicio Especial en Ayax.co", mc.crearMensajeServicioTerminado(oferta.getServicio(), oferta.getTransportador()), new String[]{oferta.getServicio().getUsuario().getBuzonElectronico()});
+                res.redirect("/informativo.html?codigo=000&mensaje=Tu solicitud ha sido procesada");
+                oferta.getServicio().setFechaEjecucion(new Date(System.currentTimeMillis()));
+                ServicioFacade sf = new ServicioFacade();
+                sf.actualizar(oferta.getServicio());
 
-            respuesta.setCodigo("000");
-            respuesta.setResultado("Exito");
+                MessageCreator mc = new MessageCreator();
+
+                Messenger mess = new Messenger();
+                mess.sendMail("Datos de cliente para Servicio Especial en Ayax.co", mc.crearMensajeServicioIniciado(oferta.getServicio()), new String[]{oferta.getTransportador().getBuzonElectronico()});
+
+                mess.sendMail("Datos de tu transportador de Servicio Especial en Ayax.co", mc.crearMensajeServicioTerminado(oferta.getServicio(), oferta.getTransportador()), new String[]{oferta.getServicio().getUsuario().getBuzonElectronico()});
+
+                respuesta.setCodigo("000");
+                respuesta.setResultado("Exito");
+            } else {
+                res.redirect("/informativo.html?codigo=001&mensaje=Tu vehiculo "
+                        + "aun no ha sido autorizado. Debes enviar el SOAT, la revision, "
+                        + "seguros contractual y extracontractual al numero: 322 8804995, "
+                        + "una vez tu vehiculo sea autorizador puedes atender el servicio "
+                        + "para el que fuiste seleccionado.");
+                respuesta.setCodigo("002");
+                respuesta.setResultado("Sube los documentos de tu vehiculo");
+            }
         } else {
             respuesta.setCodigo("001");
-            respuesta.setResultado("");
+            respuesta.setResultado("oferta no existe");
         }
         return respuesta;
     }

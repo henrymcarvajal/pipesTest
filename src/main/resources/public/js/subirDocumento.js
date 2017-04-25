@@ -1,5 +1,6 @@
  var idVehiculo;
  var esPlaca=false;
+ var estado;
 var waitingDialog = waitingDialog || (function ($) {
     'use strict';
 
@@ -65,6 +66,7 @@ var waitingDialog = waitingDialog || (function ($) {
 
 $(window).load(function () {
     idVehiculo = getUrlParameter('id');
+    estado=getUrlParameter('estado');
     if (typeof idVehiculo === 'undefined'){
         $('#placa').css('display','block');
         $('#Vplaca').prop('required',true);
@@ -97,16 +99,20 @@ $(".form-register-vehiculo").submit(function(e)
 
             switch (data.codigo) {
                 case "000" :
-                    mensaje = "Se han subido los documentos satisfactoriamente. " +
-                            "Uno de nuestros asesores revisar\u00E1 la documentaci\u00F3n para que " +
-                            "puedas ofertar";
+                    if(estado==='1'){
+                        mensaje = "Se ha creado tu veh\u00EDculo y env\u00EDado la oferta.";
+                    }else if(estado==='2'){
+                        mensaje = "Se ha creado tu veh\u00EDculo en el sistema, pero tu oferta no fue enviada.";
+                    }else{
+                        mensaje="Tu veh\u00EDculo fue creado en el sistema. Ya puedes ofertar."
+                    }
                     codigo = "000";
                     url = "/informativo.html?codigo=" + codigo + "&mensaje=" + mensaje;
                     window.location.href = url;
                     return false;
 					break;
                 case "001" :
-                    mensaje = "No ha sido posible subir los documentos del veh\u00EDculo. \n\
+                    mensaje = "No ha sido crear el veh\u00EDculo. \n\
                     Por favor, escribenos a soporte@ayax.co";
                     codigo = "001";
                     url = "/informativo.html?codigo=" + codigo + "&mensaje=" + mensaje;

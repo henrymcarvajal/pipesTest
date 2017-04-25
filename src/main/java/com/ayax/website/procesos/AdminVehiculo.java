@@ -12,6 +12,7 @@ import com.ayax.website.persistencia.fachadas.VehiculoFacade;
 import com.ayax.website.procesos.util.CapacidadVehiculoDto;
 import com.ayax.website.procesos.util.ImageUtils;
 import com.ayax.website.procesos.util.UploadUtil;
+import com.ayax.website.procesos.util.singleton.OfertaPendienteSingleton;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -86,30 +87,31 @@ public class AdminVehiculo {
         if (transportador != null) {
 
             VehiculoFacade vf = new VehiculoFacade();
+//
+//            CapacidadVehiculoDto tipoVehiculo = clasificarPorCapacidad(numeroPasajeros);
+//            List vehiculosPorCapacidad = vf.buscarPorNumeroPasajeros(tipoVehiculo.getCapacidadMinima(),
+//                    tipoVehiculo.getCapacidadMaxima());
+//            Logger.getLogger(AdminVehiculo.class.getName()).log(Level.INFO,
+//                    "cantidad de vehiculos de esa clase : " + vehiculosPorCapacidad.size());
 
-            CapacidadVehiculoDto tipoVehiculo = clasificarPorCapacidad(numeroPasajeros);
-            List vehiculosPorCapacidad = vf.buscarPorNumeroPasajeros(tipoVehiculo.getCapacidadMinima(),
-                    tipoVehiculo.getCapacidadMaxima());
-            Logger.getLogger(AdminVehiculo.class.getName()).log(Level.INFO,
-                    "cantidad de vehiculos de esa clase : " + vehiculosPorCapacidad.size());
-
-            if (vehiculosPorCapacidad.size() > MAXIMO_CUPO) {
-
-                respuesta.setResultado("Se ha superado numero de vehiculos permitidos");
-                respuesta.setCodigo("004");
-                transportador.setEstadoRegistro(Transportador.ESTADO_REGISTRO_EN_ESPERA);
-                if (!tf.actualizar(transportador)) {
-                    Logger.getLogger(AdminVehiculo.class.getName()).log(Level.SEVERE,
-                            "no ha sido posible actualizar el transportador");
-                }
-                return respuesta;
-            }
+//            if (vehiculosPorCapacidad.size() > MAXIMO_CUPO) {
+//
+//                respuesta.setResultado("Se ha superado numero de vehiculos permitidos");
+//                respuesta.setCodigo("004");
+//                transportador.setEstadoRegistro(Transportador.ESTADO_REGISTRO_EN_ESPERA);
+//                if (!tf.actualizar(transportador)) {
+//                    Logger.getLogger(AdminVehiculo.class.getName()).log(Level.SEVERE,
+//                            "no ha sido posible actualizar el transportador");
+//                }
+//                return respuesta;
+//            }
             placa = placa.replaceAll("\\s+","").toUpperCase();
             Vehiculo vehiculo = vf.buscarPorPlaca(placa);
 
             transportador.setNumeroIdentificacion(new Long(cedulaTransportador));
             transportador.setEstadoRegistro(Transportador.ESTADO_REGISTRO_EXITOSO);
             tf.actualizar(transportador);
+            AdminTransportador.actualizarUsuario(req, transportador);
             if (vehiculo == null) {
                 try {
                     vehiculo = new Vehiculo();
@@ -125,9 +127,32 @@ public class AdminVehiculo {
 
                     vf.crear(vehiculo);
 
-                    respuesta.setResultado("exito");
-                    respuesta.setCodigo("000");
-                    respuesta.setValor(vehiculo.getId());
+                    Respuesta respuestaOferta=null;
+                    
+                    if(OfertaPendienteSingleton.getInstance().getIdServicio()!=null){
+                        AdminOferta ofertaPendiente = new AdminOferta();
+                        respuestaOferta=ofertaPendiente.crearOferta(req, res);
+                    }
+                    if(respuestaOferta!=null && ("000").equals(respuestaOferta.getCodigo())){
+                         respuesta.setResultado("exito");
+                         respuesta.setCodigo("004");
+                         respuesta.setResultado("Se ha creado vehiculo y oferta pendiente de forma exitosa");
+                         respuesta.setValor(vehiculo.getId());
+                         OfertaPendienteSingleton.getInstance().setIdServicio(null);
+                         OfertaPendienteSingleton.getInstance().setValorOferta(null);
+                    }else if(respuestaOferta!=null && !("000").equals(respuestaOferta.getCodigo())){
+                         respuesta.setResultado("exito");
+                         respuesta.setCodigo("005");
+                         respuesta.setResultado("Se ha creado vehiculo, pero la oferta pendiente no ha sido enviada.");
+                         respuesta.setValor(vehiculo.getId());
+                         OfertaPendienteSingleton.getInstance().setIdServicio(null);
+                         OfertaPendienteSingleton.getInstance().setValorOferta(null);
+                    } else if (respuestaOferta == null) {
+                        respuesta.setResultado("exito");
+                        respuesta.setCodigo("000");
+                        respuesta.setResultado("Se ha creado vehiculo");
+                        respuesta.setValor(vehiculo.getId());
+                    }
 
                 } catch (Exception exception) {
                     respuesta.setCodigo("003");

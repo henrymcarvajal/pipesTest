@@ -24,7 +24,7 @@ $( ".form-signin" ).submit(function(event) {
 			return false;
 		}
 		if(data.codigo==='001'){
-			mensaje="Usuario o Contraseña incorrecta.";
+			mensaje="Usuario o Contrase\u00F1a incorrecta.";
 			$('#errorMensaje').text(mensaje);
 			$('#divMensajeError').css('visibility','visible').hide().fadeIn().removeClass('hidden').delay(3000).fadeOut();
 			return false;
@@ -35,13 +35,6 @@ $( ".form-signin" ).submit(function(event) {
 			$('#divMensajeError').css('visibility','visible').hide().fadeIn().removeClass('hidden').delay(3000).fadeOut();
 			return false;
 		}
-                if(data.codigo==='003'){
-			url="/completarInformacionRegistro.html?id="+data.valor;
-			window.location.href = url;
-			return false;
-		}
-
-	
     }
 	});
 });

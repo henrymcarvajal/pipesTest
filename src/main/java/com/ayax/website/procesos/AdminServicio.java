@@ -40,38 +40,32 @@ public class AdminServicio {
 
     public AdminServicio() {
     }
-    
-    private static final String CODIGO_ESERVICIO_ESPECIAL="CESE1A";
-    public static final String TIPO_USUARIO_ESERVICIOESPECIAL="1";
+
+    private static final String CODIGO_ESERVICIO_ESPECIAL = "CESE1A";
+    public static final String TIPO_USUARIO_ESERVICIOESPECIAL = "1";
 
     public Respuesta crearServicio(Request req, Response res) {
         Respuesta respuesta = new Respuesta();
 
         String pick_up = req.queryParams("pick-up");
-        String codigo_promocional =req.queryParams("codigop");
+        String codigo_promocional = req.queryParams("codigop");
         String pickup_location = req.queryParams("pickup-location");
 
         String drop_off = req.queryParams("drop-off");
         String dropoff_location = req.queryParams("dropoff-location");
 
         String selected_car = req.queryParams("selected-car");
-
-        String first_name = req.queryParams("first-name");
-        String last_name = req.queryParams("last-name");
-        String email_address = req.queryParams("email-address");
-        String age = req.queryParams("age");
-        String email_address_confirm = req.queryParams("email-address-confirm");
-        String phone_number = req.queryParams("phone-number");
         String nit = req.queryParams("nit");
-        String solicitante = req.queryParams("solicitante");
+        String first_name = req.queryParams("first-name");
+        String email_address = req.queryParams("email-address");
+        String phone_number = req.queryParams("phone-number");
         String distancia = req.queryParams("distancia");
         String redondo = req.queryParams("idayvueltas");
         String disponibilidad = req.queryParams("con-disponibilidad");
-        String action = req.queryParams("action");
         String detalle = req.queryParams("detalle");
-        String usuarioRegistrado =req.queryParams("usuarioregistrado");
+        String usuarioRegistrado = req.queryParams("usuarioregistrado");
         String codigoAutorizacion = req.queryParams("codigoautorizacion");
-        System.out.println("Registrado : "+usuarioRegistrado);
+        System.out.println("Registrado : " + usuarioRegistrado);
 
         DateFormat formatter = new SimpleDateFormat("M/d/y 'at' h:m a");
         Date pick_up_value = new Date();
@@ -94,8 +88,9 @@ public class AdminServicio {
             q = em.createNamedQuery("Usuario.findByIdPart");
             q.setParameter("id", codigoAutorizacion);
         } else {
-            q = em.createNamedQuery("Usuario.findByIdentificacion");
+            q = em.createNamedQuery("Usuario.findByInformacion");
             q.setParameter("identificacion", BigInteger.valueOf(Long.parseLong(nit)));
+            q.setParameter("buzonElectronico", email_address);
         }
 
         boolean esUsuarioNuevo = false;
@@ -106,31 +101,47 @@ public class AdminServicio {
         } catch (NoResultException ex) {
         }
 
+        if (usuario != null && !usuarioRegistrado.equalsIgnoreCase("yes")) {
+            respuesta.setRecurso("servicio");
+            respuesta.setVerbo("POST");
+            respuesta.setCodigo("004");
+            respuesta.setResultado("Correo ya registrado.");
+            return respuesta;
+        }
         if (usuario == null && !usuarioRegistrado.equalsIgnoreCase("yes")) {
             esUsuarioNuevo = true;
             usuario = new Usuario();
             usuario.setId(java.util.UUID.randomUUID().toString());
             usuario.setBuzonElectronico(email_address);
             usuario.setNombre(first_name);
-            usuario.setEmpresa(last_name);
+            //usuario.setEmpresa(last_name);
             usuario.setIdentificacion(BigInteger.valueOf(Long.parseLong(nit)));
             usuario.setTelefono(BigInteger.valueOf(Long.parseLong(phone_number)));
             usuario.setFechaCreacion(new Date(System.currentTimeMillis()));
-            
-            if (codigo_promocional.equalsIgnoreCase(CODIGO_ESERVICIO_ESPECIAL)) {
-                
+            System.out.println("Codigo promocional : " + codigo_promocional);
+
+            if (CODIGO_ESERVICIO_ESPECIAL.equalsIgnoreCase(codigo_promocional)) {
+
                 usuario.setTipo_usuario(TIPO_USUARIO_ESERVICIOESPECIAL);
+            } else if (!"".equalsIgnoreCase(codigo_promocional) && codigo_promocional != null
+                    && !CODIGO_ESERVICIO_ESPECIAL.equalsIgnoreCase(codigo_promocional)) {
+
+                Logger.getLogger(AdminServicio.class.getName()).log(Level.INFO, "Codigo promocional incorrecto");
+                respuesta.setRecurso("servicio");
+                respuesta.setVerbo("POST");
+                respuesta.setCodigo("005");
+                respuesta.setResultado("El codigo promocional no es correcto.");
+                return respuesta;
             }
         } else if (usuario == null && usuarioRegistrado.equalsIgnoreCase("yes")) {
-            
+
             Logger.getLogger(AdminServicio.class.getName()).log(Level.INFO, "Usuario registrado no existe");
             respuesta.setRecurso("servicio");
             respuesta.setVerbo("POST");
             respuesta.setCodigo("003");
             respuesta.setResultado("El usuario registrado insertado no corresponde.");
             return respuesta;
-        }
-        if (usuario != null && usuarioRegistrado.equalsIgnoreCase("yes")) {
+        } else if (usuario != null && usuarioRegistrado.equalsIgnoreCase("yes")) {
             if (!usuario.getIdentificacion().equals(BigInteger.valueOf(Long.parseLong(nit)))) {
                 Logger.getLogger(AdminServicio.class.getName()).log(Level.INFO, "Usuario registrado no existe");
                 respuesta.setRecurso("servicio");

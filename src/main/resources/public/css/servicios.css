@@ -18,6 +18,11 @@
 	
 }
 
+#boton-inicio{
+    margin: 0 auto;
+    width: 50%;    
+}
+
 .modal-header {
     padding:9px 15px;
     border-bottom:1px solid #eee;

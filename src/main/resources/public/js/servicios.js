@@ -7,8 +7,13 @@ $(window).load(function () {
     var valorRecargado = getUrlParameter('valorRecargado');
     satendidos= getUrlParameter('ser');
 
-    $('#nombreUsuario').text(nombreUsuario);
-    $('#valorRecargado').text("$ " + valorRecargado);
+    if (idTransportador !== '' && typeof idTransportador !== 'undefined' && idTransportador !== null) {
+        $('#nombreUsuario').text(nombreUsuario);
+        $('#valorRecargado').text("$ " + valorRecargado);
+    } else {
+        $('#usuario-sesion').css('display', 'none');
+        $('#cerrar-sesion').css('display', 'none');        
+    }
 
     $.ajax({
         type: "GET",
@@ -16,7 +21,7 @@ $(window).load(function () {
         dataType: "json",
         success: function (data) {
             
-            if(data !== null){
+            if(data !== null && data.codigo==='000'){
                 renderizarServicios(idTransportador, data);
             }else{
                 var mensaje = 'no es posible mostrar los servicios actualmente publicados';

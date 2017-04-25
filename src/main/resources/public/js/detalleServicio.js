@@ -1,16 +1,17 @@
 var idServicio;
-var esEmpS=false;
-$(window).load(function() {
+var esEmpS = false;
+$(window).load(function () {
     idServicio = getUrlParameter('id');
     $.ajax({
         type: "GET",
         url: "/servicio/" + idServicio,
         dataType: "json",
-        success: function(data) {
+        success: function (data) {
 
             if (data !== null) {
                 renderizarDetalleServicios(data);
             } else {
+                alert("hay un problema");
                 var mensaje = 'no es posible mostrar los servicios actualmente publicados';
                 var codigo = '001';
                 var url = "/informativo.html?codigo=" + codigo + "&mensaje=" + mensaje;
@@ -21,6 +22,7 @@ $(window).load(function() {
 });
 
 function renderizarDetalleServicios(detalleServicio) {
+    
     $('#descripcion-servicio').text(detalleServicio.map.descripcion);
     $('#origen').text(detalleServicio.map.origen);
     $('#destino').text(detalleServicio.map.destino);
@@ -28,35 +30,40 @@ function renderizarDetalleServicios(detalleServicio) {
     $('#fecha-inicio').text(detalleServicio.map.horaSalida);
     $('#fecha-fin').text(detalleServicio.map.horaLlegada);
     $('#numero-pasajeros').text(detalleServicio.map.numeroPasajeros);
-    $('#ida-vuelta').text(detalleServicio.map.redondo);
+    if (detalleServicio.map.redondo === true) {
+        $('#ida-vuelta').text('SI');
+    }else {
+         $('#ida-vuelta').text('NO');
+    }
     
+
     if (detalleServicio.map.servicioGratis === '1') {
-        $('#valor').prop('required',false);
+        $('#valor').prop('required', false);
         $("#servicio-tabla tbody tr.valor-cobra").hide();
-        esEmpS=true;
+        esEmpS = true;
     }
 }
 
 
 
-function mostrarValor(){
-	var totalOferta=parseFloat($('#valor').val());
-	if(totalOferta!=null && totalOferta>0){
-	$('#valor_oferta').text(" $ " + totalOferta.toFixed(2).replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"));
-	} else {
-		
-		$('#valor_oferta').text(" $ 0");
-	}
+function mostrarValor() {
+    var totalOferta = parseFloat($('#valor').val());
+    if (totalOferta !== null && totalOferta > 0) {
+        $('#valor_oferta').text(" $ " + totalOferta.toFixed(2).replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"));
+    } else {
+
+        $('#valor_oferta').text(" $ 0");
+    }
 }
 
 
- $("#boton-ofertar").click(function () {
-	 
-        $('#valorServicio').val($('#valor').val());
-		$('#idServicio').val(idServicio);
-		
-        if(($('#valor').val()!=="" && $('#valor').val()>1000)|| esEmpS){
-		$.ajax({
+$("#boton-ofertar").click(function () {
+
+    $('#valorServicio').val($('#valor').val());
+    $('#idServicio').val(idServicio);
+
+    if (($('#valor').val() !== "" && $('#valor').val() > 1000) || esEmpS) {
+        $.ajax({
             type: "POST",
             url: "/oferta",
             data: $('#data-enviar-oferta input').serialize(),
@@ -67,12 +74,13 @@ function mostrarValor(){
                 var $a;
                 if (data.codigo === '000') {
                     titulo = "Oferta enviada";
-                    mensaje = "Tu oferta fue enviada exitósamente";
+                    mensaje = "Tu oferta fue enviada";
                 }
                 if (data.codigo === '001') {
-                    titulo = "Recarga tu cuenta";
-                    mensaje = "No posees cr\u00E9dito en tu cuenta para ofertar, por favor recarga tu cuenta e intenta de nuevo.";
-                    $('#boton-recargar').html('<a href class="btn submit-message recargar-cuenta" style ="background-color: #ffbf00;"/>RECARGA TU CUENTA</a>');
+                    titulo = "Crea tu veh\u00EDculo en el sistema";
+                    mensaje = "Es indispensable que subas la informaci\u00F3n de tu veh\u00EDculo para que el solicitante pueda verlo, una vez lo hagas tu oferta ser� enviada";
+                    $('#boton-inicio').html('<center><a href id="link-vehiculo" class="btn submit-message recargar-cuenta" style ="background-color: #9de20d;color:white;">CREAR VEH\u00CDCULO</a></center>');
+                    $('#link-vehiculo').attr("href", "completarInformacionRegistro.html?id="+data.valor);
                 }
                 if (data.codigo === '002') {
                     titulo = "Servicio no vigente";
@@ -88,21 +96,19 @@ function mostrarValor(){
                 }
                 if (data.codigo === '005') {
                     titulo = "Error";
-                    mensaje = "Tu oferta no ha sido enviada, debes completar tu registro, por favor ve a completar registro";
-                }
-                if (data.codigo === '006') {
-                    titulo = "Error";
-                    mensaje = "Para poder ofertar es necesario que tengas todos los documentos en orden en la plataforma";
+                    mensaje = "Para poder ofertar debes estar registrado, si estas registrado inicia sesion, si no estas registrado reg\u00EDstrate..";
+                    $('#boton-inicio').append('<a href="login.html" class="btn submit-message recargar-cuenta" style ="background-color: #9de20d;color:white;margin-right:10%;">INICIAR SESI\u00D3N</a>');
+                    $('#boton-inicio').append('<a href="registroTransportadores.html" class="btn submit-message recargar-cuenta" style ="background-color: #ffbf00;color:white;">REG\u00CDSTRATE</a>');
                 }
                 $('#titulo-informativo').text(titulo);
                 $('#mensaje-informativo-texto').text(mensaje);
                 $('#mensaje-informativo').modal('show');
             }
         });
-		}else {
-			$('#titulo-informativo').text("Valor de oferta vacia");
-                $('#mensaje-informativo-texto').text("Por favor digita cuánto cobras por el servicio");
-                $('#mensaje-informativo').modal('show');
-		}
-    });
+    } else {
+        $('#titulo-informativo').text("Valor de oferta vacia");
+        $('#mensaje-informativo-texto').text("Por favor digita cuanto cobras por el servicio");
+        $('#mensaje-informativo').modal('show');
+    }
+});
 

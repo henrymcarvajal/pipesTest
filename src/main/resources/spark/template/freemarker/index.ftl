@@ -31,98 +31,7 @@
         <link rel="apple-touch-icon-precomposed" sizes="72x72" href="img/ico/apple-touch-icon-72-precomposed.png">
         <link rel="apple-touch-icon-precomposed" href="img/ico/apple-touch-icon-57-precomposed.png">
         <link rel="shortcut icon" href="img/ico/ayax.ico">
-
-        <!-- Facebook Pixel Code -->
-        <script>
-            !function(f, b, e, v, n, t, s) {
-                if (f.fbq)
-                    return;
-                n = f.fbq = function() {
-                    n.callMethod ?
-                            n.callMethod.apply(n, arguments) : n.queue.push(arguments)
-                };
-                if (!f._fbq)
-                    f._fbq = n;
-                n.push = n;
-                n.loaded = !0;
-                n.version = '2.0';
-                n.queue = [];
-                t = b.createElement(e);
-                t.async = !0;
-                t.src = v;
-                s = b.getElementsByTagName(e)[0];
-                s.parentNode.insertBefore(t, s)
-            }(window,
-                    document, 'script', 'https://connect.facebook.net/en_US/fbevents.js');
-            fbq('init', '527012864166697', {
-                em: 'insert_email_variable,'
-            });
-            fbq('track', 'PageView');
-        </script>
-    <noscript><img height="1" width="1" style="display:none"
-                   src="https://www.facebook.com/tr?id=527012864166697&ev=PageView&noscript=1"
-                   /></noscript>
-    <!-- DO NOT MODIFY -->
-    <!-- End Facebook Pixel Code -->
-
-    <!-- Social Media y HeatMaps -->
-    <script src="//load.sumome.com/" data-sumo-site-id="89f8376c71505ff0e21a00e86b50d5465b738687935cd5aebdd32c27aff7bc54" async="async"></script>
-    <!-- End Social Media y HeatMaps -->
-
-    <!-- MailerLite Universal -->
-    <script>
-        (function(m, a, i, l, e, r) {
-            m['MailerLiteObject'] = e;
-            function f() {
-                var c = {a: arguments, q: []};
-                var r = this.push(c);
-                return "number" != typeof r ? r : f.bind(c.q);
-            }
-            f.q = f.q || [];
-            m[e] = m[e] || f.bind(f.q);
-            m[e].q = m[e].q || f.q;
-            r = a.createElement(i);
-            var _ = a.getElementsByTagName(i)[0];
-            r.async = 1;
-            r.src = l + '?' + (~~(new Date().getTime() / 10000000));
-            _.parentNode.insertBefore(r, _);
-        })(window, document, 'script', 'https://static.mailerlite.com/js/universal.js', 'ml');
-
-        var ml_account = ml('accounts', '738337', 'z9h5z6g6t5', 'load');
-    </script>
-    <!-- End MailerLite Universal -->
-
-    <!-- Session Recording -->
-    <script type="text/javascript">
-        window.smartlook || (function(d) {
-            var o = smartlook = function() {
-                o.api.push(arguments)
-            }, h = d.getElementsByTagName('head')[0];
-            var c = d.createElement('script');
-            o.api = new Array();
-            c.async = true;
-            c.type = 'text/javascript';
-            c.charset = 'utf-8';
-            c.src = '//rec.smartlook.com/recorder.js';
-            h.appendChild(c);
-        })(document);
-        smartlook('init', 'c5c1f4556cd4c26c3d2696a309688d38d5a23f91');
-    </script>
-    <!-- End Session Recording -->
-
-    <!--Start of Tawk.to Script-->
-    <script type="text/javascript">
-        var Tawk_API = Tawk_API || {}, Tawk_LoadStart = new Date();
-        (function() {
-            var s1 = document.createElement("script"), s0 = document.getElementsByTagName("script")[0];
-            s1.async = true;
-            s1.src = 'https://embed.tawk.to/58e956d8f7bbaa72709c52a7/default';
-            s1.charset = 'UTF-8';
-            s1.setAttribute('crossorigin', '*');
-            s0.parentNode.insertBefore(s1, s0);
-        })();
-    </script>
-    <!--End of Tawk.to Script-->
+       
 </head>
 <body id="top" data-spy="scroll" data-target=".navbar" data-offset="260">
 
@@ -170,6 +79,7 @@
                                 <li class="active"><a href="#top" class="scroll-to">Inicio</a></li>
                                 <li><a href="#services" class="scroll-to">Tu mejor elección</a></li>
                                 <li><a href="login.html" class="scroll-to">Soy Transportador</a></li>
+                                <li><a href="servicios.html" class="scroll-to">Servicios disponibles</a></li>
                                 <!--<li><a href="#contact" class="scroll-to">Contactanos</a></li>-->
                             </ul>
                             <!-- Nav-Links end -->
@@ -539,6 +449,7 @@
                         <li><a class="scroll-to" href="#top">Inicio</a></li>
                         <li><a class="scroll-to" href="#services">Tu mejor elección</a></li>
                         <li><a class="scroll-to" href="login.html">Soy transportador</a></li>
+                        <li><a href="servicios.html" class="scroll-to">Servicios disponibles</a></li>
                         <!--<li><a class="scroll-to" href="#contact">Contactanos</a></li>-->
                     </ul>
                     <div class="clearfix"></div>
@@ -657,7 +568,7 @@
                             <textarea rows="4" cols="50" name="detalle" id="text_detalle"class="form-control" placeholder="Si necesitas incluir detalles del servicio que solicitas, digítalo en este espacio"></textarea>
                         </div><br/>
                         <div class="checkout-personal-info">
-                            <div class="newsletter">
+                            <!--<div class="newsletter">
                                 <div class="radio">
                                     <label><input id="check1" type="radio" style="top:-15px;" name="solicitante" value="empresa">
                                         Servicio para transportar empleados de la misma empresa/ Estudiantes de una institución</label>
@@ -666,17 +577,17 @@
                                     <label><input id="check2" type="radio" style="top:-15px;" name="solicitante" value="particular">
                                         Grupo determinable de personas / particulares, familia.</label>
                                 </div>
-                            </div>
+                            </div>-->
 
                             <h3>INFORMACIÓN DEL SOLICITANTE</h3>
                             <div class="form-group">
                                 <label for="first-name">Nombre Completo:</label>
                                 <input type="text" class="form-control" name="first-name" id="first-name" placeholder="Ingresa tu nombre completo" required/>
                             </div>
-                            <div class="form-group" id="input_empresa">
+                           <!-- <div class="form-group" id="input_empresa">
                                 <label for="last-name" id="label-empresa">Empresa</label>
                                 <input type="text" class="form-control" name="company-name" id="last-name" placeholder="Si el servicio es para una empresa">
-                            </div>
+                            </div>-->
                             <div class="form-group">
                                 <label for="phone-number">Nùmero Teléfonico:</label>
                                 <input type="number" class="form-control" name="phone-number" id="phone-number" placeholder="Ingresa un número de contacto" required/>

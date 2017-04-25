@@ -31,7 +31,8 @@ public class AdminAcceso {
         String buzonElectronico = req.queryParams("email-address");
         String contrasena = req.queryParams("password");
 
-        if ((buzonElectronico != null && !buzonElectronico.equals("")) && (contrasena != null && !contrasena.equals(""))) {
+        if ((buzonElectronico != null && !buzonElectronico.equals("")) && 
+                (contrasena != null && !contrasena.equals(""))) {
 
             buzonElectronico = buzonElectronico.toLowerCase();
 
@@ -46,19 +47,12 @@ public class AdminAcceso {
             try {
                 Transportador transportador = (Transportador) q.getSingleResult();
                 if (transportador != null) {
-                    if (transportador.getNumeroIdentificacion() != null && transportador.getEstadoRegistro().
-                            equals(Transportador.ESTADO_REGISTRO_EXITOSO)) {
-                        
+                               
                         req.session().attribute("usuario", transportador);
                         respuesta.setCodigo("000");
                         respuesta.setResultado("exito");
                         respuesta.setValor(transportador.toDTO());
-                    } else {
-                        
-                        respuesta.setCodigo("003");
-                        respuesta.setResultado("Registro incompleto");
-                        respuesta.setValor(transportador.getId());
-                    }
+                     
                 } else {
                     respuesta.setCodigo("002");
                     respuesta.setResultado("Usuario no existe");

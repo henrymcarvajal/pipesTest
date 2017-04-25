@@ -387,6 +387,21 @@ if(continuar && terminos){
 			$('#divMensajeError_usuario').css('visibility','visible').hide().fadeIn().removeClass('hidden').delay(3000).fadeOut();
 			
 		}
+                
+                if(data.codigo==='004'){
+			
+			waitingDialog.hide();
+			$('#errorMensaje').text("Correo,nit o c\u00E9dula ya registrada, utiliza tu c\u00F3digo de autorizaci\u00F3n, solicita el servicio como usuario Registrado");
+			$('#divMensajeError_usuario').css('visibility','visible').hide().fadeIn().removeClass('hidden').delay(3000).fadeOut();
+			
+		}
+                if(data.codigo==='005'){
+			
+			waitingDialog.hide();
+			$('#errorMensaje').text("C\u00F3digo promocional no existe, si no posee c\u00F3digo dejar vac\u00EDo");
+			$('#divMensajeError_usuario').css('visibility','visible').hide().fadeIn().removeClass('hidden').delay(3000).fadeOut();
+			
+		}
 	
     }
 });

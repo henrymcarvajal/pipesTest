@@ -100,4 +100,13 @@ public class AdminTransportador {
         }
         return respuesta;
     }
+    
+    public static void actualizarUsuario(Request req, Transportador transp ){
+        req.session().attribute("usuario",transp);
+    }
+    
+    public static Transportador obtenerUsuarioSesion(Request req){
+        
+        return (Transportador) req.session().attribute("usuario");
+    }
 }
