@@ -453,7 +453,7 @@
                         <!--<li><a class="scroll-to" href="#contact">Contactanos</a></li>-->
                     </ul>
                             <ul class="nav navbar-nav navbar-right">
-                                <li class="active"><a href="/admin" class="scroll-to">Para administradores</a></li>
+                                <li class="active"><a href="/admin/access" class="scroll-to">Para administradores</a></li>
                                 <!--<li><a href="#contact" class="scroll-to">Contactanos</a></li>-->
                             </ul>
                     <div class="clearfix"></div>
