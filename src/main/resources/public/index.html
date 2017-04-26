@@ -572,7 +572,7 @@
                             <textarea rows="4" cols="50" name="detalle" id="text_detalle"class="form-control" placeholder="Si necesitas incluir detalles del servicio que solicitas, digítalo en este espacio"></textarea>
                         </div><br/>
                         <div class="checkout-personal-info">
-<!--                            <div class="newsletter">
+                            <div class="newsletter">
                                 <div class="radio">
                                     <label><input id="check1" type="radio" style="top:-15px;" name="solicitante" value="empresa">
                                         Servicio para transportar empleados de la misma empresa/ Estudiantes de una institución</label>
@@ -581,7 +581,7 @@
                                     <label><input id="check2" type="radio" style="top:-15px;" name="solicitante" value="particular">
                                         Grupo determinable de personas / particulares, familia.</label>
                                 </div>
-                            </div>-->
+                            </div>
 
                             <h3>INFORMACIÓN DEL SOLICITANTE</h3>
                             <div class="form-group">
