@@ -10,11 +10,12 @@
     </head>
     <body id="top" data-spy="scroll" data-target=".navbar" data-offset="260">
         <table border="0">
-            <thead><tr><th colspan="3">Servicios</th></tr>
+            <thead><tr><th colspan="5">Servicios</th></tr>
                 <tr><th>Origen</th>
                     <th>Destino</th>
                     <th>Llegada</th>
                     <th>Salida</th>
+                    <th>N&uacute;mero pasajeros</th>
                     </tr>
                 </thead>
             <tbody>
@@ -22,9 +23,10 @@
                 <tr>
                     <td>${item.origen}</td>
                     <td>${item.destino}</td>
+                    <td>${item.horaSalida?datetime}</td>
                     <td>${item.horaLlegada?datetime}</td>
-                    <td>${item.horaLlegada?datetime}</td>
-                    <td>${item.usuario.id}</td>
+                    <td>${item.numeroPasajeros}</td>
+                    <!--td>${item.usuario.id}</td-->
                 </tr>
                 </#list>
             </tbody>
