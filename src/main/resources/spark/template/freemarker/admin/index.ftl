@@ -9,24 +9,19 @@
 
     </head>
     <body id="top" data-spy="scroll" data-target=".navbar" data-offset="260">
-        <form name="accessFrm" action="/admin/access" method="POST">
-            <table border="0">
-                <tbody>
-                    <tr>
-                        <td>Usuario:</td>
-                        <td><input type="text" name="userTxt" value="" size="30" /></td>
-                    </tr>
-                    <tr>
-                        <td>Contraseña:</td>
-                        <td><input type="password" name="passwordTxt" value="" size="30" /></td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <input type="submit" value="Submit" name="submitBtn" />
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </form>
+
+        <table border="1">
+            <tbody>
+                <tr>
+                    <td><a href="/admin/servicios">Servicios</a></td>
+                </tr>
+                <tr>
+                    <td><a href="/admin/ofertas">Ofertas</a></td>
+                </tr>
+                <tr>
+                    <td><a href="/admin/usuarios">Usuarios</a></td>
+                </tr>
+            </tbody>
+        </table>
     </body>
 </html>

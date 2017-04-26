@@ -300,12 +300,12 @@ public class RouteServer {
             return As.crearSuscriptor(req, res);
         }, json());
 
-        get("/admin", (req, res) -> {
-            return new ModelAndView(null, "/admin/index.ftl");
+        get("/admin/access", (req, res) -> {
+            return new ModelAndView(null, "/admin/access.ftl");
         }, new FreeMarkerEngine());
 
-        post("/admin/access", (req, res) -> {
-            return new ModelAndView(null, "/admin/servicios.ftl");
+        post("/admin/index", (req, res) -> {
+            return new ModelAndView(null, "/admin/index.ftl");
         }, new FreeMarkerEngine());
     }
 }
