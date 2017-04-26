@@ -307,5 +307,12 @@ public class RouteServer {
         post("/admin/index", (req, res) -> {
             return new ModelAndView(null, "/admin/index.ftl");
         }, new FreeMarkerEngine());
+
+        get("/admin/servicios", (req, res) -> {
+            AdminServicio as = new AdminServicio();
+            List servicios = as.obtenerServicios();
+            return new ModelAndView(servicios, "/admin/servicios.ftl");
+        }, new FreeMarkerEngine());
+
     }
 }

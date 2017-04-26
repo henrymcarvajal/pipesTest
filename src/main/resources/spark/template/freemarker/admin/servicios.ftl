@@ -9,8 +9,12 @@
 
     </head>
     <body id="top" data-spy="scroll" data-target=".navbar" data-offset="260">
-        <div><a href="/admin/servicios">Servicios</a></div>
-        <div><a href="/admin/ofertas">Ofertas</a></div>
-        <div><a href="/admin/usuarios">Usuarios</a></div>
-    </body>
+
+        <table>
+<#list sequence as item>
+            <tr><td>${item.id}</td><td>${item.usuario.id}</td>
+                </tr>
+        </#list>
+            </table>
+</body>
 </html>
