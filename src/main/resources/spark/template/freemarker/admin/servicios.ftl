@@ -13,12 +13,13 @@
         <table border="0">
             <thead>
                 <tr>
-                    <td>Usuario:</td>
-                    <td>---</td>
+                    <td><a href="https://www.xxx.com">www</a></td>
+                                <td>---</td>
                 </tr>
             </thead>
             <tbody>
                 <tr>
+            <img src="/img/admin/partner1.png" />
                     <td>Usuario:</td>
                     <td>---</td>
                 </tr>
