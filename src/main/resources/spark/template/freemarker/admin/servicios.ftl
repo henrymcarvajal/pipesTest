@@ -11,8 +11,8 @@
     <body id="top" data-spy="scroll" data-target=".navbar" data-offset="260">
 
         <table>
-<#list sequence as item>
-            <tr><td>${item.id}</td><td>${item.usuario.id}</td>
+<#list servicios as item>
+            <tr><td>${item.id}</td><td>$--{--item.usuario.id}</td>
                 </tr>
         </#list>
             </table>

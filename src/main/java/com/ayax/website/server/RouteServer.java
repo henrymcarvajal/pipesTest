@@ -314,7 +314,7 @@ public class RouteServer {
             AdminServicio as = new AdminServicio();
             List servicios = as.obtenerServicios();
             Map<String, Object> root = new HashMap();
-            root.put("sequence", servicios);
+            root.put("servicios", servicios);
             return new ModelAndView(root, "/admin/servicios.ftl");
         }, new FreeMarkerEngine());
 
