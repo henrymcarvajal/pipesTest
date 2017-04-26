@@ -10,7 +10,7 @@
     </head>
     <body id="top" data-spy="scroll" data-target=".navbar" data-offset="260">
 
-        <table border="0">
+        <table border="1">
             <thead>
                 <tr>
                     <td><a href="https://www.xxx.com">www</a></td>
