@@ -1,3 +1,4 @@
+<#setting datetime_format="yyyy/MM/dd HH:mm:ss">
 <!DOCTYPE html>
 <html lang="en">
     <head>
