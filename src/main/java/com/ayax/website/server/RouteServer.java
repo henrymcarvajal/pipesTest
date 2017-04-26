@@ -312,7 +312,7 @@ public class RouteServer {
 
         get("/admin/servicios", (req, res) -> {
             AdminServicio as = new AdminServicio();
-            List servicios = as.obtenerServicios();
+            List<Servicio> servicios = as.obtenerTodosServicios();
             Map<String, Object> root = new HashMap();
             root.put("servicios", servicios);
             return new ModelAndView(root, "/admin/servicios.ftl");

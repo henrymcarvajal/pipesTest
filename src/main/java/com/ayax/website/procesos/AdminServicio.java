@@ -219,6 +219,19 @@ public class AdminServicio {
         return list;
     }
 
+    public List<Servicio> obtenerTodosServicios() {
+        ServicioJpaController sc = new ServicioJpaController(EntityManagerFactoryBuilder.INSTANCE.build());
+        EntityManager em = sc.getEntityManager();
+        //TypedQuery<Servicio> q = em.createNamedQuery("Servicio.findAllActive", Servicio.class);
+        Query q = em.createNamedQuery("Servicio.findAll");
+        //LocalDate date = LocalDate.now();
+        //date.minusDays(30);
+        //java.util.Date uDate = Date.from(date.minusDays(30).atStartOfDay(ZoneId.systemDefault()).toInstant());
+        //q.setParameter("fechaLimite", uDate, TemporalType.DATE);
+        //List<Object[]> list = (List<Object[]>) ;
+        return q.getResultList();
+    }
+
     public Servicio obtenerServicio(String id) {
         ServicioJpaController sc = new ServicioJpaController(EntityManagerFactoryBuilder.INSTANCE.build());
         EntityManager em = sc.getEntityManager();
