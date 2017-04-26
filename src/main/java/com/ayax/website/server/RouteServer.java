@@ -32,6 +32,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import spark.ModelAndView;
+import spark.Request;
+import spark.Response;
 import static spark.Spark.*;
 import spark.template.freemarker.FreeMarkerEngine;
 
@@ -159,8 +161,8 @@ public class RouteServer {
                 obj.put("distancia", item.getDistancia());
                 obj.put("redondo", item.getRedondo());
                 obj.put("descripcion", item.getDetalle());
-                String servicioGratis=AdminServicio.TIPO_USUARIO_ESERVICIOESPECIAL.
-                        equalsIgnoreCase(item.getUsuario().getTipo_usuario())?"1":null;
+                String servicioGratis = AdminServicio.TIPO_USUARIO_ESERVICIOESPECIAL.
+                        equalsIgnoreCase(item.getUsuario().getTipo_usuario()) ? "1" : null;
                 obj.put("servicioGratis", servicioGratis);
             } catch (JSONException ex) {
                 Logger.getLogger(RouteServer.class.getName()).log(Level.SEVERE, null, ex);
@@ -311,7 +313,9 @@ public class RouteServer {
         get("/admin/servicios", (req, res) -> {
             AdminServicio as = new AdminServicio();
             List servicios = as.obtenerServicios();
-            return new ModelAndView(servicios, "/admin/servicios.ftl");
+            Map<String, Object> root = new HashMap();
+            root.put("sequence", servicios);
+            return new ModelAndView(root, "/admin/servicios.ftl");
         }, new FreeMarkerEngine());
 
     }
