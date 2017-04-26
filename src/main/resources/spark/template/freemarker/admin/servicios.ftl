@@ -21,7 +21,7 @@
                 <tr>
                     <td>${item.origen}</td>
                     <td>${item.destino}</td>
-                    <td>${item.horaLlegada}</td>
+                    <td>${item.horaLlegada?datetime}</td>
                     <td>${item.usuario.id}</td>
                 </tr>
                 </#list>
