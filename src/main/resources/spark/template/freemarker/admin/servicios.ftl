@@ -5,6 +5,7 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>Ayax admin</title>
+        <link rel="stylesheet" type="text/css" href="/css/admin/admin.css">
     </head>
     <body id="top" data-spy="scroll" data-target=".navbar" data-offset="260">
         <table border="0">
