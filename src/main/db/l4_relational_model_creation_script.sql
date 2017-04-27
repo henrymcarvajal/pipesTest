@@ -174,3 +174,11 @@ alter table l4_transportador rename column correo to buzon_electronico;
 alter table l4_usuario add column fecha_creacion timestamp without time zone;
 
 alter table l4_usuario add column tipo_usuario character varying(2);
+
+
+CREATE TABLE l4_admin_usuario
+(
+  usuario character varying(32) not null,
+  contrasena character varying(128),
+  CONSTRAINT l4_admin_usuario_pk PRIMARY KEY (usuario)
+);

@@ -10,6 +10,7 @@
     <class>com.ayax.website.persistencia.entidades.Transportador</class>
     <class>com.ayax.website.persistencia.entidades.Usuario</class>
     <class>com.ayax.website.persistencia.entidades.Vehiculo</class>
+    <class>com.ayax.website.persistencia.entidades.admin.AdminUsuario</class>
     <properties>
       <property name="eclipselink.logging.level" value="FINE"/>
       <!--
