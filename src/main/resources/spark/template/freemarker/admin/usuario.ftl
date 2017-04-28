@@ -30,11 +30,29 @@
                     <td>${item.fechaCreacion?datetime}</td>
                     <td>${item.nombre}</td>
                     <td>${item.buzonElectronico}</td>
-                    <td>${item.empresa}</td>
+                    <td>
+                        <#if item.empresa??>
+                            ${item.empresa}
+                        <#else>
+                            &nbsp;
+                        </#if>
+                    </td>
                     <td>${item.identificacion}</td>
                     <td>${item.telefono}</td>
-                    <td>${item.serviciosCompletados}</td>
-                    <td>${item.serviciosCalificados}</td>
+                    <td>
+                        <#if item.serviciosCompletados??>
+                            ${item.serviciosCompletados}
+                        <#else>
+                            &nbsp;
+                        </#if>
+                    </td>
+                    <td>
+                        <#if item.serviciosCalificados??>
+                            ${item.serviciosCalificados}
+                        <#else>
+                            &nbsp;
+                        </#if>
+                    </td>
                 </tr>
             </tbody>
         </table>
