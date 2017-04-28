@@ -8,10 +8,12 @@
         <title>Ayax admin</title>
         <link rel="stylesheet" type="text/css" href="/css/admin/admin.css">
     </head>
-    <body id="top" data-spy="scroll" data-target=".navbar" data-offset="260">
+    <body>
         <table border="0">
             <thead>
-                <tr><th colspan="11">Servicios</th></tr>
+                <tr>
+                    <th colspan="11">Detalle de Servicio</th>
+                </tr>
                 <tr>
                     <th>Usuario</th>
                     <th>Creaci&oacute;n</th>

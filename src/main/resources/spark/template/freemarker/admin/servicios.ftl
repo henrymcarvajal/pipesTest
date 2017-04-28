@@ -8,7 +8,7 @@
         <title>Ayax admin</title>
         <link rel="stylesheet" type="text/css" href="/css/admin/admin.css">
     </head>
-    <body id="top" data-spy="scroll" data-target=".navbar" data-offset="260">
+    <body>
         <table border="0">
             <thead>
                 <tr><th colspan="9">Servicios</th></tr>
