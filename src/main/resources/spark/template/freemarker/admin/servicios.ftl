@@ -30,7 +30,7 @@
                     <td>${item.horaSalida?datetime}</td>
                     <td>${item.horaLlegada?datetime}</td>
                     <td>${item.numeroPasajeros}</td>
-                    <!--td>${item.ofertas.count}</td-->
+                    <td>${item.ofertas.count}</td>
                 </tr>
                 </#list>
             </tbody>
