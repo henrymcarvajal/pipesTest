@@ -21,7 +21,7 @@
                     <th>Empresa</th>
                     <th>Identificaci&oacute;n</th>
                     <th>Telefono</th>
-                    <th>Servicio completados</th>
+                    <th>Servicios completados</th>
                     <th>Servicios calificados</th>
                 </tr>
             </thead>
@@ -38,7 +38,7 @@
                         </#if>
                     </td>
                     <td>${item.identificacion}</td>
-                    <td>${item.telefono}</td>
+                    <td>${item.telefono?c}</td>
                     <td>
                         <#if item.serviciosCompletados??>
                             ${item.serviciosCompletados}
@@ -52,6 +52,18 @@
                         <#else>
                             &nbsp;
                         </#if>
+                    </td>
+                    <td>
+                    <#if item.servicios??>
+                        <#assign servicios=item.servicios?size>
+                        <#if (servicios > 0)>
+                            <!--a href="/admin/servicio/${item.id}/ofertas">${servicios}</a-->
+                        <#else>
+                            0
+                        </#if>
+                    <#else>
+                        0
+                    </#if>
                     </td>
                 </tr>
             </tbody>

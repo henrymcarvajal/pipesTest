@@ -64,7 +64,7 @@ public class Usuario implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     private Date fechaCreacion;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuario")
-    private Collection<Servicio> servicioCollection;
+    private Collection<Servicio> servicios;
     
     public Usuario() {
     }
@@ -170,12 +170,12 @@ public class Usuario implements Serializable {
     }
 
     @XmlTransient
-    public Collection<Servicio> getServicioCollection() {
-        return servicioCollection;
+    public Collection<Servicio> getServicios() {
+        return servicios;
     }
 
-    public void setServicioCollection(Collection<Servicio> servicioCollection) {
-        this.servicioCollection = servicioCollection;
+    public void setServicios(Collection<Servicio> servicios) {
+        this.servicios = servicios;
     }
 
     @Override
