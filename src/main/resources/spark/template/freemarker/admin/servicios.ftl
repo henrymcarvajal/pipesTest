@@ -36,7 +36,6 @@
                     <td>${item.horaLlegada?datetime}</td>
                     <td>${item.numeroPasajeros}</td>
                     <td>
-                    <td>
                     <#if item.ofertas??>
                         <#assign ofertas=item.ofertas?size>
                         <#if (ofertas > 0)>
@@ -47,7 +46,6 @@
                     <#else>
                         0
                     </#if>
-                    </td>
                     </td>
                 </tr>
                 </#list>
