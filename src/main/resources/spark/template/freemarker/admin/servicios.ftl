@@ -24,13 +24,13 @@
             <tbody>
                 <#list servicios as item>
                 <tr>
-                    <td>${item.fechaCreacion}</td>
+                    <td>${item.fechaCreacion?datetime}</td>
                     <td>${item.origen}</td>
                     <td>${item.destino}</td>
                     <td>${item.horaSalida?datetime}</td>
                     <td>${item.horaLlegada?datetime}</td>
-                    <td>${item.numeroPasajeros?number}</td>
-                    <!--td>${item.ofertas.count}</td-->
+                    <td>${item.numeroPasajeros}</td>
+                    <td><#if item.ofertas??>${item.ofertas.count}<#else>0</#if></td>
                 </tr>
                 </#list>
             </tbody>
