@@ -26,7 +26,7 @@
             <tbody>
                 <#list servicios as item>
                 <tr>
-                    <td><a href="/usuario/${item.usuario.buzonElectronico}">${item.usuario.buzonElectronico}</a></td>
+                    <td><a href="/admin/usuario/${item.usuario.buzonElectronico}">${item.usuario.buzonElectronico}</a></td>
                     <td>${item.fechaCreacion?datetime}</td>
                     <td>${item.origen}</td>
                     <td>${item.destino}</td>
@@ -36,7 +36,7 @@
                     <td>
                     <#if item.ofertas??>
                         <#assign ofertas=item.ofertas?size>
-                        <a href="/servicio/${item.id}/ofertas">${ofertas}</a>
+                        <a href="/admin/servicio/${item.id}/ofertas">${ofertas}</a>
                     <#else>
                         0
                     </#if>
