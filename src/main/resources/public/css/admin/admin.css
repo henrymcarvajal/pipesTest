@@ -1,15 +1,18 @@
 table {
+    border: 1px solid black;
     border-collapse: collapse;
     width: 90%
 }
 
-table, th, td {
-    border: 1px solid black;
-}
-
-tr:nth-child(even) {background-color: #f2f2f2}
-
 th {
+    border: 1px solid black;
     background-color: #4CAF50;
     color: white;
 }
+
+td {
+    border: 1px solid black;
+    text-align: left;
+}
+
+tr:nth-child(even) {background-color: #f2f2f2}
