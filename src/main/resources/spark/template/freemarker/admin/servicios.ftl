@@ -30,7 +30,7 @@
                     <td>${item.horaSalida?datetime}</td>
                     <td>${item.horaLlegada?datetime}</td>
                     <td>${item.numeroPasajeros}</td>
-                    <td><#if item.ofertas??>${item.ofertas.count}<#else>0</#if></td>
+                    <td><#if item.ofertas??><#assign x=item.ofertas.count><#else><#assign x=0></#if>${x}</td>
                 </tr>
                 </#list>
             </tbody>
