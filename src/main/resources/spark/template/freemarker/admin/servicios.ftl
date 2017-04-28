@@ -11,7 +11,7 @@
     <body>
         <table border="0">
             <thead>
-                <tr><th colspan="9">Servicios</th></tr>
+                <tr><th colspan="9">SERVICIOS</th></tr>
                 <tr>
                     <th>Detalle</th>
                     <th>Usuario</th>

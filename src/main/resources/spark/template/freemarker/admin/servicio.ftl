@@ -12,7 +12,7 @@
         <table border="0">
             <thead>
                 <tr>
-                    <th colspan="11">Detalle de Servicio</th>
+                    <th colspan="11">DETALLE DE SERVICIO</th>
                 </tr>
                 <tr>
                     <th>Usuario</th>
