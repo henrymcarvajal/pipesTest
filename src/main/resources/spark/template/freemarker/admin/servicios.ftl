@@ -36,12 +36,18 @@
                     <td>${item.horaLlegada?datetime}</td>
                     <td>${item.numeroPasajeros}</td>
                     <td>
+                    <td>
                     <#if item.ofertas??>
                         <#assign ofertas=item.ofertas?size>
-                        <a href="/admin/servicio/${item.id}/ofertas">${ofertas}</a>
+                        <#if (ofertas > 0)>
+                            <a href="/admin/servicio/${item.id}/ofertas">${ofertas}</a>
+                        <#else>
+                            0
+                        </#if>
                     <#else>
                         0
                     </#if>
+                    </td>
                     </td>
                 </tr>
                 </#list>
