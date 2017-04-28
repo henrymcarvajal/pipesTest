@@ -30,7 +30,7 @@
             </thead>
             <tbody>
                 <tr>
-                    <td><a href="/admin/usuario/${item.usuario.buzonElectronico}">${item.usuario.buzonElectronico}</a></td>
+                    <td><a href="/admin/usuario/${item.usuario.id}">${item.usuario.buzonElectronico}</a></td>
                     <td>${item.fechaCreacion?datetime}</td>
                     <td>${item.origen}</td>
                     <td>${item.destino}</td>

@@ -5,6 +5,8 @@ import com.ayax.website.persistencia.entidades.CupoVehiculo;
 import com.ayax.website.persistencia.entidades.Oferta;
 import com.ayax.website.persistencia.entidades.Servicio;
 import com.ayax.website.persistencia.entidades.Transportador;
+import com.ayax.website.persistencia.entidades.Usuario;
+import com.ayax.website.procesos.AdminUsuario;
 import com.ayax.website.procesos.AdminVehiculo;
 import com.ayax.website.procesos.AdminOferta;
 import com.ayax.website.procesos.ProcesoLiquidacion;
@@ -324,6 +326,14 @@ public class RouteServer {
             Map<String, Object> root = new HashMap();
             root.put("item", servicio);
             return new ModelAndView(root, "/admin/servicio.ftl");
+        }, new FreeMarkerEngine());
+
+        get("/admin/usuario/:id", (req, res) -> {
+            AdminUsuario as = new AdminUsuario();
+            Usuario usuario = as.obtenerUsuario(req.params("id"));
+            Map<String, Object> root = new HashMap();
+            root.put("item", usuario);
+            return new ModelAndView(root, "/admin/usuario.ftl");
         }, new FreeMarkerEngine());
     }
 }
