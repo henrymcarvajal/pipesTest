@@ -34,7 +34,7 @@
                     <td>${item.numeroPasajeros}</td>
                     <td>${item.distancia}</td>
                     <td>$--{item.redondo?then('Y', 'N')--}</td>
-                    <td>${item.disponibilidad}</td>
+                    <td>$--{item.disponibilidad--}</td>
                     <td>
                     <#if item.ofertas??>
                         <#assign ofertas=item.ofertas?size>
