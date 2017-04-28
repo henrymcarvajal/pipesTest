@@ -11,10 +11,11 @@
     <body id="top" data-spy="scroll" data-target=".navbar" data-offset="260">
         <table border="0">
             <thead>
-                <tr><th colspan="7">Servicios</th></tr>
+                <tr><th colspan="9">Servicios</th></tr>
                 <tr>
+                    <th>Detalle</th>
                     <th>Usuario</th>
-                    <th>Creaci&oacute;n</th>
+                    <th>Fecha<br/>Creaci&oacute;n</th>
                     <th>Origen</th>
                     <th>Destino</th>
                     <th>Llegada</th>

@@ -318,5 +318,12 @@ public class RouteServer {
             return new ModelAndView(root, "/admin/servicios.ftl");
         }, new FreeMarkerEngine());
 
+        get("/admin/servicio/:id", (req, res) -> {
+            AdminServicio as = new AdminServicio();
+            Servicio servicio = as.obtenerServicio(req.params("id"));
+            Map<String, Object> root = new HashMap();
+            root.put("item", servicio);
+            return new ModelAndView(root, "/admin/servicio.ftl");
+        }, new FreeMarkerEngine());
     }
 }

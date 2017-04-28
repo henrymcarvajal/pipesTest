@@ -24,7 +24,7 @@
                 </tr>
             </thead>
             <tbody>
-                <#list servicios as item>
+
                 <tr>
                     <td><a href="/admin/usuario/${item.usuario.buzonElectronico}">${item.usuario.buzonElectronico}</a></td>
                     <td>${item.fechaCreacion?datetime}</td>
@@ -33,6 +33,9 @@
                     <td>${item.horaSalida?datetime}</td>
                     <td>${item.horaLlegada?datetime}</td>
                     <td>${item.numeroPasajeros}</td>
+                    <td>${item.distancia}</td>
+                    <td>${item.redondo}</td>
+                    <td>${item.disponibilidad}</td>
                     <td>
                     <#if item.ofertas??>
                         <#assign ofertas=item.ofertas?size>
@@ -42,7 +45,9 @@
                     </#if>
                     </td>
                 </tr>
-                </#list>
+                <tr>
+                    <td>${item.detalle}</td>
+                </tr>
             </tbody>
         </table>
     </body>
