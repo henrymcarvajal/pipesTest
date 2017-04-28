@@ -35,7 +35,7 @@
                     <td>${item.distancia}</td>
                     <td>${item.redondo?string}</td>
                     <td>${item.disponibilidad?string}</td>
-                    <td>
+                    <td>xxx
                     <#if item.ofertas??>
                         <#assign ofertas=item.ofertas?size>
                         <#if (ofertas > 0)>
