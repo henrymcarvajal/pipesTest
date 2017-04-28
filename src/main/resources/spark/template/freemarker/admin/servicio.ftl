@@ -34,11 +34,11 @@
                     <td>${item.numeroPasajeros}</td>
                     <td>${item.distancia}</td>
                     <td>${item.redondo?string}</td>
-                    <td>$--{item.disponibilidad--}</td>
+                    <td>${item.disponibilidad?string}</td>
                     <td>
                     <#if item.ofertas??>
                         <#assign ofertas=item.ofertas?size>
-                        <#if ofertas gt 0>
+                        <#if (ofertas > 0)>
                             <a href="/admin/servicio/${item.id}/ofertas">${ofertas}</a>
                         <#else>
                             0
