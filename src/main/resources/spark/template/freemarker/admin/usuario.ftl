@@ -57,7 +57,7 @@
                     <#if item.servicios??>
                         <#assign servicios=item.servicios?size>
                         <#if (servicios > 0)>
-                            <!--a href="/admin/servicio/${item.id}/ofertas">${servicios}</a-->
+                            <a href="/admin/usuario/${item.id}/servicios/">${servicios}</a>
                         <#else>
                             0
                         </#if>
