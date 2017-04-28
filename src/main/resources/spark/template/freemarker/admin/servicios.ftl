@@ -10,17 +10,18 @@
     </head>
     <body id="top" data-spy="scroll" data-target=".navbar" data-offset="260">
         <table border="0">
-            <thead><tr><th colspan="5">Servicios</th></tr>
+            <thead>
+                <tr><th colspan="7">Servicios</th></tr>
                 <tr>
-                    <th>Creaci&oaacute;</th>
+                    <th>Creaci&oacute;</th>
                     <th>Origen</th>
                     <th>Destino</th>
                     <th>Llegada</th>
                     <th>Salida</th>
                     <th>N&uacute;mero pasajeros</th>
                     <th>Ofertas</th>
-                    </tr>
-                </thead>
+                </tr>
+            </thead>
             <tbody>
                 <#list servicios as item>
                 <tr>
@@ -30,7 +31,15 @@
                     <td>${item.horaSalida?datetime}</td>
                     <td>${item.horaLlegada?datetime}</td>
                     <td>${item.numeroPasajeros}</td>
-                    <td><#if item.ofertas??><#assign x=item.ofertas?size><#else><#assign x=0></#if>${x}</td>
+                    <td>
+                    <#if item.ofertas??>
+                        <#assign ofertas=item.ofertas?size>
+                        <a href="admin/servicio/${item.id}/ofertas">${ofertas}</a>
+                    <#else>
+                        <a href="admin/servicio/${item.id}/ofertas">0</a>
+                        0
+                    </#if>
+                    </td>
                 </tr>
                 </#list>
             </tbody>
