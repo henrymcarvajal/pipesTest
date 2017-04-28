@@ -11,7 +11,7 @@
     <body id="top" data-spy="scroll" data-target=".navbar" data-offset="260">
         <table border="0">
             <thead>
-                <tr><th colspan="7">Servicios</th></tr>
+                <tr><th colspan="11">Servicios</th></tr>
                 <tr>
                     <th>Usuario</th>
                     <th>Creaci&oacute;n</th>
@@ -20,6 +20,9 @@
                     <th>Llegada</th>
                     <th>Salida</th>
                     <th>N&uacute;mero pasajeros</th>
+                    <th>Distancia</th>
+                    <th>Ida y Vuelta</th>
+                    <th>Disponibilidad</th>
                     <th>Ofertas</th>
                 </tr>
             </thead>
