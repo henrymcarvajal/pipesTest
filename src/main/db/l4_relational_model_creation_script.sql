@@ -182,3 +182,5 @@ CREATE TABLE l4_admin_usuario
   contrasena character varying(128),
   CONSTRAINT l4_admin_usuario_pk PRIMARY KEY (usuario)
 );
+
+ALTER TABLE l4_admin_usuario ADD buzon_electronico character varying(32);

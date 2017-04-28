@@ -18,6 +18,7 @@
                     <th>Llegada</th>
                     <th>Salida</th>
                     <th>N&uacute;mero pasajeros</th>
+                    <th>Ofertas</th>
                     </tr>
                 </thead>
             <tbody>
@@ -29,7 +30,7 @@
                     <td>${item.horaSalida?datetime}</td>
                     <td>${item.horaLlegada?datetime}</td>
                     <td>${item.numeroPasajeros}</td>
-                    <!--td>${item.usuario.id}</td-->
+                    <td>${item.ofertas.count}</td>
                 </tr>
                 </#list>
             </tbody>
