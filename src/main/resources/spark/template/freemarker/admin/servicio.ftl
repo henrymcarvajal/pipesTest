@@ -34,7 +34,7 @@
                     <td>${item.horaLlegada?datetime}</td>
                     <td>${item.numeroPasajeros}</td>
                     <td>${item.distancia}</td>
-                    <td>${item.redondo}</td>
+                    <td>${item.redondo?c}</td>
                     <td>${item.disponibilidad}</td>
                     <td>
                     <#if item.ofertas??>
