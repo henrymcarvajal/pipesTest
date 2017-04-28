@@ -13,7 +13,8 @@
             <thead>
                 <tr><th colspan="7">Servicios</th></tr>
                 <tr>
-                    <th>Creaci&oacute;</th>
+                    <th>Usuario</th>
+                    <th>Creaci&oacute;n</th>
                     <th>Origen</th>
                     <th>Destino</th>
                     <th>Llegada</th>
@@ -25,8 +26,7 @@
             <tbody>
                 <#list servicios as item>
                 <tr>
-                    <td>${item.usuario.buzonElectronico}</td>
-                    <td>${item.fechaCreacion?datetime}</td>
+                    <td><a href="/usuario/${item.usuario.buzonElectronico}">${item.usuario.buzonElectronico}</a></td>
                     <td>${item.fechaCreacion?datetime}</td>
                     <td>${item.origen}</td>
                     <td>${item.destino}</td>
