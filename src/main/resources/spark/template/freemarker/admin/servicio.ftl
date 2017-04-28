@@ -26,7 +26,6 @@
             <tbody>
                 <#list servicios as item>
                 <tr>
-                    <td><a href="/admin/servicio/${item.id}">*</a></td>
                     <td><a href="/admin/usuario/${item.usuario.buzonElectronico}">${item.usuario.buzonElectronico}</a></td>
                     <td>${item.fechaCreacion?datetime}</td>
                     <td>${item.origen}</td>
