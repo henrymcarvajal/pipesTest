@@ -12,7 +12,7 @@
         <table border="0">
             <thead>
                 <tr>
-                    <th colspan="11">DETALLE DE USUARIO</th>
+                    <th colspan="9">DETALLE DE USUARIO</th>
                 </tr>
                 <tr>
                     <th>Fecha<br>Creaci&oacute;n</th>
@@ -23,6 +23,7 @@
                     <th>Telefono</th>
                     <th>Servicios completados</th>
                     <th>Servicios calificados</th>
+                    <th>Servicios</th>
                 </tr>
             </thead>
             <tbody>
