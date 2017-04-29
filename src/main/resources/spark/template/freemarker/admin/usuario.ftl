@@ -9,6 +9,11 @@
         <link rel="stylesheet" type="text/css" href="/css/admin/admin.css">
     </head>
     <body>
+<div class="pie" data-start="0" data-value="30"></div>
+<div class="pie highlight" data-start="30" data-value="30"></div>
+<div class="pie" data-start="60" data-value="40"></div>
+<div class="pie big" data-start="100" data-value="260"></div>
+<div>
         <table border="0">
             <thead>
                 <tr>
@@ -69,5 +74,6 @@
                 </tr>
             </tbody>
         </table>
+    </div>
     </body>
 </html>
