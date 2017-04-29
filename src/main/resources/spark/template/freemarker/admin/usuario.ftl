@@ -7,6 +7,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>Ayax admin</title>
         <link rel="stylesheet" type="text/css" href="/css/admin/admin.css">
+        <link rel="stylesheet" type="text/css" href="/css/admin/graphics.css">
     </head>
     <body>
 <div class="pie" data-start="0" data-value="30"></div>
