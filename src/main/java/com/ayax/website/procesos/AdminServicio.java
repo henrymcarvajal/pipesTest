@@ -65,7 +65,6 @@ public class AdminServicio {
         String detalle = req.queryParams("detalle");
         String usuarioRegistrado = req.queryParams("usuarioregistrado");
         String codigoAutorizacion = req.queryParams("codigoautorizacion");
-        System.out.println("Registrado : " + usuarioRegistrado);
 
         DateFormat formatter = new SimpleDateFormat("M/d/y 'at' h:m a");
         Date pick_up_value = new Date();

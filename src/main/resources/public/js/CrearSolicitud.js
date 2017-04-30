@@ -1,4 +1,5 @@
 var datosContacto=true;
+var terminos=false;
 $( document ).ready(function() {
     $('#fechaInicio').datetimepicker();
     $('#fechaFin').datetimepicker();
