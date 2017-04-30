@@ -105,9 +105,9 @@
                 </div>
             </div>
         </section>
-        </br>
+        <br/>
         <section class="container">
-            <form class="form-register" id= "formularioRegistro" method="post" action="#">
+            <form class="form-register" id= "crear-solicitud" method="post" action="#">
 
                 <div class="form-register-with-email" style="left:0;">
 
@@ -165,7 +165,7 @@
                             </label>
                         </div>
                         <div class="form-row">
-                            <textarea class="form-control" rows="5" id="comment" placeholder="Ingresa paradas, presupuesto,forma de pago, duración, indicaciones, características adicionales del vehículo o cualquier detalle que no puedas ingresar en los campos anteriores"></textarea>
+                            <textarea class="form-control" rows="5" id="text_detalle" placeholder="Ingresa paradas, presupuesto,forma de pago, duración, indicaciones, características adicionales del vehículo o cualquier detalle que no puedas ingresar en los campos anteriores"></textarea>
                         </div>
                         <div class="form-row">
                             <label class="form-checkbox">
@@ -177,7 +177,7 @@
                         <div class="form-row">
                             <button type="submit">Conseguir Transportador</button>
                         </div>
-                        <div class="alert alert-danger hidden" id="terminosFalta">
+                        <div class="alert alert-danger hidden" id="tipo-servicio-falta">
                             <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
                             <strong>Nota:</strong> Falta un campo obligatorio
                             <span id="errorGenerico" style="color:red;"></span>
