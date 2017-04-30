@@ -470,28 +470,7 @@ $("#checkoutModalLabel").on("click", function(){
 		}
 
 });
-$("#usuarioRegistrado").on("click", function(){
-	
-	if ($('#usuarioRegistrado').is(":checked")){
-		
-		$('#divcodigo').css('display','block');
-                $('#codigopdiv').css('display','none');
-                $('#email-address').prop('required',false);
-		$('#phone-number').prop('required',false);
-		$('#last-name').prop('required',false);
-		$('#first-name').prop('required',false);
-		$('#codigoautorizacion').prop('required',true);
-		$('input[name=solicitante]').attr('checked', false)
-		$('.checkout-personal-info').css('display','none');
-		
-	} else {
-		
-		$('.checkout-personal-info').css('display','block');
-		$('#divcodigo').css('display','none');
-		$('#codigoautorizacion').prop('required',false);
-                $('#codigopdiv').css('display','block');
-	}
-});
+
 
 $( "#newsletter-form" ).submit(function(event) {
 	

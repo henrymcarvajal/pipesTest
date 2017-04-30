@@ -1,0 +1,29 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 30/04/2017, 08:31:23 AM
+    Author     : Ayax
+*/
+::placeholder{
+    color:#afaeae;
+    font-size:0.7em;
+}
+label{
+    color:#f7c504;
+}
+.form-control{
+    font-size: 0.8em  !important; 
+}
+@media (max-width: 600px) {
+    #fechaInicio,#fechaFin{
+        clear:both;
+        width:100% !important;
+    }
+    input{
+        clear:both;
+        width:100% !important;
+    }
+}
