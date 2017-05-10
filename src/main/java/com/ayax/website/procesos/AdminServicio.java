@@ -63,8 +63,8 @@ public class AdminServicio {
         String redondo = req.queryParams("idayvueltas");
         String disponibilidad = req.queryParams("con-disponibilidad");
         String detalle = req.queryParams("detalle");
-        String usuarioRegistrado = req.queryParams("usuarioregistrado");
         String codigoAutorizacion = req.queryParams("codigoautorizacion");
+        boolean esRegistrado=false;
 
         DateFormat formatter = new SimpleDateFormat("M/d/y 'at' h:m a");
         Date pick_up_value = new Date();
@@ -86,6 +86,7 @@ public class AdminServicio {
         if (codigoAutorizacion != null && !"".equals(codigoAutorizacion)) {
             q = em.createNamedQuery("Usuario.findByIdPart");
             q.setParameter("id", codigoAutorizacion);
+            esRegistrado=true;
         } else {
             q = em.createNamedQuery("Usuario.findByInformacion");
             q.setParameter("identificacion", BigInteger.valueOf(Long.parseLong(nit)));
@@ -100,14 +101,14 @@ public class AdminServicio {
         } catch (NoResultException ex) {
         }
 
-        if (usuario != null && !usuarioRegistrado.equalsIgnoreCase("yes")) {
+        if (usuario != null && !esRegistrado) {
             respuesta.setRecurso("servicio");
             respuesta.setVerbo("POST");
             respuesta.setCodigo("004");
             respuesta.setResultado("Correo ya registrado.");
             return respuesta;
         }
-        if (usuario == null && !usuarioRegistrado.equalsIgnoreCase("yes")) {
+        if (usuario == null && !esRegistrado) {
             esUsuarioNuevo = true;
             usuario = new Usuario();
             usuario.setId(java.util.UUID.randomUUID().toString());
@@ -132,7 +133,7 @@ public class AdminServicio {
                 respuesta.setResultado("El codigo promocional no es correcto.");
                 return respuesta;
             }
-        } else if (usuario == null && usuarioRegistrado.equalsIgnoreCase("yes")) {
+        } else if (usuario == null && esRegistrado) {
 
             Logger.getLogger(AdminServicio.class.getName()).log(Level.INFO, "Usuario registrado no existe");
             respuesta.setRecurso("servicio");
@@ -140,7 +141,7 @@ public class AdminServicio {
             respuesta.setCodigo("003");
             respuesta.setResultado("El usuario registrado insertado no corresponde.");
             return respuesta;
-        } else if (usuario != null && usuarioRegistrado.equalsIgnoreCase("yes")) {
+        } else if (usuario != null && esRegistrado) {
             if (!usuario.getIdentificacion().equals(BigInteger.valueOf(Long.parseLong(nit)))) {
                 Logger.getLogger(AdminServicio.class.getName()).log(Level.INFO, "Usuario registrado no existe");
                 respuesta.setRecurso("servicio");
