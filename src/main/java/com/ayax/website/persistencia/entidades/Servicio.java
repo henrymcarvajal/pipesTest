@@ -273,7 +273,8 @@ public class Servicio implements Serializable {
     }
 
     public boolean esActivo() {
-        return horaLlegada.before(new Date());
+        Date today = new Date();
+        return horaSalida.after(today) && horaLlegada.after(today);
     }
 
     public String getDetalle() {
