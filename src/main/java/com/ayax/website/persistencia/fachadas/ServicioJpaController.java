@@ -58,7 +58,7 @@ public class ServicioJpaController implements Serializable {
             servicio.setOfertas(attachedOfertaCollection);
             em.persist(servicio);
             if (usuario != null) {
-                usuario.getServicios().add(servicio);
+                usuario.getServicioCollection().add(servicio);
                 usuario = em.merge(usuario);
             }
             for (Oferta ofertaCollectionOferta : servicio.getOfertas()) {
@@ -118,11 +118,11 @@ public class ServicioJpaController implements Serializable {
             servicio.setOfertas(ofertaCollectionNew);
             servicio = em.merge(servicio);
             if (usuarioOld != null && !usuarioOld.equals(usuarioNew)) {
-                usuarioOld.getServicios().remove(servicio);
+                usuarioOld.getServicioCollection().remove(servicio);
                 usuarioOld = em.merge(usuarioOld);
             }
             if (usuarioNew != null && !usuarioNew.equals(usuarioOld)) {
-                usuarioNew.getServicios().add(servicio);
+                usuarioNew.getServicioCollection().add(servicio);
                 usuarioNew = em.merge(usuarioNew);
             }
             for (Oferta ofertaCollectionNewOferta : ofertaCollectionNew) {
@@ -178,7 +178,7 @@ public class ServicioJpaController implements Serializable {
             }
             Usuario usuario = servicio.getUsuario();
             if (usuario != null) {
-                usuario.getServicios().remove(servicio);
+                usuario.getServicioCollection().remove(servicio);
                 usuario = em.merge(usuario);
             }
             em.remove(servicio);

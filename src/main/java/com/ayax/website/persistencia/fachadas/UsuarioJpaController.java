@@ -37,26 +37,26 @@ public class UsuarioJpaController implements Serializable {
     }
 
     public void create(Usuario usuario) throws PreexistingEntityException, Exception {
-        if (usuario.getServicios() == null) {
-            usuario.setServicios(new ArrayList<Servicio>());
+        if (usuario.getServicioCollection() == null) {
+            usuario.setServicioCollection(new ArrayList<Servicio>());
         }
         EntityManager em = null;
         try {
             em = getEntityManager();
             em.getTransaction().begin();
             Collection<Servicio> attachedServicioCollection = new ArrayList<Servicio>();
-            for (Servicio servicioCollectionServicioToAttach : usuario.getServicios()) {
+            for (Servicio servicioCollectionServicioToAttach : usuario.getServicioCollection()) {
                 servicioCollectionServicioToAttach = em.getReference(servicioCollectionServicioToAttach.getClass(), servicioCollectionServicioToAttach.getId());
                 attachedServicioCollection.add(servicioCollectionServicioToAttach);
             }
-            usuario.setServicios(attachedServicioCollection);
+            usuario.setServicioCollection(attachedServicioCollection);
             em.persist(usuario);
-            for (Servicio servicioCollectionServicio : usuario.getServicios()) {
+            for (Servicio servicioCollectionServicio : usuario.getServicioCollection()) {
                 Usuario oldUsuarioOfServicioCollectionServicio = servicioCollectionServicio.getUsuario();
                 servicioCollectionServicio.setUsuario(usuario);
                 servicioCollectionServicio = em.merge(servicioCollectionServicio);
                 if (oldUsuarioOfServicioCollectionServicio != null) {
-                    oldUsuarioOfServicioCollectionServicio.getServicios().remove(servicioCollectionServicio);
+                    oldUsuarioOfServicioCollectionServicio.getServicioCollection().remove(servicioCollectionServicio);
                     oldUsuarioOfServicioCollectionServicio = em.merge(oldUsuarioOfServicioCollectionServicio);
                 }
             }
@@ -79,8 +79,8 @@ public class UsuarioJpaController implements Serializable {
             em = getEntityManager();
             em.getTransaction().begin();
             Usuario persistentUsuario = em.find(Usuario.class, usuario.getId());
-            Collection<Servicio> servicioCollectionOld = persistentUsuario.getServicios();
-            Collection<Servicio> servicioCollectionNew = usuario.getServicios();
+            Collection<Servicio> servicioCollectionOld = persistentUsuario.getServicioCollection();
+            Collection<Servicio> servicioCollectionNew = usuario.getServicioCollection();
             List<String> illegalOrphanMessages = null;
             for (Servicio servicioCollectionOldServicio : servicioCollectionOld) {
                 if (!servicioCollectionNew.contains(servicioCollectionOldServicio)) {
@@ -99,7 +99,7 @@ public class UsuarioJpaController implements Serializable {
                 attachedServicioCollectionNew.add(servicioCollectionNewServicioToAttach);
             }
             servicioCollectionNew = attachedServicioCollectionNew;
-            usuario.setServicios(servicioCollectionNew);
+            usuario.setServicioCollection(servicioCollectionNew);
             usuario = em.merge(usuario);
             for (Servicio servicioCollectionNewServicio : servicioCollectionNew) {
                 if (!servicioCollectionOld.contains(servicioCollectionNewServicio)) {
@@ -107,7 +107,7 @@ public class UsuarioJpaController implements Serializable {
                     servicioCollectionNewServicio.setUsuario(usuario);
                     servicioCollectionNewServicio = em.merge(servicioCollectionNewServicio);
                     if (oldUsuarioOfServicioCollectionNewServicio != null && !oldUsuarioOfServicioCollectionNewServicio.equals(usuario)) {
-                        oldUsuarioOfServicioCollectionNewServicio.getServicios().remove(servicioCollectionNewServicio);
+                        oldUsuarioOfServicioCollectionNewServicio.getServicioCollection().remove(servicioCollectionNewServicio);
                         oldUsuarioOfServicioCollectionNewServicio = em.merge(oldUsuarioOfServicioCollectionNewServicio);
                     }
                 }
@@ -142,7 +142,7 @@ public class UsuarioJpaController implements Serializable {
                 throw new NonexistentEntityException("The usuario with id " + id + " no longer exists.", enfe);
             }
             List<String> illegalOrphanMessages = null;
-            Collection<Servicio> servicioCollectionOrphanCheck = usuario.getServicios();
+            Collection<Servicio> servicioCollectionOrphanCheck = usuario.getServicioCollection();
             for (Servicio servicioCollectionOrphanCheckServicio : servicioCollectionOrphanCheck) {
                 if (illegalOrphanMessages == null) {
                     illegalOrphanMessages = new ArrayList<String>();
