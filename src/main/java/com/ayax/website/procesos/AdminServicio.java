@@ -12,6 +12,9 @@ import com.ayax.website.persistencia.entidades.Servicio;
 import com.ayax.website.persistencia.entidades.Usuario;
 import com.ayax.website.mail.Messenger;
 import com.ayax.website.mail.MessageCreator;
+import com.ayax.website.persistencia.entidades.Oferta;
+import com.ayax.website.persistencia.entidades.Transportador;
+import com.ayax.website.server.RouteServer;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.text.DateFormat;
@@ -22,7 +25,9 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.persistence.EntityManager;
@@ -30,6 +35,9 @@ import javax.persistence.NoResultException;
 import javax.persistence.Query;
 import javax.persistence.TemporalType;
 import javax.persistence.TypedQuery;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 import spark.Request;
 import spark.Response;
 
@@ -65,7 +73,7 @@ public class AdminServicio {
         String disponibilidad = req.queryParams("con-disponibilidad");
         String detalle = req.queryParams("detalle");
         String codigoAutorizacion = req.queryParams("codigoautorizacion");
-        boolean esRegistrado=false;
+        boolean esRegistrado = false;
 
         DateFormat formatter = new SimpleDateFormat("M/d/y 'at' h:m a");
         Date pick_up_value = new Date();
@@ -87,7 +95,7 @@ public class AdminServicio {
         if (codigoAutorizacion != null && !"".equals(codigoAutorizacion)) {
             q = em.createNamedQuery("Usuario.findByIdPart");
             q.setParameter("id", codigoAutorizacion);
-            esRegistrado=true;
+            esRegistrado = true;
         } else {
             q = em.createNamedQuery("Usuario.findByInformacion");
             q.setParameter("identificacion", BigInteger.valueOf(Long.parseLong(nit)));
@@ -223,13 +231,7 @@ public class AdminServicio {
     public List<Servicio> obtenerTodosServicios() {
         ServicioJpaController sc = new ServicioJpaController(EntityManagerFactoryBuilder.INSTANCE.build());
         EntityManager em = sc.getEntityManager();
-        //TypedQuery<Servicio> q = em.createNamedQuery("Servicio.findAllActive", Servicio.class);
         Query q = em.createNamedQuery("Servicio.findAll");
-        //LocalDate date = LocalDate.now();
-        //date.minusDays(30);
-        //java.util.Date uDate = Date.from(date.minusDays(30).atStartOfDay(ZoneId.systemDefault()).toInstant());
-        //q.setParameter("fechaLimite", uDate, TemporalType.DATE);
-        //List<Object[]> list = (List<Object[]>) ;
         return q.getResultList();
     }
 
@@ -245,6 +247,97 @@ public class AdminServicio {
         } catch (NoResultException ex) {
         }
         return servicio;
+    }
+
+    public JSONObject obtenerServicioObj(String id) {
+        Servicio item = obtenerServicio(id);
+        JSONObject obj = new JSONObject();
+        try {
+            obj.put("id", item.getId());
+            obj.put("origen", item.getOrigen());
+            obj.put("destino", item.getDestino());
+            obj.put("horaLlegada", item.getHoraLlegada());
+            obj.put("horaSalida", item.getHoraSalida());
+            obj.put("numeroPasajeros", item.getNumeroPasajeros());
+            obj.put("fechaCreacion", item.getFechaCreacion());
+            obj.put("distancia", item.getDistancia());
+            obj.put("redondo", item.getRedondo());
+            obj.put("descripcion", item.getDetalle());
+            String servicioGratis = AdminServicio.TIPO_USUARIO_ESERVICIOESPECIAL.
+                    equalsIgnoreCase(item.getUsuario().getTipoUsuario()) ? "1" : null;
+            obj.put("servicioGratis", servicioGratis);
+        } catch (JSONException ex) {
+            Logger.getLogger(RouteServer.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return obj;
+    }
+
+    public JSONArray obtenerServiciosPorTransportador(Transportador transportador) {
+        AdminServicio adminServicio = new AdminServicio();
+        List<Object[]> l = adminServicio.obtenerServicios();
+        JSONArray array = new JSONArray();
+
+        if (transportador != null) {
+            Map ids = new HashMap();
+            l.stream().map((item) -> (Object[]) item).forEach((result) -> {
+                Servicio servicio = (Servicio) result[0];
+                Oferta oferta = (Oferta) result[1];
+
+                if (!ids.containsKey(servicio)) {
+                    if (oferta != null && oferta.getTransportador().getId().equalsIgnoreCase(transportador.getId())) {
+                        ids.put(servicio, oferta);
+                    } else {
+                        ids.put(servicio, null);
+                    }
+                } else if (oferta != null && oferta.getTransportador().getId().equalsIgnoreCase(transportador.getId())) {
+                    ids.put(servicio, oferta);
+                }
+            });
+
+            ids.forEach((Object k, Object v) -> {
+                Servicio servicio = (Servicio) k;
+                Oferta oferta = (Oferta) v;
+                JSONObject obj = new JSONObject();
+                obj.put("id", servicio.getId());
+                obj.put("origen", servicio.getOrigen());
+                obj.put("destino", servicio.getDestino());
+                obj.put("horaLlegada", servicio.getHoraLlegada());
+                obj.put("horaSalida", servicio.getHoraSalida());
+                obj.put("numeroPasajeros", servicio.getNumeroPasajeros());
+                obj.put("fechaCreacion", servicio.getFechaCreacion());
+                obj.put("distancia", servicio.getDistancia());
+                obj.put("redondo", servicio.getRedondo());
+                if (oferta != null) {
+                    obj.put("idTransportador", oferta.getTransportador().getId());
+                    obj.put("valorOferta", oferta.getValor());
+                }
+                array.put(obj);
+            });
+        } else {
+            Map ids = new HashMap();
+            l.stream().map((item) -> (Object[]) item).forEach((result) -> {
+                Servicio servicio = (Servicio) result[0];
+                if (!ids.containsKey(servicio.getId())) {
+                    ids.put(servicio.getId(), servicio);
+                }
+            });
+
+            ids.forEach((Object k, Object v) -> {
+                Servicio servicio = (Servicio) v;
+                JSONObject obj = new JSONObject();
+                obj.put("id", k);
+                obj.put("origen", servicio.getOrigen());
+                obj.put("destino", servicio.getDestino());
+                obj.put("horaLlegada", servicio.getHoraLlegada());
+                obj.put("horaSalida", servicio.getHoraSalida());
+                obj.put("numeroPasajeros", servicio.getNumeroPasajeros());
+                obj.put("fechaCreacion", servicio.getFechaCreacion());
+                obj.put("distancia", servicio.getDistancia());
+                obj.put("redondo", servicio.getRedondo());
+                array.put(obj);
+            });
+        }
+        return array;
     }
 
     private Double parseDecimal(String number) {

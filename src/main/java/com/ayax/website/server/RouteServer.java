@@ -2,11 +2,8 @@ package com.ayax.website.server;
 
 import com.ayax.website.persistencia.EntityManagerFactoryBuilder;
 import com.ayax.website.persistencia.entidades.CupoVehiculo;
-import com.ayax.website.persistencia.entidades.Oferta;
 import com.ayax.website.persistencia.entidades.Servicio;
 import com.ayax.website.persistencia.entidades.Transportador;
-import com.ayax.website.persistencia.entidades.Usuario;
-import com.ayax.website.procesos.AdminUsuario;
 import com.ayax.website.procesos.AdminVehiculo;
 import com.ayax.website.procesos.AdminOferta;
 import com.ayax.website.procesos.ProcesoLiquidacion;
@@ -21,9 +18,7 @@ import com.ayax.website.procesos.AdminProcesos;
 import com.ayax.website.procesos.AdminSuscriptor;
 import com.ayax.website.procesos.Respuesta;
 import com.ayax.website.util.Util;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.persistence.Cache;
@@ -149,27 +144,7 @@ public class RouteServer {
         get("/servicio/:id", (req, res) -> {
             res.type("application/json");
             AdminServicio adminServicio = new AdminServicio();
-            Servicio item = adminServicio.obtenerServicio(req.params(":id"));
-            JSONObject obj = new JSONObject();
-            try {
-                obj.put("id", item.getId());
-                obj.put("origen", item.getOrigen());
-                obj.put("destino", item.getDestino());
-                obj.put("horaLlegada", item.getHoraLlegada());
-                obj.put("horaSalida", item.getHoraSalida());
-                obj.put("numeroPasajeros", item.getNumeroPasajeros());
-                obj.put("fechaCreacion", item.getFechaCreacion());
-                obj.put("distancia", item.getDistancia());
-                obj.put("redondo", item.getRedondo());
-                obj.put("descripcion", item.getDetalle());
-                String servicioGratis = AdminServicio.TIPO_USUARIO_ESERVICIOESPECIAL.
-                        equalsIgnoreCase(item.getUsuario().getTipoUsuario()) ? "1" : null;
-                obj.put("servicioGratis", servicioGratis);
-            } catch (JSONException ex) {
-                Logger.getLogger(RouteServer.class.getName()).log(Level.SEVERE, null, ex);
-
-            }
-            return obj;
+            return adminServicio.obtenerServicioObj(req.params(":id"));
         }, toJson());
 
         get("/servicio", (req, res) -> {
@@ -178,69 +153,8 @@ public class RouteServer {
 
             try {
                 AdminServicio adminServicio = new AdminServicio();
-                List<Object[]> l = adminServicio.obtenerServicios();
-                JSONArray array = new JSONArray();
                 Transportador transportador = (Transportador) req.session().attribute("usuario");
-                if (transportador != null) {
-                    Map ids = new HashMap();
-                    l.stream().map((item) -> (Object[]) item).forEach((result) -> {
-                        Servicio servicio = (Servicio) result[0];
-                        Oferta oferta = (Oferta) result[1];
-
-                        if (!ids.containsKey(servicio)) {
-                            if (oferta != null && oferta.getTransportador().getId().equalsIgnoreCase(transportador.getId())) {
-                                ids.put(servicio, oferta);
-                            } else {
-                                ids.put(servicio, null);
-                            }
-                        } else if (oferta != null && oferta.getTransportador().getId().equalsIgnoreCase(transportador.getId())) {
-                            ids.put(servicio, oferta);
-                        }
-                    });
-
-                    ids.forEach((Object k, Object v) -> {
-                        Servicio servicio = (Servicio) k;
-                        Oferta oferta = (Oferta) v;
-                        JSONObject obj = new JSONObject();
-                        obj.put("id", servicio.getId());
-                        obj.put("origen", servicio.getOrigen());
-                        obj.put("destino", servicio.getDestino());
-                        obj.put("horaLlegada", servicio.getHoraLlegada());
-                        obj.put("horaSalida", servicio.getHoraSalida());
-                        obj.put("numeroPasajeros", servicio.getNumeroPasajeros());
-                        obj.put("fechaCreacion", servicio.getFechaCreacion());
-                        obj.put("distancia", servicio.getDistancia());
-                        obj.put("redondo", servicio.getRedondo());
-                        if (oferta != null) {
-                            obj.put("idTransportador", oferta.getTransportador().getId());
-                            obj.put("valorOferta", oferta.getValor());
-                        }
-                        array.put(obj);
-                    });
-                } else {
-                    Map ids = new HashMap();
-                    l.stream().map((item) -> (Object[]) item).forEach((result) -> {
-                        Servicio servicio = (Servicio) result[0];
-                        if (!ids.containsKey(servicio.getId())) {
-                            ids.put(servicio.getId(), servicio);
-                        }
-                    });
-
-                    ids.forEach((Object k, Object v) -> {
-                        Servicio servicio = (Servicio) v;
-                        JSONObject obj = new JSONObject();
-                        obj.put("id", k);
-                        obj.put("origen", servicio.getOrigen());
-                        obj.put("destino", servicio.getDestino());
-                        obj.put("horaLlegada", servicio.getHoraLlegada());
-                        obj.put("horaSalida", servicio.getHoraSalida());
-                        obj.put("numeroPasajeros", servicio.getNumeroPasajeros());
-                        obj.put("fechaCreacion", servicio.getFechaCreacion());
-                        obj.put("distancia", servicio.getDistancia());
-                        obj.put("redondo", servicio.getRedondo());
-                        array.put(obj);
-                    });
-                }
+                JSONArray array = adminServicio.obtenerServiciosPorTransportador(transportador);
                 respuesta.setCodigo("000");
                 respuesta.setResultado("exito");
                 respuesta.setValor(array);
@@ -299,7 +213,7 @@ public class RouteServer {
             AdminSuscriptor As = new AdminSuscriptor();
             return As.crearSuscriptor(req, res);
         }, toJson());
-        
+
         post("/mensaje/servicio/:idServicio/transportador/:idTransportador", (req, res) -> {
             res.type("application/json");
             String idServicio = req.params(":idServicio");
@@ -366,7 +280,6 @@ public class RouteServer {
             root.put("item", usuario);
             return new ModelAndView(root, "/admin/usuario.ftl");
         }, new FreeMarkerEngine());
-*/
+         */
     }
 }
-
