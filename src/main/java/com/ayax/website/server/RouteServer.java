@@ -308,11 +308,19 @@ public class RouteServer {
             res.type("application/json");
             String idServicio = req.params(":idServicio");
             String idTransportador = req.params(":idTransportador");
-            String mensaje = req.queryParams("pickup-location");
+            String mensaje = req.queryParams("texto");
             AdminConversacion ac = new AdminConversacion();
-            return ac.crearMensaje(idServicio, idTransportador, mensaje);
+            return ac.crearMensajeTransportador(idServicio, idTransportador, mensaje);
         }, json());
 
+        post("/mensaje/servicio/:idServicio/usuario/:idUsuario", (req, res) -> {
+            res.type("application/json");
+            String idServicio = req.params(":idServicio");
+            String idUsuario = req.params(":idUsuario");
+            String mensaje = req.queryParams("texto");
+            AdminConversacion ac = new AdminConversacion();
+            return ac.crearMensajeUsuario(idServicio, idUsuario, mensaje);
+        }, json());
 
 /*        get("/admin/access", (req, res) -> {
             return new ModelAndView(null, "/admin/access.ftl");
