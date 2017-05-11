@@ -44,11 +44,11 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Vehiculo.findByMarca", query = "SELECT v FROM Vehiculo v WHERE v.marca = :marca"),
     @NamedQuery(name = "Vehiculo.findByModelo", query = "SELECT v FROM Vehiculo v WHERE v.modelo = :modelo"),
     @NamedQuery(name = "Vehiculo.findByAcondicionado", query = "SELECT v FROM Vehiculo v WHERE v.acondicionado = :acondicionado"),
-    @NamedQuery(name = "Vehiculo.findByFechaVenSoat", query = "SELECT v FROM Vehiculo v WHERE v.fechaVenSoat = :fechaVenSoat"),
-    @NamedQuery(name = "Vehiculo.findByFechaVenTecnome", query = "SELECT v FROM Vehiculo v WHERE v.fechaVenTecnome = :fechaVenTecnome"),
-    @NamedQuery(name = "Vehiculo.findByFechaVenScontractual", query = "SELECT v FROM Vehiculo v WHERE v.fechaVenScontractual = :fechaVenScontractual"),
-    @NamedQuery(name = "Vehiculo.findByFechaVenSecontractual", query = "SELECT v FROM Vehiculo v WHERE v.fechaVenSecontractual = :fechaVenSecontractual"),
-    @NamedQuery(name = "Vehiculo.findByFechaVenToperacion", query = "SELECT v FROM Vehiculo v WHERE v.fechaVenToperacion = :fechaVenToperacion")})
+    @NamedQuery(name = "Vehiculo.findByFechaVenSoat", query = "SELECT v FROM Vehiculo v WHERE v.fechaVencimientoSoat = :fechaVenSoat"),
+    @NamedQuery(name = "Vehiculo.findByFechaVenTecnome", query = "SELECT v FROM Vehiculo v WHERE v.fechaVencimientoTecnomecanica = :fechaVenTecnome"),
+    @NamedQuery(name = "Vehiculo.findByFechaVenScontractual", query = "SELECT v FROM Vehiculo v WHERE v.fechaVencimientoScontractual = :fechaVenScontractual"),
+    @NamedQuery(name = "Vehiculo.findByFechaVenSecontractual", query = "SELECT v FROM Vehiculo v WHERE v.fechaVencimientoSecontractual = :fechaVenSecontractual"),
+    @NamedQuery(name = "Vehiculo.findByFechaVenToperacion", query = "SELECT v FROM Vehiculo v WHERE v.fechaVencimientoToperacion = :fechaVenToperacion")})
 public class Vehiculo implements Serializable {
 
     private static final long serialVersionUID = 1L;
