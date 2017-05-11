@@ -20,6 +20,7 @@ import java.util.logging.Logger;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 /**
@@ -200,7 +201,19 @@ public class AdminConversacion {
         JSONObject obj = new  JSONObject();
         obj.put("fechaCreacion", conversacion.getFechaCreacion());
         obj.put("conteoMensajes", conversacion.getMensajes().size());
-        obj.put("mensajes", conversacion.getMensajes());
+        JSONArray array = new JSONArray();
+        for (Mensaje m : conversacion.getMensajes()) {
+            JSONObject mObj = new  JSONObject();
+            mObj.put("fechaCreacion", m.getFechaCreacion());
+            if (m.getTransportador() != null) {
+                mObj.put("transportador", m.getTransportador().getNombres());
+            } else {
+                mObj.put("usuario", m.getUsuario().getNombre());
+            }
+            mObj.put("texto", m.getTexto());
+            array.put(mObj);
+        }
+        obj.put("mensajes", array);
         respuesta.setRecurso("/conversacion");
         respuesta.setVerbo("GET");
         respuesta.setCodigo("000");
