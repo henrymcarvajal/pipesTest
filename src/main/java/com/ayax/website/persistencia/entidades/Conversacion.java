@@ -34,7 +34,7 @@ import javax.xml.bind.annotation.XmlTransient;
 @NamedQueries({
     @NamedQuery(name = "Conversacion.findAll", query = "SELECT c FROM Conversacion c"),
     @NamedQuery(name = "Conversacion.findById", query = "SELECT c FROM Conversacion c WHERE c.id = :id"),
-    @NamedQuery(name = "Conversacion.findByFecha", query = "SELECT c FROM Conversacion c WHERE c.fecha = :fecha")})
+    @NamedQuery(name = "Conversacion.findByFechaCreacion", query = "SELECT c FROM Conversacion c WHERE c.fechaCreacion = :fechaCreacion")})
 public class Conversacion implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -42,9 +42,9 @@ public class Conversacion implements Serializable {
     @Basic(optional = false)
     @Column(name = "id")
     private String id;
-    @Column(name = "fecha")
+    @Column(name = "fecha_creacion")
     @Temporal(TemporalType.TIMESTAMP)
-    private Date fecha;
+    private Date fechaCreacion;
     @JoinColumn(name = "id_servicio", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Servicio servicio;
@@ -69,12 +69,12 @@ public class Conversacion implements Serializable {
         this.id = id;
     }
 
-    public Date getFecha() {
-        return fecha;
+    public Date getFechaCreacion() {
+        return fechaCreacion;
     }
 
-    public void setFecha(Date fecha) {
-        this.fecha = fecha;
+    public void setFechaCreacion(Date fechaCreacion) {
+        this.fechaCreacion = fechaCreacion;
     }
 
     public Servicio getServicio() {

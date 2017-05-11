@@ -97,7 +97,7 @@ public class AdminConversacion {
             }
             conversacion = new Conversacion();
             conversacion.setId(java.util.UUID.randomUUID().toString());
-            conversacion.setFecha(new Date());
+            conversacion.setFechaCreacion(new Date());
             conversacion.setServicio(servicio);
             conversacion.setTransportador(transportador);
 
