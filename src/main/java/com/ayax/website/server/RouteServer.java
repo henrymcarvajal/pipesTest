@@ -21,7 +21,6 @@ import com.ayax.website.procesos.AdminProcesos;
 import com.ayax.website.procesos.AdminSuscriptor;
 import com.ayax.website.procesos.Respuesta;
 import com.ayax.website.util.Util;
-import static com.ayax.website.util.json.JsonUtil.json;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -37,6 +36,7 @@ import org.json.JSONObject;
 import spark.ModelAndView;
 import static spark.Spark.*;
 import spark.template.freemarker.FreeMarkerEngine;
+import static com.ayax.website.util.json.JsonUtil.toJson;
 
 public class RouteServer {
 
@@ -71,25 +71,25 @@ public class RouteServer {
             res.type("application/json");
             AdminAcceso adminAcceso = new AdminAcceso();
             return adminAcceso.ingresar(req, res);
-        }, json());
+        }, toJson());
 
         put("/acceso", (req, res) -> {
             res.type("application/json");
             AdminContrasena adminContrasena = new AdminContrasena();
             return adminContrasena.cambiarContrasena(req, res);
-        }, json());
+        }, toJson());
 
         get("/salida", (req, res) -> {
             res.type("application/json");
             AdminAcceso adminAcceso = new AdminAcceso();
             return adminAcceso.salir(req, res);
-        }, json());
+        }, toJson());
 
         post("/recuperarContrasena", (req, res) -> {
             res.type("application/json");
             AdminContrasena adminContrasena = new AdminContrasena();
             return adminContrasena.recuperarContrasena(req, res);
-        }, json());
+        }, toJson());
 
         //----- Operaciones sobre factura
         post("/factura/:id", (req, res) -> {
@@ -102,37 +102,37 @@ public class RouteServer {
             res.type("application/json");
             AdminOferta adminOferta = new AdminOferta();
             return adminOferta.crearOferta(req, res);
-        }, json());
+        }, toJson());
 
         get("/oferta/:id", (req, res) -> {
             res.type("application/json");
             AdminOferta adminOferta = new AdminOferta();
             return adminOferta.obtenerOferta(req, res);
-        }, json());
+        }, toJson());
 
         get("/oferta/:id/transportador", (req, res) -> {
             res.type("application/json");
             AdminOferta adminOferta = new AdminOferta();
             return adminOferta.actualizarOferta(req, res);
-        }, json());
+        }, toJson());
 
         get("/oferta/:id/inicio", (req, res) -> {
             res.type("application/json");
             AdminOferta adminOferta = new AdminOferta();
             return adminOferta.iniciarServicio(req, res);
-        }, json());
+        }, toJson());
 
         post("/oferta/:id/transportador/calificacion", (req, res) -> {
             res.type("application/json");
             AdminOferta adminOferta = new AdminOferta();
             return adminOferta.actualizarReputacionTransportador(req, res);
-        }, json());
+        }, toJson());
 
         post("/oferta/:id/usuario/calificacion", (req, res) -> {
             res.type("application/json");
             AdminOferta adminOferta = new AdminOferta();
             return adminOferta.actualizarReputacionUsuario(req, res);
-        }, json());
+        }, toJson());
 
         //----- Operaciones sobre Pago
         post("/cuenta", (req, res) -> {
@@ -170,7 +170,7 @@ public class RouteServer {
 
             }
             return obj;
-        }, json());
+        }, toJson());
 
         get("/servicio", (req, res) -> {
             res.type("application/json");
@@ -249,20 +249,20 @@ public class RouteServer {
                 respuesta.setResultado(Util.getExceptionString(ex));
             }
             return respuesta;
-        }, json());
+        }, toJson());
 
         post("/servicio", (req, res) -> {
             res.type("application/json");
             AdminServicio adminServicio = new AdminServicio();
             return adminServicio.crearServicio(req, res);
-        }, json());
+        }, toJson());
 
         //----- Operaciones sobre transportador
         post("/transportador", (req, res) -> {
             res.type("application/json");
             AdminTransportador adminTransportador = new AdminTransportador();
             return adminTransportador.crearTransportador(req, res);
-        }, json());
+        }, toJson());
 
         //----- Operaciones sobre vehiculos
         get("/vehiculo/:id", (req, res) -> {
@@ -277,33 +277,32 @@ public class RouteServer {
             AdminVehiculo adminVehiculo = new AdminVehiculo();
             return adminVehiculo.crearVehiculo(req, res);
             //return req.queryParams("idTransportador");
-        }, json());
+        }, toJson());
 
         post("/vehiculo/:id/documentos", (req, res) -> {
             res.type("application/json");
             AdminVehiculo adminVehiculo = new AdminVehiculo();
             return adminVehiculo.actualizarDocumentos(req, res);
-        }, json());
+        }, toJson());
 
         post("/vehiculo/:placa/fechas", (req, res) -> {
             res.type("application/json");
             AdminVehiculo adminVehiculo = new AdminVehiculo();
             return adminVehiculo.actualizarFechaDocumentosVehiculo(req, res);
-        }, json());
+        }, toJson());
 
         get("/procesos/correos/calificacion", (req, res) -> {
             res.type("application/json");
             AdminProcesos adminProcesos = new AdminProcesos();
             return adminProcesos.enviarCorreosCalificacion(req, res);
-        }, json());
+        }, toJson());
 
         post("/suscriptor", (req, res) -> {
             res.type("application/json");
             AdminSuscriptor As = new AdminSuscriptor();
             return As.crearSuscriptor(req, res);
-        }, json());
+        }, toJson());
         
-        //post mensaje transportador
         post("/mensaje/servicio/:idServicio/transportador/:idTransportador", (req, res) -> {
             res.type("application/json");
             String idServicio = req.params(":idServicio");
@@ -311,7 +310,7 @@ public class RouteServer {
             String mensaje = req.queryParams("texto");
             AdminConversacion ac = new AdminConversacion();
             return ac.crearMensajeTransportador(idServicio, idTransportador, mensaje);
-        }, json());
+        }, toJson());
 
         post("/mensaje/servicio/:idServicio/conversacion/:idConversacion", (req, res) -> {
             res.type("application/json");
@@ -320,9 +319,27 @@ public class RouteServer {
             String mensaje = req.queryParams("texto");
             AdminConversacion ac = new AdminConversacion();
             return ac.crearMensajeUsuario(idServicio, idConversacion, mensaje);
-        }, json());
+        }, toJson());
 
-/*        get("/admin/access", (req, res) -> {
+        post("/mensaje/servicio/:idServicio/conversacion/:idConversacion", (req, res) -> {
+            res.type("application/json");
+            String idServicio = req.params(":idServicio");
+            String idConversacion = req.params(":idConversacion");
+            String mensaje = req.queryParams("texto");
+            AdminConversacion ac = new AdminConversacion();
+            return ac.crearMensajeUsuario(idServicio, idConversacion, mensaje);
+        }, toJson());
+
+        get("/conversacion/:idConversacion", (req, res) -> {
+            res.type("application/json");
+            String idConversacion = req.params(":idConversacion");
+            String mensaje = req.queryParams("texto");
+            AdminConversacion ac = new AdminConversacion();
+            return ac.obtenerConversacion(idConversacion);
+        }, toJson());
+
+        /*
+        get("/admin/access", (req, res) -> {
             return new ModelAndView(null, "/admin/access.ftl");
         }, new FreeMarkerEngine());
 

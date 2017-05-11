@@ -11,11 +11,9 @@ import com.ayax.website.persistencia.entidades.Servicio;
 import com.ayax.website.persistencia.entidades.Conversacion;
 import com.ayax.website.persistencia.entidades.Mensaje;
 import com.ayax.website.persistencia.entidades.Transportador;
-import com.ayax.website.persistencia.entidades.Usuario;
 import com.ayax.website.persistencia.fachadas.ConversacionJpaController;
 import com.ayax.website.persistencia.fachadas.MensajeJpaController;
 import com.ayax.website.persistencia.fachadas.TransportadorJpaController;
-import com.ayax.website.persistencia.fachadas.UsuarioJpaController;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -177,6 +175,32 @@ public class AdminConversacion {
         respuesta.setVerbo("POST");
         respuesta.setCodigo("000");
         respuesta.setResultado("exito");
+        return respuesta;
+    }
+
+    public Respuesta obtenerConversacion(String idConversacion) {
+        Respuesta respuesta = new Respuesta();
+        
+        
+        ConversacionJpaController sc = new ConversacionJpaController(EntityManagerFactoryBuilder.INSTANCE.build());
+        EntityManager em = sc.getEntityManager();
+        TypedQuery q = em.createNamedQuery("Conversacion.findById", Servicio.class);
+        q.setParameter("id", idConversacion);
+
+        Conversacion conversacion = null;
+        try {
+            conversacion = (Conversacion) q.getSingleResult();
+        } catch (NoResultException ex) {
+            respuesta.setCodigo("001");
+            respuesta.setResultado("Conversacion con el id especificado no existe");
+            return respuesta;
+        }
+        
+        respuesta.setRecurso("/conversacion");
+        respuesta.setVerbo("GET");
+        respuesta.setCodigo("000");
+        respuesta.setResultado("exito");
+        respuesta.setValor(conversacion);
         return respuesta;
     }
 }

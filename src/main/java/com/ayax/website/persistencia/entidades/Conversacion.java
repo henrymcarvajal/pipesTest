@@ -18,6 +18,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -52,6 +53,7 @@ public class Conversacion implements Serializable {
     @ManyToOne(optional = false)
     private Transportador transportador;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "conversacion")
+    @OrderBy("fechaCreacion ASC")
     private Collection<Mensaje> mensajes;
 
     public Conversacion() {

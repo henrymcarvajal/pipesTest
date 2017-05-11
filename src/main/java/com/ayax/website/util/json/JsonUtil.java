@@ -18,7 +18,7 @@ public class JsonUtil {
         return new Gson().toJson(object);
     }
 
-    public static ResponseTransformer json() {
+    public static ResponseTransformer toJson() {
         return JsonUtil::toJson;
     }
 }
