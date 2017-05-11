@@ -266,17 +266,14 @@ public class RouteServer {
 
         //----- Operaciones sobre vehiculos
         get("/vehiculo/:id", (req, res) -> {
-            //res.type("application/json");
             AdminVehiculo adminVehiculo = new AdminVehiculo();
             return adminVehiculo.buscarVehiculo(req, res);
-            //return req.queryParams("idTransportador");
         }, new FreeMarkerEngine());
 
         post("/vehiculo", (req, res) -> {
             res.type("application/json");
             AdminVehiculo adminVehiculo = new AdminVehiculo();
             return adminVehiculo.crearVehiculo(req, res);
-            //return req.queryParams("idTransportador");
         }, toJson());
 
         post("/vehiculo/:id/documentos", (req, res) -> {
@@ -333,7 +330,6 @@ public class RouteServer {
         get("/conversacion/:idConversacion", (req, res) -> {
             res.type("application/json");
             String idConversacion = req.params(":idConversacion");
-            String mensaje = req.queryParams("texto");
             AdminConversacion ac = new AdminConversacion();
             return ac.obtenerConversacion(idConversacion);
         }, toJson());

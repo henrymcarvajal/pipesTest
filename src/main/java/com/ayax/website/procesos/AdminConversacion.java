@@ -20,6 +20,7 @@ import java.util.logging.Logger;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
+import org.json.JSONObject;
 
 /**
  *
@@ -196,11 +197,14 @@ public class AdminConversacion {
             return respuesta;
         }
         
+        JSONObject obj = new  JSONObject();
+        obj.put("fechaCreacion", conversacion.getFechaCreacion());
+        obj.put("conteoMensajes", conversacion.getMensajes().size());
         respuesta.setRecurso("/conversacion");
         respuesta.setVerbo("GET");
         respuesta.setCodigo("000");
         respuesta.setResultado("exito");
-        respuesta.setValor(conversacion);
+        respuesta.setValor(obj);
         return respuesta;
     }
 }
