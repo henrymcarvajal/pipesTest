@@ -200,6 +200,7 @@ public class AdminConversacion {
         JSONObject obj = new  JSONObject();
         obj.put("fechaCreacion", conversacion.getFechaCreacion());
         obj.put("conteoMensajes", conversacion.getMensajes().size());
+        obj.put("mensajes", conversacion.getMensajes());
         respuesta.setRecurso("/conversacion");
         respuesta.setVerbo("GET");
         respuesta.setCodigo("000");
