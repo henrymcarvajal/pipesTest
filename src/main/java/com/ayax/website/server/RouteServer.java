@@ -2,7 +2,6 @@ package com.ayax.website.server;
 
 import com.ayax.website.persistencia.EntityManagerFactoryBuilder;
 import com.ayax.website.persistencia.entidades.CupoVehiculo;
-import com.ayax.website.persistencia.entidades.Servicio;
 import com.ayax.website.persistencia.entidades.Transportador;
 import com.ayax.website.procesos.AdminVehiculo;
 import com.ayax.website.procesos.AdminOferta;
@@ -19,15 +18,11 @@ import com.ayax.website.procesos.AdminSuscriptor;
 import com.ayax.website.procesos.Respuesta;
 import com.ayax.website.util.Util;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.persistence.Cache;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Query;
 import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 import spark.ModelAndView;
 import static spark.Spark.*;
 import spark.template.freemarker.FreeMarkerEngine;
@@ -149,20 +144,9 @@ public class RouteServer {
 
         get("/servicio", (req, res) -> {
             res.type("application/json");
-            Respuesta respuesta = new Respuesta();
-
-            try {
-                AdminServicio adminServicio = new AdminServicio();
-                Transportador transportador = (Transportador) req.session().attribute("usuario");
-                JSONArray array = adminServicio.obtenerServiciosPorTransportador(transportador);
-                respuesta.setCodigo("000");
-                respuesta.setResultado("exito");
-                respuesta.setValor(array);
-            } catch (Exception ex) {
-                respuesta.setCodigo("001");
-                respuesta.setResultado(Util.getExceptionString(ex));
-            }
-            return respuesta;
+            Transportador transportador = (Transportador) req.session().attribute("usuario");
+            AdminServicio adminServicio = new AdminServicio();
+            return adminServicio.obtenerServiciosPorTransportador(transportador);
         }, toJson());
 
         post("/servicio", (req, res) -> {

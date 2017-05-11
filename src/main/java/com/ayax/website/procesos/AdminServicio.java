@@ -15,6 +15,7 @@ import com.ayax.website.mail.MessageCreator;
 import com.ayax.website.persistencia.entidades.Oferta;
 import com.ayax.website.persistencia.entidades.Transportador;
 import com.ayax.website.server.RouteServer;
+import com.ayax.website.util.Util;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.text.DateFormat;
@@ -272,72 +273,81 @@ public class AdminServicio {
         return obj;
     }
 
-    public JSONArray obtenerServiciosPorTransportador(Transportador transportador) {
+    public Respuesta obtenerServiciosPorTransportador(Transportador transportador) {
+        Respuesta respuesta = new Respuesta();
         AdminServicio adminServicio = new AdminServicio();
         List<Object[]> l = adminServicio.obtenerServicios();
         JSONArray array = new JSONArray();
 
-        if (transportador != null) {
-            Map ids = new HashMap();
-            l.stream().map((item) -> (Object[]) item).forEach((result) -> {
-                Servicio servicio = (Servicio) result[0];
-                Oferta oferta = (Oferta) result[1];
+        try {
+            if (transportador != null) {
+                Map ids = new HashMap();
+                l.stream().map((item) -> (Object[]) item).forEach((result) -> {
+                    Servicio servicio = (Servicio) result[0];
+                    Oferta oferta = (Oferta) result[1];
 
-                if (!ids.containsKey(servicio)) {
-                    if (oferta != null && oferta.getTransportador().getId().equalsIgnoreCase(transportador.getId())) {
+                    if (!ids.containsKey(servicio)) {
+                        if (oferta != null && oferta.getTransportador().getId().equalsIgnoreCase(transportador.getId())) {
+                            ids.put(servicio, oferta);
+                        } else {
+                            ids.put(servicio, null);
+                        }
+                    } else if (oferta != null && oferta.getTransportador().getId().equalsIgnoreCase(transportador.getId())) {
                         ids.put(servicio, oferta);
-                    } else {
-                        ids.put(servicio, null);
                     }
-                } else if (oferta != null && oferta.getTransportador().getId().equalsIgnoreCase(transportador.getId())) {
-                    ids.put(servicio, oferta);
-                }
-            });
+                });
 
-            ids.forEach((Object k, Object v) -> {
-                Servicio servicio = (Servicio) k;
-                Oferta oferta = (Oferta) v;
-                JSONObject obj = new JSONObject();
-                obj.put("id", servicio.getId());
-                obj.put("origen", servicio.getOrigen());
-                obj.put("destino", servicio.getDestino());
-                obj.put("horaLlegada", servicio.getHoraLlegada());
-                obj.put("horaSalida", servicio.getHoraSalida());
-                obj.put("numeroPasajeros", servicio.getNumeroPasajeros());
-                obj.put("fechaCreacion", servicio.getFechaCreacion());
-                obj.put("distancia", servicio.getDistancia());
-                obj.put("redondo", servicio.getRedondo());
-                if (oferta != null) {
-                    obj.put("idTransportador", oferta.getTransportador().getId());
-                    obj.put("valorOferta", oferta.getValor());
-                }
-                array.put(obj);
-            });
-        } else {
-            Map ids = new HashMap();
-            l.stream().map((item) -> (Object[]) item).forEach((result) -> {
-                Servicio servicio = (Servicio) result[0];
-                if (!ids.containsKey(servicio.getId())) {
-                    ids.put(servicio.getId(), servicio);
-                }
-            });
+                ids.forEach((Object k, Object v) -> {
+                    Servicio servicio = (Servicio) k;
+                    Oferta oferta = (Oferta) v;
+                    JSONObject obj = new JSONObject();
+                    obj.put("id", servicio.getId());
+                    obj.put("origen", servicio.getOrigen());
+                    obj.put("destino", servicio.getDestino());
+                    obj.put("horaLlegada", servicio.getHoraLlegada());
+                    obj.put("horaSalida", servicio.getHoraSalida());
+                    obj.put("numeroPasajeros", servicio.getNumeroPasajeros());
+                    obj.put("fechaCreacion", servicio.getFechaCreacion());
+                    obj.put("distancia", servicio.getDistancia());
+                    obj.put("redondo", servicio.getRedondo());
+                    if (oferta != null) {
+                        obj.put("idTransportador", oferta.getTransportador().getId());
+                        obj.put("valorOferta", oferta.getValor());
+                    }
+                    array.put(obj);
+                });
+            } else {
+                Map ids = new HashMap();
+                l.stream().map((item) -> (Object[]) item).forEach((result) -> {
+                    Servicio servicio = (Servicio) result[0];
+                    if (!ids.containsKey(servicio.getId())) {
+                        ids.put(servicio.getId(), servicio);
+                    }
+                });
 
-            ids.forEach((Object k, Object v) -> {
-                Servicio servicio = (Servicio) v;
-                JSONObject obj = new JSONObject();
-                obj.put("id", k);
-                obj.put("origen", servicio.getOrigen());
-                obj.put("destino", servicio.getDestino());
-                obj.put("horaLlegada", servicio.getHoraLlegada());
-                obj.put("horaSalida", servicio.getHoraSalida());
-                obj.put("numeroPasajeros", servicio.getNumeroPasajeros());
-                obj.put("fechaCreacion", servicio.getFechaCreacion());
-                obj.put("distancia", servicio.getDistancia());
-                obj.put("redondo", servicio.getRedondo());
-                array.put(obj);
-            });
+                ids.forEach((Object k, Object v) -> {
+                    Servicio servicio = (Servicio) v;
+                    JSONObject obj = new JSONObject();
+                    obj.put("id", k);
+                    obj.put("origen", servicio.getOrigen());
+                    obj.put("destino", servicio.getDestino());
+                    obj.put("horaLlegada", servicio.getHoraLlegada());
+                    obj.put("horaSalida", servicio.getHoraSalida());
+                    obj.put("numeroPasajeros", servicio.getNumeroPasajeros());
+                    obj.put("fechaCreacion", servicio.getFechaCreacion());
+                    obj.put("distancia", servicio.getDistancia());
+                    obj.put("redondo", servicio.getRedondo());
+                    array.put(obj);
+                });
+            }
+        } catch (Exception ex) {
+            respuesta.setCodigo("001");
+            respuesta.setResultado(Util.getExceptionString(ex));
         }
-        return array;
+        respuesta.setCodigo("000");
+        respuesta.setResultado("exito");
+        respuesta.setValor(array);
+        return respuesta;
     }
 
     private Double parseDecimal(String number) {
