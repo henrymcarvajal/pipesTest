@@ -97,6 +97,7 @@ public class AdminConversacion {
             }
             conversacion = new Conversacion();
             conversacion.setId(java.util.UUID.randomUUID().toString());
+            conversacion.setFecha(new Date());
             conversacion.setServicio(servicio);
             conversacion.setTransportador(transportador);
 
@@ -115,7 +116,7 @@ public class AdminConversacion {
         } catch (Exception ex) {
             Logger.getLogger(AdminConversacion.class.getName()).log(Level.SEVERE, null, ex);
         }
-        respuesta.setRecurso("servicio");
+        respuesta.setRecurso("/mensaje/servicio/transportador");
         respuesta.setVerbo("POST");
         respuesta.setCodigo("000");
         respuesta.setResultado("exito");
