@@ -6,6 +6,7 @@
 package com.ayax.website.persistencia.entidades;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Collection;
 import java.util.Date;
 import javax.persistence.Basic;
@@ -26,7 +27,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author Mauris
+ * @author hmcarvajal@ayax.co
  */
 @Entity
 @Table(name = "l4_servicio")
@@ -46,8 +47,11 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Servicio.findByFechaEjecucion", query = "SELECT s FROM Servicio s WHERE s.fechaEjecucion = :fechaEjecucion"),
     @NamedQuery(name = "Servicio.findByFechaTerminacion", query = "SELECT s FROM Servicio s WHERE s.fechaTerminacion = :fechaTerminacion"),
     @NamedQuery(name = "Servicio.findByDistancia", query = "SELECT s FROM Servicio s WHERE s.distancia = :distancia"),
+    @NamedQuery(name = "Servicio.findByRedondo", query = "SELECT s FROM Servicio s WHERE s.redondo = :redondo"),
     @NamedQuery(name = "Servicio.findByDisponibilidad", query = "SELECT s FROM Servicio s WHERE s.disponibilidad = :disponibilidad"),
-    @NamedQuery(name = "Servicio.findByRedondo", query = "SELECT s FROM Servicio s WHERE s.redondo = :redondo")})
+    @NamedQuery(name = "Servicio.findByCalificacionUsuario", query = "SELECT s FROM Servicio s WHERE s.calificacionUsuario = :calificacionUsuario"),
+    @NamedQuery(name = "Servicio.findByCalificacionTransportador", query = "SELECT s FROM Servicio s WHERE s.calificacionTransportador = :calificacionTransportador"),
+    @NamedQuery(name = "Servicio.findByDetalle", query = "SELECT s FROM Servicio s WHERE s.detalle = :detalle")})
 public class Servicio implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -79,8 +83,9 @@ public class Servicio implements Serializable {
     @Column(name = "fecha_terminacion")
     @Temporal(TemporalType.TIMESTAMP)
     private Date fechaTerminacion;
+    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "distancia")
-    private Double distancia;
+    private BigDecimal distancia;
     @Column(name = "redondo")
     private Boolean redondo;
     @Column(name = "disponibilidad")
@@ -91,7 +96,8 @@ public class Servicio implements Serializable {
     private Short calificacionTransportador;
     @Column(name = "detalle")
     private String detalle;
-
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "servicio")
+    private Collection<Conversacion> conversaciones;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "servicio")
     private Collection<Oferta> ofertas;
     @JoinColumn(name = "id_usuario", referencedColumnName = "id")
@@ -185,11 +191,11 @@ public class Servicio implements Serializable {
         this.fechaTerminacion = fechaTerminacion;
     }
 
-    public Double getDistancia() {
+    public BigDecimal getDistancia() {
         return distancia;
     }
 
-    public void setDistancia(Double distancia) {
+    public void setDistancia(BigDecimal distancia) {
         this.distancia = distancia;
     }
 
@@ -209,6 +215,18 @@ public class Servicio implements Serializable {
         this.disponibilidad = disponibilidad;
     }
 
+    public Short getCalificacionUsuario() {
+        return (calificacionUsuario == null ? 0 : calificacionUsuario);
+    }
+
+    public void setCalificacionUsuario(Short calificacionUsuario) {
+        if (calificacionUsuario == null) {
+            this.calificacionUsuario = 0;
+        } else {
+            this.calificacionUsuario = calificacionUsuario;
+        }
+    }
+
     public Short getCalificacionTransportador() {
         return (calificacionTransportador == null ? 0 : calificacionTransportador);
     }
@@ -221,16 +239,21 @@ public class Servicio implements Serializable {
         }
     }
 
-    public Short getCalificacionUsuario() {
-        return (calificacionUsuario == null ? 0 : calificacionUsuario);
+    public String getDetalle() {
+        return detalle;
     }
 
-    public void setCalificacionUsuario(Short calificacionUsuario) {
-        if (calificacionUsuario == null) {
-            this.calificacionUsuario = 0;
-        } else {
-            this.calificacionUsuario = calificacionUsuario;
-        }
+    public void setDetalle(String detalle) {
+        this.detalle = detalle;
+    }
+
+    @XmlTransient
+    public Collection<Conversacion> getConversaciones() {
+        return conversaciones;
+    }
+
+    public void setConversaciones(Collection<Conversacion> conversaciones) {
+        this.conversaciones = conversaciones;
     }
 
     @XmlTransient
@@ -264,7 +287,10 @@ public class Servicio implements Serializable {
             return false;
         }
         Servicio other = (Servicio) object;
-        return !((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id)));
+        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+            return false;
+        }
+        return true;
     }
 
     @Override
@@ -276,13 +302,4 @@ public class Servicio implements Serializable {
         Date today = new Date();
         return horaSalida.after(today) && horaLlegada.after(today);
     }
-
-    public String getDetalle() {
-        return detalle;
-    }
-
-    public void setDetalle(String detalle) {
-        this.detalle = detalle;
-    }
-    
 }

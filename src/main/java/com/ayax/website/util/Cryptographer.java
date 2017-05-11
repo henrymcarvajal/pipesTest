@@ -13,7 +13,7 @@ import javax.crypto.SecretKey;
 
 /**
  *
- * @author Mauris
+ * @author hmcarvajal@ayax.co
  */
 public class Cryptographer {
 

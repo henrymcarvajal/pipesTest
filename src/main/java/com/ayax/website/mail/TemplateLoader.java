@@ -12,7 +12,7 @@ import java.io.IOException;
 
 /**
  *
- * @author Mauris
+ * @author hmcarvajal@ayax.co
  */
 public class TemplateLoader {
     

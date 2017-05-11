@@ -35,7 +35,7 @@ import spark.Response;
 
 /**
  *
- * @author Mauris
+ * @author hmcarvajal@ayax.co
  */
 public class AdminOferta {
 
@@ -170,7 +170,7 @@ public class AdminOferta {
         Oferta oferta = of.buscarPorId(idOferta);
         if (oferta != null) {
 
-            Collection<Vehiculo> veh = oferta.getTransportador().getVehiculoCollection();
+            Collection<Vehiculo> veh = oferta.getTransportador().getVehiculos();
             Object[] lveh = veh.toArray();
             Vehiculo v = (Vehiculo) lveh[0];
 
@@ -280,7 +280,7 @@ public class AdminOferta {
                 q.setParameter("idTransportador", oferta.getTransportador().getId());
 
                 BigDecimal rep = (BigDecimal) q.getSingleResult();
-                oferta.getTransportador().setReputacion(rep.doubleValue());
+                oferta.getTransportador().setReputacion(rep);
 
                 tc.edit(oferta.getTransportador());
 

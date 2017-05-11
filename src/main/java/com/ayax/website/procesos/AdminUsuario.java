@@ -15,7 +15,7 @@ import javax.persistence.TypedQuery;
 
 /**
  *
- * @author Mauris
+ * @author hmcarvajal@ayax.co
  */
 public class AdminUsuario {
 

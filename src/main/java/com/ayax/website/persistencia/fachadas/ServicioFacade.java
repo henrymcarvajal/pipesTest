@@ -17,7 +17,7 @@ import javax.persistence.Query;
 
 /**
  *
- * @author Mauris
+ * @author hmcarvajal@ayax.co
  */
 public class ServicioFacade {
 
@@ -35,10 +35,10 @@ public class ServicioFacade {
         return servicio;
     }
 
-    public boolean crear(Servicio oferta) {
+    public boolean crear(Servicio servicio) {
         try {
             ServicioJpaController tc = new ServicioJpaController(EntityManagerFactoryBuilder.INSTANCE.build());
-            tc.create(oferta);
+            tc.create(servicio);
             return true;
         } catch (NonexistentEntityException | PreexistingEntityException ex) {
             return false;

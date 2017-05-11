@@ -13,7 +13,7 @@ import java.util.Map;
 
 /**
  *
- * @author Mauris
+ * @author hmcarvajal@ayax.co
  */
 public class MessageCreator {
 

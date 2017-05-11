@@ -20,7 +20,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author Mauris
+ * @author hmcarvajal@ayax.co
  */
 @Entity
 @Table(name = "l4_factura")
@@ -59,7 +59,6 @@ public class Factura implements Serializable {
     private String estadoTx;
     @Column(name = "generada")
     private Boolean generada;
-
     @JoinColumn(name = "id_transportador", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Transportador transportador;
@@ -175,4 +174,5 @@ public class Factura implements Serializable {
     public String toString() {
         return "com.ayax.website.persistencia.entidades.Factura[ id=" + id + " ]";
     }
+    
 }

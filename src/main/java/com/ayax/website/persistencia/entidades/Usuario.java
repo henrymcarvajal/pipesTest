@@ -6,6 +6,7 @@
 package com.ayax.website.persistencia.entidades;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.Collection;
 import java.util.Date;
@@ -25,7 +26,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author Mauris
+ * @author hmcarvajal@ayax.co
  */
 @Entity
 @Table(name = "l4_usuario")
@@ -40,32 +41,48 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Usuario.findByIdentificacion", query = "SELECT u FROM Usuario u WHERE u.identificacion = :identificacion"),
     @NamedQuery(name = "Usuario.findByInformacion", query = "SELECT u FROM Usuario u WHERE u.identificacion = :identificacion or u.buzonElectronico = :buzonElectronico"),
     @NamedQuery(name = "Usuario.findByTelefono", query = "SELECT u FROM Usuario u WHERE u.telefono = :telefono"),
-    @NamedQuery(name = "Usuario.findByEdad", query = "SELECT u FROM Usuario u WHERE u.edad = :edad")})
+    @NamedQuery(name = "Usuario.findByEdad", query = "SELECT u FROM Usuario u WHERE u.edad = :edad"),
+    @NamedQuery(name = "Usuario.findByReputacion", query = "SELECT u FROM Usuario u WHERE u.reputacion = :reputacion"),
+    @NamedQuery(name = "Usuario.findByServiciosCalificados", query = "SELECT u FROM Usuario u WHERE u.serviciosCalificados = :serviciosCalificados"),
+    @NamedQuery(name = "Usuario.findByServiciosCompletados", query = "SELECT u FROM Usuario u WHERE u.serviciosCompletados = :serviciosCompletados"),
+    @NamedQuery(name = "Usuario.findByFechaCreacion", query = "SELECT u FROM Usuario u WHERE u.fechaCreacion = :fechaCreacion"),
+    @NamedQuery(name = "Usuario.findByTipoUsuario", query = "SELECT u FROM Usuario u WHERE u.tipoUsuario = :tipoUsuario")})
 public class Usuario implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
+    @Column(name = "id")
     private String id;
+    @Column(name = "nombre")
     private String nombre;
     @Column(name = "buzon_electronico")
     private String buzonElectronico;
+    @Column(name = "empresa")
     private String empresa;
+    @Column(name = "identificacion")
     private BigInteger identificacion;
+    @Column(name = "telefono")
     private BigInteger telefono;
-    @Column(name = "tipo_usuario")
-    private String tipo_usuario;
+    @Column(name = "edad")
     private Short edad;
-    @Column(name = "servicios_completados")
-    private Short serviciosCompletados;
+    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
+    @Column(name = "reputacion")
+    private BigDecimal reputacion;
     @Column(name = "servicios_calificados")
     private Short serviciosCalificados;
+    @Column(name = "servicios_completados")
+    private Short serviciosCompletados;
     @Column(name = "fecha_creacion")
     @Temporal(TemporalType.TIMESTAMP)
     private Date fechaCreacion;
+    @Column(name = "tipo_usuario")
+    private String tipoUsuario;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuario")
     private Collection<Servicio> servicioCollection;
-    
+    @OneToMany(mappedBy = "usuario")
+    private Collection<Mensaje> mensajeCollection;
+
     public Usuario() {
     }
 
@@ -87,14 +104,6 @@ public class Usuario implements Serializable {
 
     public void setNombre(String nombre) {
         this.nombre = nombre;
-    }
-
-    public String getTipo_usuario() {
-        return tipo_usuario;
-    }
-
-    public void setTipo_usuario(String tipo_usuario) {
-        this.tipo_usuario = tipo_usuario;
     }
 
     public String getBuzonElectronico() {
@@ -137,15 +146,15 @@ public class Usuario implements Serializable {
         this.edad = edad;
     }
 
-    public Short getServiciosCompletados() {
-        return (serviciosCompletados == null ? 0 : serviciosCompletados);
+    public BigDecimal getReputacion() {
+        return (reputacion == null ? new BigDecimal(3.0) : reputacion);
     }
 
-    public void setServiciosCompletados(Short serviciosCompletados) {
-        if (serviciosCompletados == null) {
-            this.serviciosCompletados = 0;
+    public void setReputacion(BigDecimal reputacion) {
+        if (reputacion == null) {
+            this.reputacion = new BigDecimal(3.0);
         } else {
-            this.serviciosCompletados = serviciosCompletados;
+            this.reputacion = reputacion;
         }
     }
 
@@ -161,12 +170,32 @@ public class Usuario implements Serializable {
         }
     }
 
+    public Short getServiciosCompletados() {
+        return (serviciosCompletados == null ? 0 : serviciosCompletados);
+    }
+
+    public void setServiciosCompletados(Short serviciosCompletados) {
+        if (serviciosCompletados == null) {
+            this.serviciosCompletados = 0;
+        } else {
+            this.serviciosCompletados = serviciosCompletados;
+        }
+    }
+
     public Date getFechaCreacion() {
         return fechaCreacion;
     }
 
     public void setFechaCreacion(Date fechaCreacion) {
         this.fechaCreacion = fechaCreacion;
+    }
+
+    public String getTipoUsuario() {
+        return tipoUsuario;
+    }
+
+    public void setTipoUsuario(String tipoUsuario) {
+        this.tipoUsuario = tipoUsuario;
     }
 
     @XmlTransient
@@ -176,6 +205,15 @@ public class Usuario implements Serializable {
 
     public void setServicioCollection(Collection<Servicio> servicioCollection) {
         this.servicioCollection = servicioCollection;
+    }
+
+    @XmlTransient
+    public Collection<Mensaje> getMensajeCollection() {
+        return mensajeCollection;
+    }
+
+    public void setMensajeCollection(Collection<Mensaje> mensajeCollection) {
+        this.mensajeCollection = mensajeCollection;
     }
 
     @Override
@@ -202,4 +240,5 @@ public class Usuario implements Serializable {
     public String toString() {
         return "com.ayax.website.persistencia.entidades.Usuario[ id=" + id + " ]";
     }
+    
 }

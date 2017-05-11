@@ -11,6 +11,8 @@
     <class>com.ayax.website.persistencia.entidades.Usuario</class>
     <class>com.ayax.website.persistencia.entidades.Vehiculo</class>
     <class>com.ayax.website.persistencia.entidades.admin.AdminUsuario</class>
+    <class>com.ayax.website.persistencia.entidades.Mensaje</class>
+    <class>com.ayax.website.persistencia.entidades.Conversacion</class>
     <properties>
       <property name="eclipselink.logging.level" value="FINE"/>
       <!--

@@ -10,7 +10,7 @@ import java.util.Random;
 
 /**
  *
- * @author Mauris
+ * @author hmcarvajal@ayax.co
  */
 public class GeneradorTiquetes {
 

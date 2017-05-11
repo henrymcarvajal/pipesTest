@@ -6,6 +6,8 @@
 package com.ayax.website.persistencia.entidades;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.Collection;
 import java.util.Date;
 import javax.persistence.Basic;
@@ -24,7 +26,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author Mauris
+ * @author hmcarvajal@ayax.co
  */
 @Entity
 @Table(name = "l4_transportador")
@@ -33,13 +35,20 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Transportador.findAll", query = "SELECT t FROM Transportador t"),
     @NamedQuery(name = "Transportador.findById", query = "SELECT t FROM Transportador t WHERE t.id = :id"),
     @NamedQuery(name = "Transportador.findByNombres", query = "SELECT t FROM Transportador t WHERE t.nombres = :nombres"),
-    @NamedQuery(name = "Transportador.findByApellidos", query = "SELECT t FROM Transportador t WHERE t.apellidos = :apellidos"),
     @NamedQuery(name = "Transportador.findByBuzonElectronico", query = "SELECT t FROM Transportador t WHERE t.buzonElectronico = :buzonElectronico"),
-    @NamedQuery(name = "Transportador.findByBuzonElectronicoONumeroContacto", query = "SELECT t FROM Transportador t WHERE t.buzonElectronico = :buzonElectronico OR t.numeroContacto = :numeroContacto"),
-    @NamedQuery(name = "Transportador.findByNumeroContacto", query = "SELECT t FROM Transportador t WHERE t.numeroContacto = :numeroContacto"),
-    @NamedQuery(name = "Transportador.findByContrasena", query = "SELECT t FROM Transportador t WHERE t.contrasena = :contrasena"),
     @NamedQuery(name = "Transportador.findByBuzonElectronicoYContrasena", query = "SELECT t FROM Transportador t WHERE t.buzonElectronico = :buzonElectronico AND t.contrasena = :contrasena"),
-    @NamedQuery(name = "Transportador.findByCredito", query = "SELECT t FROM Transportador t WHERE t.credito = :credito")})
+    @NamedQuery(name = "Transportador.findByBuzonElectronicoONumeroContacto", query = "SELECT t FROM Transportador t WHERE t.buzonElectronico = :buzonElectronico OR t.numeroContacto = :numeroContacto"),
+    @NamedQuery(name = "Transportador.findByContrasena", query = "SELECT t FROM Transportador t WHERE t.contrasena = :contrasena"),
+    @NamedQuery(name = "Transportador.findByCredito", query = "SELECT t FROM Transportador t WHERE t.credito = :credito"),
+    @NamedQuery(name = "Transportador.findByServiciosAtendidos", query = "SELECT t FROM Transportador t WHERE t.serviciosAtendidos = :serviciosAtendidos"),
+    @NamedQuery(name = "Transportador.findByNumeroContacto", query = "SELECT t FROM Transportador t WHERE t.numeroContacto = :numeroContacto"),
+    @NamedQuery(name = "Transportador.findByFechaCreacion", query = "SELECT t FROM Transportador t WHERE t.fechaCreacion = :fechaCreacion"),
+    @NamedQuery(name = "Transportador.findByNumeroIdentificacion", query = "SELECT t FROM Transportador t WHERE t.numeroIdentificacion = :numeroIdentificacion"),
+    @NamedQuery(name = "Transportador.findByTipoIdentificacion", query = "SELECT t FROM Transportador t WHERE t.tipoIdentificacion = :tipoIdentificacion"),
+    @NamedQuery(name = "Transportador.findByApellidos", query = "SELECT t FROM Transportador t WHERE t.apellidos = :apellidos"),
+    @NamedQuery(name = "Transportador.findByReputacion", query = "SELECT t FROM Transportador t WHERE t.reputacion = :reputacion"),
+    @NamedQuery(name = "Transportador.findByServiciosCalificados", query = "SELECT t FROM Transportador t WHERE t.serviciosCalificados = :serviciosCalificados"),
+    @NamedQuery(name = "Transportador.findByEstadoRegistro", query = "SELECT t FROM Transportador t WHERE t.estadoRegistro = :estadoRegistro")})
 public class Transportador implements Serializable {
 
     public static final String ESTADO_REGISTRO_EXITOSO = "0";
@@ -49,54 +58,46 @@ public class Transportador implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
+    @Column(name = "id")
     private String id;
+    @Column(name = "nombres")
     private String nombres;
-    private String apellidos;
     @Column(name = "buzon_electronico")
     private String buzonElectronico;
+    @Column(name = "contrasena")
     private String contrasena;
+    @Column(name = "credito")
     private Integer credito;
-    @Column(name = "numero_contacto")
-    private Long numeroContacto;
-    @Column(name = "numero_identificacion")
-    private Long numeroIdentificacion;
     @Column(name = "servicios_atendidos")
     private Short serviciosAtendidos;
-    @Column(name = "servicios_calificados")
-    private Short serviciosCalificados;
+    @Column(name = "numero_contacto")
+    private BigInteger numeroContacto;
     @Column(name = "fecha_creacion")
     @Temporal(TemporalType.TIMESTAMP)
     private Date fechaCreacion;
+    @Column(name = "numero_identificacion")
+    private BigInteger numeroIdentificacion;
     @Column(name = "tipo_identificacion")
     private String tipoIdentificacion;
+    @Column(name = "apellidos")
+    private String apellidos;
+    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
+    @Column(name = "reputacion")
+    private BigDecimal reputacion;
+    @Column(name = "servicios_calificados")
+    private Short serviciosCalificados;
     @Column(name = "estado_registro")
     private String estadoRegistro;
-
-    public String getEstadoRegistro() {
-        return estadoRegistro;
-    }
-
-    public void setEstadoRegistro(String estadoRegistro) {
-        this.estadoRegistro = estadoRegistro;
-    }
-
-    public Collection<Factura> getFacturaCollection() {
-        return facturaCollection;
-    }
-
-    public void setFacturaCollection(Collection<Factura> facturaCollection) {
-        this.facturaCollection = facturaCollection;
-    }
-    private Double reputacion;
-
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "transportador")
-    private Collection<Vehiculo> vehiculoCollection;
-
+    private Collection<Vehiculo> vehiculos;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "transportador")
-    private Collection<Oferta> ofertaCollection;
-
+    private Collection<Conversacion> conversaciones;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "transportador")
-    private Collection<Factura> facturaCollection;
+    private Collection<Oferta> ofertas;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "transportador")
+    private Collection<Factura> facturas;
+    @OneToMany(mappedBy = "transportador")
+    private Collection<Mensaje> mensajes;
 
     public Transportador() {
     }
@@ -119,14 +120,6 @@ public class Transportador implements Serializable {
 
     public void setNombres(String nombres) {
         this.nombres = nombres;
-    }
-
-    public String getApellidos() {
-        return apellidos;
-    }
-
-    public void setApellidos(String apellidos) {
-        this.apellidos = apellidos;
     }
 
     public String getBuzonElectronico() {
@@ -157,14 +150,6 @@ public class Transportador implements Serializable {
         }
     }
 
-    public Long getNumeroContacto() {
-        return numeroContacto;
-    }
-
-    public void setNumeroContacto(Long numeroContacto) {
-        this.numeroContacto = numeroContacto;
-    }
-
     public Short getServiciosAtendidos() {
         return (serviciosAtendidos == null ? 0 : serviciosAtendidos);
     }
@@ -175,6 +160,54 @@ public class Transportador implements Serializable {
         } else {
             this.serviciosAtendidos = serviciosAtendidos;
         }
+    }
+
+    public BigInteger getNumeroContacto() {
+        return numeroContacto;
+    }
+
+    public void setNumeroContacto(BigInteger numeroContacto) {
+        this.numeroContacto = numeroContacto;
+    }
+
+    public Date getFechaCreacion() {
+        return fechaCreacion;
+    }
+
+    public void setFechaCreacion(Date fechaCreacion) {
+        this.fechaCreacion = fechaCreacion;
+    }
+
+    public BigInteger getNumeroIdentificacion() {
+        return numeroIdentificacion;
+    }
+
+    public void setNumeroIdentificacion(BigInteger numeroIdentificacion) {
+        this.numeroIdentificacion = numeroIdentificacion;
+    }
+
+    public String getTipoIdentificacion() {
+        return tipoIdentificacion;
+    }
+
+    public void setTipoIdentificacion(String tipoIdentificacion) {
+        this.tipoIdentificacion = tipoIdentificacion;
+    }
+
+    public String getApellidos() {
+        return apellidos;
+    }
+
+    public void setApellidos(String apellidos) {
+        this.apellidos = apellidos;
+    }
+
+    public BigDecimal getReputacion() {
+        return reputacion;
+    }
+
+    public void setReputacion(BigDecimal reputacion) {
+        this.reputacion = reputacion;
     }
 
     public Short getServiciosCalificados() {
@@ -189,71 +222,57 @@ public class Transportador implements Serializable {
         }
     }
 
-    public Date getFechaCreacion() {
-        return fechaCreacion;
+    public String getEstadoRegistro() {
+        return estadoRegistro;
     }
 
-    public void setFechaCreacion(Date fechaCreacion) {
-        this.fechaCreacion = fechaCreacion;
-    }
-
-    /**
-     * @return the numeroIdentificacion
-     */
-    public Long getNumeroIdentificacion() {
-        return numeroIdentificacion;
-    }
-
-    /**
-     * @param numeroIdentificacion the numeroIdentificacion to set
-     */
-    public void setNumeroIdentificacion(Long numeroIdentificacion) {
-        this.numeroIdentificacion = numeroIdentificacion;
-    }
-
-    /**
-     * @return the tipoIdentificacion
-     */
-    public String getTipoIdentificacion() {
-        return tipoIdentificacion;
-    }
-
-    /**
-     * @param tipoIdentificacion the tipoIdentificacion to set
-     */
-    public void setTipoIdentificacion(String tipoIdentificacion) {
-        this.tipoIdentificacion = tipoIdentificacion;
-    }
-
-    public Double getReputacion() {
-        return reputacion;
-    }
-
-    public void setReputacion(Double reputacion) {
-        this.reputacion = reputacion;
+    public void setEstadoRegistro(String estadoRegistro) {
+        this.estadoRegistro = estadoRegistro;
     }
 
     @XmlTransient
-    public Collection<Oferta> getOfertaCollection() {
-        return ofertaCollection;
+    public Collection<Vehiculo> getVehiculos() {
+        return vehiculos;
     }
 
-    public void setOfertaCollection(Collection<Oferta> ofertaCollection) {
-        this.ofertaCollection = ofertaCollection;
-    }
-
-    @XmlTransient
-    public Collection<Vehiculo> getVehiculoCollection() {
-        return vehiculoCollection;
-    }
-
-    public void setVehiculoCollection(Collection<Vehiculo> vehiculoCollection) {
-        this.vehiculoCollection = vehiculoCollection;
+    public void setVehiculos(Collection<Vehiculo> vehiculos) {
+        this.vehiculos = vehiculos;
     }
 
     @XmlTransient
-    public String getNumeroFactura() {
-        return tipoIdentificacion + "-" + numeroIdentificacion + "-" + System.currentTimeMillis();
+    public Collection<Conversacion> getConversaciones() {
+        return conversaciones;
+    }
+
+    public void setConversaciones(Collection<Conversacion> conversaciones) {
+        this.conversaciones = conversaciones;
+    }
+
+    @XmlTransient
+    public Collection<Oferta> getOfertas() {
+        return ofertas;
+    }
+
+    public void setOfertas(Collection<Oferta> ofertas) {
+        this.ofertas = ofertas;
+    }
+
+    @XmlTransient
+    public Collection<Factura> getFacturas() {
+        return facturas;
+    }
+
+    public void setFacturas(Collection<Factura> facturas) {
+        this.facturas = facturas;
+    }
+
+    @XmlTransient
+    public Collection<Mensaje> getMensajes() {
+        return mensajes;
+    }
+
+    public void setMensajes(Collection<Mensaje> mensajes) {
+        this.mensajes = mensajes;
     }
 
     @Override
@@ -270,12 +289,19 @@ public class Transportador implements Serializable {
             return false;
         }
         Transportador other = (Transportador) object;
-        return !((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id)));
+        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+            return false;
+        }
+        return true;
     }
 
     @Override
     public String toString() {
         return "com.ayax.website.persistencia.entidades.Transportador[ id=" + id + " ]";
+    }
+
+    public String getNumeroFactura() {
+        return tipoIdentificacion + "-" + numeroIdentificacion + "-" + System.currentTimeMillis();
     }
 
     public TransportadorDTO toDTO() {

@@ -20,7 +20,7 @@ import javax.persistence.criteria.Root;
 
 /**
  *
- * @author Mauris
+ * @author hmcarvajal@ayax.co
  */
 public class VehiculoJpaController implements Serializable {
 
@@ -45,7 +45,7 @@ public class VehiculoJpaController implements Serializable {
             }
             em.persist(vehiculo);
             if (transportador != null) {
-                transportador.getVehiculoCollection().add(vehiculo);
+                transportador.getVehiculos().add(vehiculo);
                 transportador = em.merge(transportador);
             }
             em.getTransaction().commit();
@@ -75,11 +75,11 @@ public class VehiculoJpaController implements Serializable {
             }
             vehiculo = em.merge(vehiculo);
             if (transportadorOld != null && !transportadorOld.equals(transportadorNew)) {
-                transportadorOld.getVehiculoCollection().remove(vehiculo);
+                transportadorOld.getVehiculos().remove(vehiculo);
                 transportadorOld = em.merge(transportadorOld);
             }
             if (transportadorNew != null && !transportadorNew.equals(transportadorOld)) {
-                transportadorNew.getVehiculoCollection().add(vehiculo);
+                transportadorNew.getVehiculos().add(vehiculo);
                 transportadorNew = em.merge(transportadorNew);
             }
             em.getTransaction().commit();
@@ -113,7 +113,7 @@ public class VehiculoJpaController implements Serializable {
             }
             Transportador transportador = vehiculo.getTransportador();
             if (transportador != null) {
-                transportador.getVehiculoCollection().remove(vehiculo);
+                transportador.getVehiculos().remove(vehiculo);
                 transportador = em.merge(transportador);
             }
             em.remove(vehiculo);

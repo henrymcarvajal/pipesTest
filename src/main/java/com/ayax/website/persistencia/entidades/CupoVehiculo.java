@@ -8,6 +8,7 @@ package com.ayax.website.persistencia.entidades;
 import java.io.Serializable;
 import javax.persistence.Basic;
 import javax.persistence.Cacheable;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
@@ -17,22 +18,30 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author Mauris
+ * @author hmcarvajal@ayax.co
  */
 @Entity
 @Table(name = "l4_cupo_x_vehiculo")
 @Cacheable
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "CupoVehiculo.findAll", query = "SELECT c FROM CupoVehiculo c")})
+    @NamedQuery(name = "CupoVehiculo.findAll", query = "SELECT c FROM CupoVehiculo c"),
+    @NamedQuery(name = "CupoVehiculo.findById", query = "SELECT c FROM CupoVehiculo c WHERE c.id = :id"),
+    @NamedQuery(name = "CupoVehiculo.findByTamano", query = "SELECT c FROM CupoVehiculo c WHERE c.tamano = :tamano"),
+    @NamedQuery(name = "CupoVehiculo.findByMinimo", query = "SELECT c FROM CupoVehiculo c WHERE c.minimo = :minimo"),
+    @NamedQuery(name = "CupoVehiculo.findByMaximo", query = "SELECT c FROM CupoVehiculo c WHERE c.maximo = :maximo")})
 public class CupoVehiculo implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
+    @Column(name = "id")
     private String id;
+    @Column(name = "tamano")
     private String tamano;
+    @Column(name = "minimo")
     private Short minimo;
+    @Column(name = "maximo")
     private Short maximo;
 
     public CupoVehiculo() {
@@ -88,6 +97,15 @@ public class CupoVehiculo implements Serializable {
             return false;
         }
         CupoVehiculo other = (CupoVehiculo) object;
-        return !((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id)));
+        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+            return false;
+        }
+        return true;
     }
+
+    @Override
+    public String toString() {
+        return "com.ayax.website.persistencia.entidades.CupoVehiculo[ id=" + id + " ]";
+    }
+    
 }

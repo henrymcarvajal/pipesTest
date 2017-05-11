@@ -12,7 +12,7 @@ import java.util.logging.Logger;
 
 /**
  *
- * @author Mauris
+ * @author hmcarvajal@ayax.co
  */
 public class Encriptador {
 

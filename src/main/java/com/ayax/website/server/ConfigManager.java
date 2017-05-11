@@ -7,7 +7,7 @@ package com.ayax.website.server;
 
 /**
  *
- * @author Mauris
+ * @author hmcarvajal@ayax.co
  */
 public enum ConfigManager {
 

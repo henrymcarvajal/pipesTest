@@ -5,25 +5,26 @@
  */
 package com.ayax.website.persistencia.fachadas;
 
-import com.ayax.website.persistencia.entidades.Servicio;
-import com.ayax.website.persistencia.entidades.Usuario;
-import com.ayax.website.persistencia.fachadas.exceptions.IllegalOrphanException;
-import com.ayax.website.persistencia.fachadas.exceptions.NonexistentEntityException;
-import com.ayax.website.persistencia.fachadas.exceptions.PreexistingEntityException;
 import java.io.Serializable;
 import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
+import com.ayax.website.persistencia.entidades.Servicio;
 import java.util.ArrayList;
 import java.util.Collection;
+import com.ayax.website.persistencia.entidades.Mensaje;
+import com.ayax.website.persistencia.entidades.Usuario;
+import com.ayax.website.persistencia.fachadas.exceptions.IllegalOrphanException;
+import com.ayax.website.persistencia.fachadas.exceptions.NonexistentEntityException;
+import com.ayax.website.persistencia.fachadas.exceptions.PreexistingEntityException;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 
 /**
  *
- * @author Mauris
+ * @author hmcarvajal@ayax.co
  */
 public class UsuarioJpaController implements Serializable {
 
@@ -40,6 +41,9 @@ public class UsuarioJpaController implements Serializable {
         if (usuario.getServicioCollection() == null) {
             usuario.setServicioCollection(new ArrayList<Servicio>());
         }
+        if (usuario.getMensajeCollection() == null) {
+            usuario.setMensajeCollection(new ArrayList<Mensaje>());
+        }
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -50,6 +54,12 @@ public class UsuarioJpaController implements Serializable {
                 attachedServicioCollection.add(servicioCollectionServicioToAttach);
             }
             usuario.setServicioCollection(attachedServicioCollection);
+            Collection<Mensaje> attachedMensajeCollection = new ArrayList<Mensaje>();
+            for (Mensaje mensajeCollectionMensajeToAttach : usuario.getMensajeCollection()) {
+                mensajeCollectionMensajeToAttach = em.getReference(mensajeCollectionMensajeToAttach.getClass(), mensajeCollectionMensajeToAttach.getId());
+                attachedMensajeCollection.add(mensajeCollectionMensajeToAttach);
+            }
+            usuario.setMensajeCollection(attachedMensajeCollection);
             em.persist(usuario);
             for (Servicio servicioCollectionServicio : usuario.getServicioCollection()) {
                 Usuario oldUsuarioOfServicioCollectionServicio = servicioCollectionServicio.getUsuario();
@@ -58,6 +68,15 @@ public class UsuarioJpaController implements Serializable {
                 if (oldUsuarioOfServicioCollectionServicio != null) {
                     oldUsuarioOfServicioCollectionServicio.getServicioCollection().remove(servicioCollectionServicio);
                     oldUsuarioOfServicioCollectionServicio = em.merge(oldUsuarioOfServicioCollectionServicio);
+                }
+            }
+            for (Mensaje mensajeCollectionMensaje : usuario.getMensajeCollection()) {
+                Usuario oldUsuarioOfMensajeCollectionMensaje = mensajeCollectionMensaje.getUsuario();
+                mensajeCollectionMensaje.setUsuario(usuario);
+                mensajeCollectionMensaje = em.merge(mensajeCollectionMensaje);
+                if (oldUsuarioOfMensajeCollectionMensaje != null) {
+                    oldUsuarioOfMensajeCollectionMensaje.getMensajeCollection().remove(mensajeCollectionMensaje);
+                    oldUsuarioOfMensajeCollectionMensaje = em.merge(oldUsuarioOfMensajeCollectionMensaje);
                 }
             }
             em.getTransaction().commit();
@@ -81,6 +100,8 @@ public class UsuarioJpaController implements Serializable {
             Usuario persistentUsuario = em.find(Usuario.class, usuario.getId());
             Collection<Servicio> servicioCollectionOld = persistentUsuario.getServicioCollection();
             Collection<Servicio> servicioCollectionNew = usuario.getServicioCollection();
+            Collection<Mensaje> mensajeCollectionOld = persistentUsuario.getMensajeCollection();
+            Collection<Mensaje> mensajeCollectionNew = usuario.getMensajeCollection();
             List<String> illegalOrphanMessages = null;
             for (Servicio servicioCollectionOldServicio : servicioCollectionOld) {
                 if (!servicioCollectionNew.contains(servicioCollectionOldServicio)) {
@@ -100,6 +121,13 @@ public class UsuarioJpaController implements Serializable {
             }
             servicioCollectionNew = attachedServicioCollectionNew;
             usuario.setServicioCollection(servicioCollectionNew);
+            Collection<Mensaje> attachedMensajeCollectionNew = new ArrayList<Mensaje>();
+            for (Mensaje mensajeCollectionNewMensajeToAttach : mensajeCollectionNew) {
+                mensajeCollectionNewMensajeToAttach = em.getReference(mensajeCollectionNewMensajeToAttach.getClass(), mensajeCollectionNewMensajeToAttach.getId());
+                attachedMensajeCollectionNew.add(mensajeCollectionNewMensajeToAttach);
+            }
+            mensajeCollectionNew = attachedMensajeCollectionNew;
+            usuario.setMensajeCollection(mensajeCollectionNew);
             usuario = em.merge(usuario);
             for (Servicio servicioCollectionNewServicio : servicioCollectionNew) {
                 if (!servicioCollectionOld.contains(servicioCollectionNewServicio)) {
@@ -109,6 +137,23 @@ public class UsuarioJpaController implements Serializable {
                     if (oldUsuarioOfServicioCollectionNewServicio != null && !oldUsuarioOfServicioCollectionNewServicio.equals(usuario)) {
                         oldUsuarioOfServicioCollectionNewServicio.getServicioCollection().remove(servicioCollectionNewServicio);
                         oldUsuarioOfServicioCollectionNewServicio = em.merge(oldUsuarioOfServicioCollectionNewServicio);
+                    }
+                }
+            }
+            for (Mensaje mensajeCollectionOldMensaje : mensajeCollectionOld) {
+                if (!mensajeCollectionNew.contains(mensajeCollectionOldMensaje)) {
+                    mensajeCollectionOldMensaje.setUsuario(null);
+                    mensajeCollectionOldMensaje = em.merge(mensajeCollectionOldMensaje);
+                }
+            }
+            for (Mensaje mensajeCollectionNewMensaje : mensajeCollectionNew) {
+                if (!mensajeCollectionOld.contains(mensajeCollectionNewMensaje)) {
+                    Usuario oldUsuarioOfMensajeCollectionNewMensaje = mensajeCollectionNewMensaje.getUsuario();
+                    mensajeCollectionNewMensaje.setUsuario(usuario);
+                    mensajeCollectionNewMensaje = em.merge(mensajeCollectionNewMensaje);
+                    if (oldUsuarioOfMensajeCollectionNewMensaje != null && !oldUsuarioOfMensajeCollectionNewMensaje.equals(usuario)) {
+                        oldUsuarioOfMensajeCollectionNewMensaje.getMensajeCollection().remove(mensajeCollectionNewMensaje);
+                        oldUsuarioOfMensajeCollectionNewMensaje = em.merge(oldUsuarioOfMensajeCollectionNewMensaje);
                     }
                 }
             }
@@ -151,6 +196,11 @@ public class UsuarioJpaController implements Serializable {
             }
             if (illegalOrphanMessages != null) {
                 throw new IllegalOrphanException(illegalOrphanMessages);
+            }
+            Collection<Mensaje> mensajeCollection = usuario.getMensajeCollection();
+            for (Mensaje mensajeCollectionMensaje : mensajeCollection) {
+                mensajeCollectionMensaje.setUsuario(null);
+                mensajeCollectionMensaje = em.merge(mensajeCollectionMensaje);
             }
             em.remove(usuario);
             em.getTransaction().commit();

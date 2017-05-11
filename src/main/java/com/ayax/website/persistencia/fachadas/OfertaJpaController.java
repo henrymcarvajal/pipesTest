@@ -21,7 +21,7 @@ import javax.persistence.criteria.Root;
 
 /**
  *
- * @author Mauris
+ * @author hmcarvajal@ayax.co
  */
 public class OfertaJpaController implements Serializable {
 
@@ -55,7 +55,7 @@ public class OfertaJpaController implements Serializable {
                 servicio = em.merge(servicio);
             }
             if (transportador != null) {
-                transportador.getOfertaCollection().add(oferta);
+                transportador.getOfertas().add(oferta);
                 transportador = em.merge(transportador);
             }
             em.getTransaction().commit();
@@ -99,11 +99,11 @@ public class OfertaJpaController implements Serializable {
                 servicioNew = em.merge(servicioNew);
             }
             if (transportadorOld != null && !transportadorOld.equals(transportadorNew)) {
-                transportadorOld.getOfertaCollection().remove(oferta);
+                transportadorOld.getOfertas().remove(oferta);
                 transportadorOld = em.merge(transportadorOld);
             }
             if (transportadorNew != null && !transportadorNew.equals(transportadorOld)) {
-                transportadorNew.getOfertaCollection().add(oferta);
+                transportadorNew.getOfertas().add(oferta);
                 transportadorNew = em.merge(transportadorNew);
             }
             em.getTransaction().commit();
@@ -142,7 +142,7 @@ public class OfertaJpaController implements Serializable {
             }
             Transportador transportador = oferta.getTransportador();
             if (transportador != null) {
-                transportador.getOfertaCollection().remove(oferta);
+                transportador.getOfertas().remove(oferta);
                 transportador = em.merge(transportador);
             }
             em.remove(oferta);

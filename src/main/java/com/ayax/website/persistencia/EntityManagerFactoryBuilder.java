@@ -14,7 +14,7 @@ import javax.persistence.Persistence;
 
 /**
  *
- * @author Mauris
+ * @author hmcarvajal@ayax.co
  */
 public enum EntityManagerFactoryBuilder {
     

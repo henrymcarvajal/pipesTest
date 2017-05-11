@@ -24,7 +24,7 @@ import spark.Response;
 
 /**
  *
- * @author Mauris
+ * @author hmcarvajal@ayax.co
  */
 public class AdminCuenta {
 
@@ -35,7 +35,7 @@ public class AdminCuenta {
 
         String monto = req.queryParams("monto");
         Transportador transportador = (Transportador) req.session().attribute("usuario");
-        Collection<Vehiculo> veh = transportador.getVehiculoCollection();
+        Collection<Vehiculo> veh = transportador.getVehiculos();
         Object[] lveh = veh.toArray();
         Vehiculo v = (Vehiculo) lveh[0];
         

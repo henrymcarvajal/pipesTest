@@ -29,17 +29,26 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author Mauris
+ * @author hmcarvajal@ayax.co
  */
 @Entity
 @Table(name = "l4_vehiculo")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Vehiculo.findAll", query = "SELECT l FROM Vehiculo l"),
-    @NamedQuery(name = "Vehiculo.findById", query = "SELECT l FROM Vehiculo l WHERE l.id = :id"),
-    @NamedQuery(name = "Vehiculo.findByPlaca", query = "SELECT l FROM Vehiculo l WHERE UPPER(l.placa) = UPPER(:placa)"),
-    @NamedQuery(name = "Vehiculo.findByNumeroPasajeros", query = "SELECT l FROM Vehiculo l WHERE l.numeroPasajeros BETWEEN :numeroPasajerosMinimo AND :numeroPasajerosMaximo"),
-    @NamedQuery(name = "Vehiculo.findByCiudad", query = "SELECT l FROM Vehiculo l WHERE l.ciudad = :ciudad")})
+    @NamedQuery(name = "Vehiculo.findAll", query = "SELECT v FROM Vehiculo v"),
+    @NamedQuery(name = "Vehiculo.findById", query = "SELECT v FROM Vehiculo v WHERE v.id = :id"),
+    @NamedQuery(name = "Vehiculo.findByPlaca", query = "SELECT v FROM Vehiculo v WHERE v.placa = :placa"),
+    @NamedQuery(name = "Vehiculo.findByNumeroPasajeros", query = "SELECT v FROM Vehiculo v WHERE v.numeroPasajeros = :numeroPasajeros"),
+    @NamedQuery(name = "Vehiculo.findByCiudad", query = "SELECT v FROM Vehiculo v WHERE v.ciudad = :ciudad"),
+    @NamedQuery(name = "Vehiculo.findByFechaCreacion", query = "SELECT v FROM Vehiculo v WHERE v.fechaCreacion = :fechaCreacion"),
+    @NamedQuery(name = "Vehiculo.findByMarca", query = "SELECT v FROM Vehiculo v WHERE v.marca = :marca"),
+    @NamedQuery(name = "Vehiculo.findByModelo", query = "SELECT v FROM Vehiculo v WHERE v.modelo = :modelo"),
+    @NamedQuery(name = "Vehiculo.findByAcondicionado", query = "SELECT v FROM Vehiculo v WHERE v.acondicionado = :acondicionado"),
+    @NamedQuery(name = "Vehiculo.findByFechaVenSoat", query = "SELECT v FROM Vehiculo v WHERE v.fechaVenSoat = :fechaVenSoat"),
+    @NamedQuery(name = "Vehiculo.findByFechaVenTecnome", query = "SELECT v FROM Vehiculo v WHERE v.fechaVenTecnome = :fechaVenTecnome"),
+    @NamedQuery(name = "Vehiculo.findByFechaVenScontractual", query = "SELECT v FROM Vehiculo v WHERE v.fechaVenScontractual = :fechaVenScontractual"),
+    @NamedQuery(name = "Vehiculo.findByFechaVenSecontractual", query = "SELECT v FROM Vehiculo v WHERE v.fechaVenSecontractual = :fechaVenSecontractual"),
+    @NamedQuery(name = "Vehiculo.findByFechaVenToperacion", query = "SELECT v FROM Vehiculo v WHERE v.fechaVenToperacion = :fechaVenToperacion")})
 public class Vehiculo implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -53,18 +62,15 @@ public class Vehiculo implements Serializable {
     private String numeroPasajeros;
     @Column(name = "ciudad")
     private String ciudad;
-    @Column(name = "marca")
-    private String marca;
-    @Column(name = "modelo")
-    private String modelo;
-    @Column(name = "acondicionado")
-    private Boolean acondicionado;
     @Lob
     @Column(name = "soat")
     private byte[] soat;
     @Lob
     @Column(name = "revision_tecnomecanica")
     private byte[] revisionTecnomecanica;
+    @Column(name = "fecha_creacion")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date fechaCreacion;
     @Lob
     @Column(name = "seguro_contractual")
     private byte[] seguroContractual;
@@ -77,13 +83,12 @@ public class Vehiculo implements Serializable {
     @Lob
     @Column(name = "foto_vehiculo")
     private byte[] fotoVehiculo;
-    @Lob
-    @Column(name = "tarjeta_operacion")
-    private byte[] tarjetaOperacion;
-    @Column(name = "fecha_creacion")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date fechaCreacion;
-
+    @Column(name = "marca")
+    private String marca;
+    @Column(name = "modelo")
+    private String modelo;
+    @Column(name = "acondicionado")
+    private Boolean acondicionado;
     @Column(name = "fecha_ven_soat")
     @Temporal(TemporalType.TIMESTAMP)
     private Date fechaVencimientoSoat;
@@ -99,7 +104,9 @@ public class Vehiculo implements Serializable {
     @Column(name = "fecha_ven_toperacion")
     @Temporal(TemporalType.TIMESTAMP)
     private Date fechaVencimientoToperacion;
-
+    @Lob
+    @Column(name = "tarjeta_operacion")
+    private byte[] tarjetaOperacion;
     @JoinColumn(name = "id_transportador", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Transportador transportador;
@@ -111,22 +118,6 @@ public class Vehiculo implements Serializable {
         this.id = id;
     }
 
-    public String getCiudad() {
-        return ciudad;
-    }
-
-    public void setCiudad(String ciudad) {
-        this.ciudad = ciudad;
-    }
-
-    public Date getFechaCreacion() {
-        return fechaCreacion;
-    }
-
-    public void setFechaCreacion(Date fechaCreacion) {
-        this.fechaCreacion = fechaCreacion;
-    }
-
     public String getId() {
         return id;
     }
@@ -135,20 +126,12 @@ public class Vehiculo implements Serializable {
         this.id = id;
     }
 
-    public String getMarca() {
-        return marca;
+    public String getPlaca() {
+        return placa;
     }
 
-    public void setMarca(String marca) {
-        this.marca = marca;
-    }
-
-    public String getModelo() {
-        return modelo;
-    }
-
-    public void setModelo(String modelo) {
-        this.modelo = modelo;
+    public void setPlaca(String placa) {
+        this.placa = placa;
     }
 
     public String getNumeroPasajeros() {
@@ -159,12 +142,12 @@ public class Vehiculo implements Serializable {
         this.numeroPasajeros = numeroPasajeros;
     }
 
-    public String getPlaca() {
-        return placa;
+    public String getCiudad() {
+        return ciudad;
     }
 
-    public void setPlaca(String placa) {
-        this.placa = placa;
+    public void setCiudad(String ciudad) {
+        this.ciudad = ciudad;
     }
 
     public byte[] getSoat() {
@@ -183,12 +166,12 @@ public class Vehiculo implements Serializable {
         this.revisionTecnomecanica = revisionTecnomecanica;
     }
 
-    public Transportador getTransportador() {
-        return transportador;
+    public Date getFechaCreacion() {
+        return fechaCreacion;
     }
 
-    public void setTransportador(Transportador transportador) {
-        this.transportador = transportador;
+    public void setFechaCreacion(Date fechaCreacion) {
+        this.fechaCreacion = fechaCreacion;
     }
 
     public byte[] getSeguroContractual() {
@@ -215,20 +198,28 @@ public class Vehiculo implements Serializable {
         this.tarjetaPropiedad = tarjetaPropiedad;
     }
 
-    public byte[] getTarjetaOperacion() {
-        return tarjetaOperacion;
-    }
-
-    public void setTarjetaOperacion(byte[] tarjetaOperacion) {
-        this.tarjetaOperacion = tarjetaOperacion;
-    }
-
     public byte[] getFotoVehiculo() {
         return fotoVehiculo;
     }
 
     public void setFotoVehiculo(byte[] fotoVehiculo) {
         this.fotoVehiculo = fotoVehiculo;
+    }
+
+    public String getMarca() {
+        return marca;
+    }
+
+    public void setMarca(String marca) {
+        this.marca = marca;
+    }
+
+    public String getModelo() {
+        return modelo;
+    }
+
+    public void setModelo(String modelo) {
+        this.modelo = modelo;
     }
 
     public Boolean getAcondicionado() {
@@ -279,6 +270,47 @@ public class Vehiculo implements Serializable {
         this.fechaVencimientoToperacion = fechaVencimientoToperacion;
     }
 
+    public byte[] getTarjetaOperacion() {
+        return tarjetaOperacion;
+    }
+
+    public void setTarjetaOperacion(byte[] tarjetaOperacion) {
+        this.tarjetaOperacion = tarjetaOperacion;
+    }
+
+    public Transportador getTransportador() {
+        return transportador;
+    }
+
+    public void setTransportador(Transportador transportador) {
+        this.transportador = transportador;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 0;
+        hash += (id != null ? id.hashCode() : 0);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        // TODO: Warning - this method won't work in the case the id fields are not set
+        if (!(object instanceof Vehiculo)) {
+            return false;
+        }
+        Vehiculo other = (Vehiculo) object;
+        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public String toString() {
+        return "com.ayax.website.persistencia.entidades.Vehiculo[ id=" + id + " ]";
+    }
+
     public Boolean esVehiculoRevisado() {
 
         SimpleDateFormat sdf = new SimpleDateFormat("M/d/y 'at' h:m a");
@@ -322,28 +354,6 @@ public class Vehiculo implements Serializable {
 
         Logger.getLogger(Vehiculo.class.getName()).log(Level.INFO, "retorna TRUE");
         return Boolean.TRUE;
-    }
-
-    @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Vehiculo)) {
-            return false;
-        }
-        Vehiculo other = (Vehiculo) object;
-        return !((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id)));
-    }
-
-    @Override
-    public String toString() {
-        return "com.ayax.website.util.json.temp.Vehiculo[ id=" + id + " ]";
     }
 
 }

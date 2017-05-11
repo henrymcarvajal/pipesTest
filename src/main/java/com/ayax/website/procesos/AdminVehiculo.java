@@ -13,6 +13,7 @@ import com.ayax.website.procesos.util.CapacidadVehiculoDto;
 import com.ayax.website.procesos.util.ImageUtils;
 import com.ayax.website.procesos.util.UploadUtil;
 import com.ayax.website.procesos.util.singleton.OfertaPendienteSingleton;
+import java.math.BigInteger;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -29,7 +30,7 @@ import spark.Response;
 
 /**
  *
- * @author Mauris
+ * @author hmcarvajal@ayax.co
  */
 public class AdminVehiculo {
 
@@ -108,7 +109,7 @@ public class AdminVehiculo {
             placa = placa.replaceAll("\\s+","").toUpperCase();
             Vehiculo vehiculo = vf.buscarPorPlaca(placa);
 
-            transportador.setNumeroIdentificacion(new Long(cedulaTransportador));
+            transportador.setNumeroIdentificacion(new BigInteger(cedulaTransportador));
             transportador.setEstadoRegistro(Transportador.ESTADO_REGISTRO_EXITOSO);
             tf.actualizar(transportador);
             AdminTransportador.actualizarUsuario(req, transportador);

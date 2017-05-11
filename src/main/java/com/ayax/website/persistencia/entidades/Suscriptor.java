@@ -6,12 +6,14 @@
 package com.ayax.website.persistencia.entidades;
 
 import java.io.Serializable;
-import java.util.Objects;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
@@ -19,17 +21,33 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "l4_suscriptor")
+@XmlRootElement
+@NamedQueries({
+    @NamedQuery(name = "Suscriptor.findAll", query = "SELECT s FROM Suscriptor s"),
+    @NamedQuery(name = "Suscriptor.findByBuzonElectronico", query = "SELECT s FROM Suscriptor s WHERE s.buzonElectronico = :buzonElectronico"),
+    @NamedQuery(name = "Suscriptor.findById", query = "SELECT s FROM Suscriptor s WHERE s.id = :id")})
 public class Suscriptor implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    
+    @Basic(optional = false)
+    @Column(name = "buzon_electronico")
+    private String buzonElectronico;
     @Id
     @Basic(optional = false)
     @Column(name = "id")
     private String id;
-    
-    @Column(name = "buzon_electronico")
-    private String buzonElectronico;
+
+    public Suscriptor() {
+    }
+
+    public Suscriptor(String id) {
+        this.id = id;
+    }
+
+    public Suscriptor(String id, String buzonElectronico) {
+        this.id = id;
+        this.buzonElectronico = buzonElectronico;
+    }
 
     public String getBuzonElectronico() {
         return buzonElectronico;
@@ -49,27 +67,27 @@ public class Suscriptor implements Serializable {
 
     @Override
     public int hashCode() {
-        int hash = 3;
-        hash = 73 * hash + Objects.hashCode(this.id);
+        int hash = 0;
+        hash += (id != null ? id.hashCode() : 0);
         return hash;
     }
 
     @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null) {
+    public boolean equals(Object object) {
+        // TODO: Warning - this method won't work in the case the id fields are not set
+        if (!(object instanceof Suscriptor)) {
             return false;
         }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        final Suscriptor other = (Suscriptor) obj;
-        if (!Objects.equals(this.id, other.id)) {
+        Suscriptor other = (Suscriptor) object;
+        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
         return true;
     }
 
+    @Override
+    public String toString() {
+        return "com.ayax.website.persistencia.entidades.Suscriptor[ id=" + id + " ]";
+    }
+    
 }

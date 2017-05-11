@@ -20,7 +20,7 @@ import spark.Response;
 
 /**
  *
- * @author Mauris
+ * @author hmcarvajal@ayax.co
  */
 public class AdminContrasena {
 

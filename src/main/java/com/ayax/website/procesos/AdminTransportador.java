@@ -10,6 +10,7 @@ import com.ayax.website.mail.Messenger;
 import com.ayax.website.persistencia.entidades.Transportador;
 import com.ayax.website.persistencia.fachadas.TransportadorFacade;
 import com.ayax.website.util.Cryptographer;
+import java.math.BigInteger;
 import java.util.Date;
 import java.util.List;
 import spark.Request;
@@ -17,7 +18,7 @@ import spark.Response;
 
 /**
  *
- * @author Mauris
+ * @author hmcarvajal@ayax.co
  */
 public class AdminTransportador {
 
@@ -50,7 +51,7 @@ public class AdminTransportador {
                 transportador.setNombres(nombres);
                 transportador.setApellidos(apellidos);
                 transportador.setContrasena(md5Password);
-                transportador.setNumeroContacto(Long.parseLong(numeroContacto));
+                transportador.setNumeroContacto(new BigInteger(numeroContacto));
                 transportador.setCredito(0);
                 transportador.setFechaCreacion(new Date(System.currentTimeMillis()));
                 transportador.setEstadoRegistro(Transportador.ESTADO_REGISTRO_INCOMPLETO);

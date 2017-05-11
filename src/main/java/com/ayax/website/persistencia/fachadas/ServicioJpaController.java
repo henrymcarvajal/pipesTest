@@ -5,26 +5,27 @@
  */
 package com.ayax.website.persistencia.fachadas;
 
-import com.ayax.website.persistencia.entidades.Oferta;
-import com.ayax.website.persistencia.entidades.Servicio;
-import com.ayax.website.persistencia.entidades.Usuario;
-import com.ayax.website.persistencia.fachadas.exceptions.IllegalOrphanException;
-import com.ayax.website.persistencia.fachadas.exceptions.NonexistentEntityException;
-import com.ayax.website.persistencia.fachadas.exceptions.PreexistingEntityException;
 import java.io.Serializable;
 import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
+import com.ayax.website.persistencia.entidades.Usuario;
+import com.ayax.website.persistencia.entidades.Conversacion;
 import java.util.ArrayList;
 import java.util.Collection;
+import com.ayax.website.persistencia.entidades.Oferta;
+import com.ayax.website.persistencia.entidades.Servicio;
+import com.ayax.website.persistencia.fachadas.exceptions.IllegalOrphanException;
+import com.ayax.website.persistencia.fachadas.exceptions.NonexistentEntityException;
+import com.ayax.website.persistencia.fachadas.exceptions.PreexistingEntityException;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 
 /**
  *
- * @author Mauris
+ * @author hmcarvajal@ayax.co
  */
 public class ServicioJpaController implements Serializable {
 
@@ -38,6 +39,9 @@ public class ServicioJpaController implements Serializable {
     }
 
     public void create(Servicio servicio) throws PreexistingEntityException, Exception {
+        if (servicio.getConversaciones() == null) {
+            servicio.setConversaciones(new ArrayList<Conversacion>());
+        }
         if (servicio.getOfertas() == null) {
             servicio.setOfertas(new ArrayList<Oferta>());
         }
@@ -50,24 +54,39 @@ public class ServicioJpaController implements Serializable {
                 usuario = em.getReference(usuario.getClass(), usuario.getId());
                 servicio.setUsuario(usuario);
             }
-            Collection<Oferta> attachedOfertaCollection = new ArrayList<Oferta>();
-            for (Oferta ofertaCollectionOfertaToAttach : servicio.getOfertas()) {
-                ofertaCollectionOfertaToAttach = em.getReference(ofertaCollectionOfertaToAttach.getClass(), ofertaCollectionOfertaToAttach.getId());
-                attachedOfertaCollection.add(ofertaCollectionOfertaToAttach);
+            Collection<Conversacion> attachedConversaciones = new ArrayList<Conversacion>();
+            for (Conversacion conversacionesConversacionToAttach : servicio.getConversaciones()) {
+                conversacionesConversacionToAttach = em.getReference(conversacionesConversacionToAttach.getClass(), conversacionesConversacionToAttach.getId());
+                attachedConversaciones.add(conversacionesConversacionToAttach);
             }
-            servicio.setOfertas(attachedOfertaCollection);
+            servicio.setConversaciones(attachedConversaciones);
+            Collection<Oferta> attachedOfertas = new ArrayList<Oferta>();
+            for (Oferta ofertasOfertaToAttach : servicio.getOfertas()) {
+                ofertasOfertaToAttach = em.getReference(ofertasOfertaToAttach.getClass(), ofertasOfertaToAttach.getId());
+                attachedOfertas.add(ofertasOfertaToAttach);
+            }
+            servicio.setOfertas(attachedOfertas);
             em.persist(servicio);
             if (usuario != null) {
                 usuario.getServicioCollection().add(servicio);
                 usuario = em.merge(usuario);
             }
-            for (Oferta ofertaCollectionOferta : servicio.getOfertas()) {
-                Servicio oldServicioOfOfertaCollectionOferta = ofertaCollectionOferta.getServicio();
-                ofertaCollectionOferta.setServicio(servicio);
-                ofertaCollectionOferta = em.merge(ofertaCollectionOferta);
-                if (oldServicioOfOfertaCollectionOferta != null) {
-                    oldServicioOfOfertaCollectionOferta.getOfertas().remove(ofertaCollectionOferta);
-                    oldServicioOfOfertaCollectionOferta = em.merge(oldServicioOfOfertaCollectionOferta);
+            for (Conversacion conversacionesConversacion : servicio.getConversaciones()) {
+                Servicio oldServicioOfConversacionesConversacion = conversacionesConversacion.getServicio();
+                conversacionesConversacion.setServicio(servicio);
+                conversacionesConversacion = em.merge(conversacionesConversacion);
+                if (oldServicioOfConversacionesConversacion != null) {
+                    oldServicioOfConversacionesConversacion.getConversaciones().remove(conversacionesConversacion);
+                    oldServicioOfConversacionesConversacion = em.merge(oldServicioOfConversacionesConversacion);
+                }
+            }
+            for (Oferta ofertasOferta : servicio.getOfertas()) {
+                Servicio oldServicioOfOfertasOferta = ofertasOferta.getServicio();
+                ofertasOferta.setServicio(servicio);
+                ofertasOferta = em.merge(ofertasOferta);
+                if (oldServicioOfOfertasOferta != null) {
+                    oldServicioOfOfertasOferta.getOfertas().remove(ofertasOferta);
+                    oldServicioOfOfertasOferta = em.merge(oldServicioOfOfertasOferta);
                 }
             }
             em.getTransaction().commit();
@@ -91,15 +110,25 @@ public class ServicioJpaController implements Serializable {
             Servicio persistentServicio = em.find(Servicio.class, servicio.getId());
             Usuario usuarioOld = persistentServicio.getUsuario();
             Usuario usuarioNew = servicio.getUsuario();
-            Collection<Oferta> ofertaCollectionOld = persistentServicio.getOfertas();
-            Collection<Oferta> ofertaCollectionNew = servicio.getOfertas();
+            Collection<Conversacion> conversacionesOld = persistentServicio.getConversaciones();
+            Collection<Conversacion> conversacionesNew = servicio.getConversaciones();
+            Collection<Oferta> ofertasOld = persistentServicio.getOfertas();
+            Collection<Oferta> ofertasNew = servicio.getOfertas();
             List<String> illegalOrphanMessages = null;
-            for (Oferta ofertaCollectionOldOferta : ofertaCollectionOld) {
-                if (!ofertaCollectionNew.contains(ofertaCollectionOldOferta)) {
+            for (Conversacion conversacionesOldConversacion : conversacionesOld) {
+                if (!conversacionesNew.contains(conversacionesOldConversacion)) {
                     if (illegalOrphanMessages == null) {
                         illegalOrphanMessages = new ArrayList<String>();
                     }
-                    illegalOrphanMessages.add("You must retain Oferta " + ofertaCollectionOldOferta + " since its servicio field is not nullable.");
+                    illegalOrphanMessages.add("You must retain Conversacion " + conversacionesOldConversacion + " since its servicio field is not nullable.");
+                }
+            }
+            for (Oferta ofertasOldOferta : ofertasOld) {
+                if (!ofertasNew.contains(ofertasOldOferta)) {
+                    if (illegalOrphanMessages == null) {
+                        illegalOrphanMessages = new ArrayList<String>();
+                    }
+                    illegalOrphanMessages.add("You must retain Oferta " + ofertasOldOferta + " since its servicio field is not nullable.");
                 }
             }
             if (illegalOrphanMessages != null) {
@@ -109,13 +138,20 @@ public class ServicioJpaController implements Serializable {
                 usuarioNew = em.getReference(usuarioNew.getClass(), usuarioNew.getId());
                 servicio.setUsuario(usuarioNew);
             }
-            Collection<Oferta> attachedOfertaCollectionNew = new ArrayList<Oferta>();
-            for (Oferta ofertaCollectionNewOfertaToAttach : ofertaCollectionNew) {
-                ofertaCollectionNewOfertaToAttach = em.getReference(ofertaCollectionNewOfertaToAttach.getClass(), ofertaCollectionNewOfertaToAttach.getId());
-                attachedOfertaCollectionNew.add(ofertaCollectionNewOfertaToAttach);
+            Collection<Conversacion> attachedConversacionesNew = new ArrayList<Conversacion>();
+            for (Conversacion conversacionesNewConversacionToAttach : conversacionesNew) {
+                conversacionesNewConversacionToAttach = em.getReference(conversacionesNewConversacionToAttach.getClass(), conversacionesNewConversacionToAttach.getId());
+                attachedConversacionesNew.add(conversacionesNewConversacionToAttach);
             }
-            ofertaCollectionNew = attachedOfertaCollectionNew;
-            servicio.setOfertas(ofertaCollectionNew);
+            conversacionesNew = attachedConversacionesNew;
+            servicio.setConversaciones(conversacionesNew);
+            Collection<Oferta> attachedOfertasNew = new ArrayList<Oferta>();
+            for (Oferta ofertasNewOfertaToAttach : ofertasNew) {
+                ofertasNewOfertaToAttach = em.getReference(ofertasNewOfertaToAttach.getClass(), ofertasNewOfertaToAttach.getId());
+                attachedOfertasNew.add(ofertasNewOfertaToAttach);
+            }
+            ofertasNew = attachedOfertasNew;
+            servicio.setOfertas(ofertasNew);
             servicio = em.merge(servicio);
             if (usuarioOld != null && !usuarioOld.equals(usuarioNew)) {
                 usuarioOld.getServicioCollection().remove(servicio);
@@ -125,14 +161,25 @@ public class ServicioJpaController implements Serializable {
                 usuarioNew.getServicioCollection().add(servicio);
                 usuarioNew = em.merge(usuarioNew);
             }
-            for (Oferta ofertaCollectionNewOferta : ofertaCollectionNew) {
-                if (!ofertaCollectionOld.contains(ofertaCollectionNewOferta)) {
-                    Servicio oldServicioOfOfertaCollectionNewOferta = ofertaCollectionNewOferta.getServicio();
-                    ofertaCollectionNewOferta.setServicio(servicio);
-                    ofertaCollectionNewOferta = em.merge(ofertaCollectionNewOferta);
-                    if (oldServicioOfOfertaCollectionNewOferta != null && !oldServicioOfOfertaCollectionNewOferta.equals(servicio)) {
-                        oldServicioOfOfertaCollectionNewOferta.getOfertas().remove(ofertaCollectionNewOferta);
-                        oldServicioOfOfertaCollectionNewOferta = em.merge(oldServicioOfOfertaCollectionNewOferta);
+            for (Conversacion conversacionesNewConversacion : conversacionesNew) {
+                if (!conversacionesOld.contains(conversacionesNewConversacion)) {
+                    Servicio oldServicioOfConversacionesNewConversacion = conversacionesNewConversacion.getServicio();
+                    conversacionesNewConversacion.setServicio(servicio);
+                    conversacionesNewConversacion = em.merge(conversacionesNewConversacion);
+                    if (oldServicioOfConversacionesNewConversacion != null && !oldServicioOfConversacionesNewConversacion.equals(servicio)) {
+                        oldServicioOfConversacionesNewConversacion.getConversaciones().remove(conversacionesNewConversacion);
+                        oldServicioOfConversacionesNewConversacion = em.merge(oldServicioOfConversacionesNewConversacion);
+                    }
+                }
+            }
+            for (Oferta ofertasNewOferta : ofertasNew) {
+                if (!ofertasOld.contains(ofertasNewOferta)) {
+                    Servicio oldServicioOfOfertasNewOferta = ofertasNewOferta.getServicio();
+                    ofertasNewOferta.setServicio(servicio);
+                    ofertasNewOferta = em.merge(ofertasNewOferta);
+                    if (oldServicioOfOfertasNewOferta != null && !oldServicioOfOfertasNewOferta.equals(servicio)) {
+                        oldServicioOfOfertasNewOferta.getOfertas().remove(ofertasNewOferta);
+                        oldServicioOfOfertasNewOferta = em.merge(oldServicioOfOfertasNewOferta);
                     }
                 }
             }
@@ -166,12 +213,19 @@ public class ServicioJpaController implements Serializable {
                 throw new NonexistentEntityException("The servicio with id " + id + " no longer exists.", enfe);
             }
             List<String> illegalOrphanMessages = null;
-            Collection<Oferta> ofertaCollectionOrphanCheck = servicio.getOfertas();
-            for (Oferta ofertaCollectionOrphanCheckOferta : ofertaCollectionOrphanCheck) {
+            Collection<Conversacion> conversacionesOrphanCheck = servicio.getConversaciones();
+            for (Conversacion conversacionesOrphanCheckConversacion : conversacionesOrphanCheck) {
                 if (illegalOrphanMessages == null) {
                     illegalOrphanMessages = new ArrayList<String>();
                 }
-                illegalOrphanMessages.add("This Servicio (" + servicio + ") cannot be destroyed since the Oferta " + ofertaCollectionOrphanCheckOferta + " in its ofertaCollection field has a non-nullable servicio field.");
+                illegalOrphanMessages.add("This Servicio (" + servicio + ") cannot be destroyed since the Conversacion " + conversacionesOrphanCheckConversacion + " in its conversaciones field has a non-nullable servicio field.");
+            }
+            Collection<Oferta> ofertasOrphanCheck = servicio.getOfertas();
+            for (Oferta ofertasOrphanCheckOferta : ofertasOrphanCheck) {
+                if (illegalOrphanMessages == null) {
+                    illegalOrphanMessages = new ArrayList<String>();
+                }
+                illegalOrphanMessages.add("This Servicio (" + servicio + ") cannot be destroyed since the Oferta " + ofertasOrphanCheckOferta + " in its ofertas field has a non-nullable servicio field.");
             }
             if (illegalOrphanMessages != null) {
                 throw new IllegalOrphanException(illegalOrphanMessages);

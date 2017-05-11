@@ -12,6 +12,7 @@ import com.ayax.website.persistencia.entidades.Servicio;
 import com.ayax.website.persistencia.entidades.Usuario;
 import com.ayax.website.mail.Messenger;
 import com.ayax.website.mail.MessageCreator;
+import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.text.DateFormat;
 import java.text.DecimalFormat;
@@ -34,7 +35,7 @@ import spark.Response;
 
 /**
  *
- * @author Mauris
+ * @author hmcarvajal@ayax.co
  */
 public class AdminServicio {
 
@@ -122,7 +123,7 @@ public class AdminServicio {
 
             if (CODIGO_ESERVICIO_ESPECIAL.equalsIgnoreCase(codigo_promocional)) {
 
-                usuario.setTipo_usuario(TIPO_USUARIO_ESERVICIOESPECIAL);
+                usuario.setTipoUsuario(TIPO_USUARIO_ESERVICIOESPECIAL);
             } else if (!"".equalsIgnoreCase(codigo_promocional) && codigo_promocional != null
                     && !CODIGO_ESERVICIO_ESPECIAL.equalsIgnoreCase(codigo_promocional)) {
 
@@ -157,7 +158,7 @@ public class AdminServicio {
         servicio.setDestino(dropoff_location);
         servicio.setOrigen(pickup_location);
         servicio.setFechaCreacion(new Date(System.currentTimeMillis()));
-        servicio.setDistancia(this.parseDecimal(distancia));
+        servicio.setDistancia(new BigDecimal(distancia));
         servicio.setDisponibilidad(disponibilidad != null && disponibilidad.equalsIgnoreCase("true"));
         servicio.setRedondo(redondo != null && redondo.equalsIgnoreCase("true"));
         servicio.setNumeroPasajeros(selected_car);

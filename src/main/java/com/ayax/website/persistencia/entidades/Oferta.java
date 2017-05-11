@@ -24,7 +24,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author Mauris
+ * @author hmcarvajal@ayax.co
  */
 @Entity
 @Table(name = "l4_oferta")
@@ -34,7 +34,8 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Oferta.findById", query = "SELECT o FROM Oferta o WHERE o.id = :id"),
     @NamedQuery(name = "Oferta.findByServicioAndTransportador", query = "SELECT o FROM Oferta o JOIN Transportador t JOIN Servicio s WHERE t.id = :idTransportador AND s.id = :idServicio"),
     @NamedQuery(name = "Oferta.findByValor", query = "SELECT o FROM Oferta o WHERE o.valor = :valor"),
-    @NamedQuery(name = "Oferta.findByFecha", query = "SELECT o FROM Oferta o WHERE o.fecha = :fecha")})
+    @NamedQuery(name = "Oferta.findByFecha", query = "SELECT o FROM Oferta o WHERE o.fecha = :fecha"),
+    @NamedQuery(name = "Oferta.findByAceptada", query = "SELECT o FROM Oferta o WHERE o.aceptada = :aceptada")})
 public class Oferta implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -73,13 +74,6 @@ public class Oferta implements Serializable {
 
     public Integer getValor() {
         return valor;
-    }
-
-    public Double getComision() {
-        if (valor < 170000) {
-            return valor * (0.2 * valor) / 170000;
-        }
-        return 0.2 * valor;
     }
 
     public void setValor(Integer valor) {
@@ -132,7 +126,10 @@ public class Oferta implements Serializable {
             return false;
         }
         Oferta other = (Oferta) object;
-        return !((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id)));
+        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+            return false;
+        }
+        return true;
     }
 
     @Override
@@ -140,18 +137,25 @@ public class Oferta implements Serializable {
         return "com.ayax.website.persistencia.entidades.Oferta[ id=" + id + " ]";
     }
 
+    public Double getComision() {
+        if (valor < 170000) {
+            return valor * (0.2 * valor) / 170000;
+        }
+        return 0.2 * valor;
+    }
+
     public Oferta.OfertaDTO toDTO() {
         
         Oferta.OfertaDTO dto = new Oferta.OfertaDTO();
-        Vehiculo vehiculo = (Vehiculo) transportador.getVehiculoCollection().iterator().next();
+        Vehiculo vehiculo = (Vehiculo) transportador.getVehiculos().iterator().next();
         Usuario usuario = servicio.getUsuario();
-        boolean isEmpresaSEspecial = AdminServicio.TIPO_USUARIO_ESERVICIOESPECIAL.equalsIgnoreCase(usuario.getTipo_usuario());
+        boolean isEmpresaSEspecial = AdminServicio.TIPO_USUARIO_ESERVICIOESPECIAL.equalsIgnoreCase(usuario.getTipoUsuario());
         dto.setNombreTransportador(transportador.getNombres());
         dto.setMarcaVehiculo(vehiculo.getMarca());
         dto.setModeloVehiculo(vehiculo.getModelo());
         dto.setCapacidadVehiculo(Integer.parseInt(vehiculo.getNumeroPasajeros()));
         dto.setValorOferta(valor);
-        dto.setReputacionTransportador(transportador.getReputacion());
+        dto.setReputacionTransportador(transportador.getReputacion().doubleValue());
         dto.setServiciosEjecutados(transportador.getServiciosAtendidos());
         dto.setAireAcondicionado(vehiculo.getAcondicionado());
         dto.setFotoVehiculo(ImageUtils.encodeImage(vehiculo.getFotoVehiculo()));

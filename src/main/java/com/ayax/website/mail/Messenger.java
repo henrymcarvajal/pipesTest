@@ -13,7 +13,7 @@ import org.apache.commons.mail.HtmlEmail;
 
 /**
  *
- * @author Mauris
+ * @author hmcarvajal@ayax.co
  */
 public class Messenger {
 

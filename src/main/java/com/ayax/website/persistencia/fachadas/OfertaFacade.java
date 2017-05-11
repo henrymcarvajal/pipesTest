@@ -17,7 +17,7 @@ import javax.persistence.Query;
 
 /**
  *
- * @author Mauris
+ * @author hmcarvajal@ayax.co
  */
 public class OfertaFacade {
 

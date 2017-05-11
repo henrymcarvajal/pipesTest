@@ -14,7 +14,7 @@ import java.util.Date;
 
 /**
  *
- * @author Mauris
+ * @author hmcarvajal@ayax.co
  */
 public class CalculadoraDias {
 

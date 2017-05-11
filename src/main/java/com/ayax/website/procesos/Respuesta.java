@@ -7,7 +7,7 @@ package com.ayax.website.procesos;
 
 /**
  *
- * @author Mauris
+ * @author hmcarvajal@ayax.co
  */
 public class Respuesta {
     private String recurso;

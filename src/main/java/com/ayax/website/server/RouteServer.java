@@ -15,6 +15,7 @@ import com.ayax.website.procesos.AdminContrasena;
 import com.ayax.website.procesos.AdminServicio;
 import com.ayax.website.procesos.AdminTransportador;
 import com.ayax.website.procesos.AdminAcceso;
+import com.ayax.website.procesos.AdminConversacion;
 import com.ayax.website.procesos.AdminFactura;
 import com.ayax.website.procesos.AdminProcesos;
 import com.ayax.website.procesos.AdminSuscriptor;
@@ -34,8 +35,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import spark.ModelAndView;
-import spark.Request;
-import spark.Response;
 import static spark.Spark.*;
 import spark.template.freemarker.FreeMarkerEngine;
 
@@ -164,7 +163,7 @@ public class RouteServer {
                 obj.put("redondo", item.getRedondo());
                 obj.put("descripcion", item.getDetalle());
                 String servicioGratis = AdminServicio.TIPO_USUARIO_ESERVICIOESPECIAL.
-                        equalsIgnoreCase(item.getUsuario().getTipo_usuario()) ? "1" : null;
+                        equalsIgnoreCase(item.getUsuario().getTipoUsuario()) ? "1" : null;
                 obj.put("servicioGratis", servicioGratis);
             } catch (JSONException ex) {
                 Logger.getLogger(RouteServer.class.getName()).log(Level.SEVERE, null, ex);
@@ -303,8 +302,19 @@ public class RouteServer {
             AdminSuscriptor As = new AdminSuscriptor();
             return As.crearSuscriptor(req, res);
         }, json());
+        
+        //post mensaje transportador
+        post("/mensaje/servicio/:idServicio/transportador/:idTransportador", (req, res) -> {
+            res.type("application/json");
+            String idServicio = req.params(":idServicio");
+            String idTransportador = req.params(":idTransportador");
+            String mensaje = req.queryParams("pickup-location");
+            AdminConversacion ac = new AdminConversacion();
+            return ac.crearMensaje(idServicio, idTransportador, mensaje);
+        }, json());
 
-        get("/admin/access", (req, res) -> {
+
+/*        get("/admin/access", (req, res) -> {
             return new ModelAndView(null, "/admin/access.ftl");
         }, new FreeMarkerEngine());
 
@@ -335,5 +345,7 @@ public class RouteServer {
             root.put("item", usuario);
             return new ModelAndView(root, "/admin/usuario.ftl");
         }, new FreeMarkerEngine());
+*/
     }
 }
+
