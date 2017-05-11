@@ -16,7 +16,6 @@ import com.ayax.website.persistencia.fachadas.ConversacionJpaController;
 import com.ayax.website.persistencia.fachadas.MensajeJpaController;
 import com.ayax.website.persistencia.fachadas.TransportadorJpaController;
 import com.ayax.website.persistencia.fachadas.UsuarioJpaController;
-import com.ayax.website.persistencia.fachadas.exceptions.PreexistingEntityException;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -66,6 +65,12 @@ public class AdminConversacion {
             m.setTransportador(conversacion.getTransportador());
             m.setConversacion(conversacion);
             conversacion.getMensajes().add(m);
+            ConversacionJpaController cc = new ConversacionJpaController(EntityManagerFactoryBuilder.INSTANCE.build());
+            try {
+                cc.edit(conversacion);
+            } catch (Exception ex) {
+                Logger.getLogger(AdminConversacion.class.getName()).log(Level.SEVERE, null, ex);
+            }
         } else {
             TransportadorJpaController tc = new TransportadorJpaController(EntityManagerFactoryBuilder.INSTANCE.build());
             em = tc.getEntityManager();
@@ -108,7 +113,7 @@ public class AdminConversacion {
         return respuesta;
     }
 
-    public Respuesta crearMensajeUsuario(String idServicio, String idUsuario, String texto) {
+    public Respuesta crearMensajeUsuario(String idServicio, String idConversacion, String texto) {
         Respuesta respuesta = new Respuesta();
 
         ServicioJpaController sc = new ServicioJpaController(EntityManagerFactoryBuilder.INSTANCE.build());
@@ -127,7 +132,7 @@ public class AdminConversacion {
 
         Conversacion conversacion = null;
         for (Conversacion c : servicio.getConversaciones()) {
-            if (c.getServicio().getUsuario().getId().equalsIgnoreCase(idUsuario)) {
+            if (c.getId().equalsIgnoreCase(idConversacion)) {
                 conversacion = c;
                 break;
             }
@@ -141,32 +146,25 @@ public class AdminConversacion {
             m.setUsuario(conversacion.getServicio().getUsuario());
             m.setConversacion(conversacion);
             conversacion.getMensajes().add(m);
-        } else {
-            UsuarioJpaController tc = new UsuarioJpaController(EntityManagerFactoryBuilder.INSTANCE.build());
-            em = tc.getEntityManager();
-            q = em.createNamedQuery("Usuario.findById", Usuario.class);
-            q.setParameter("id", idUsuario);
-
-            Usuario usuario = null;
+            ConversacionJpaController cc = new ConversacionJpaController(EntityManagerFactoryBuilder.INSTANCE.build());
             try {
-                usuario = (Usuario) q.getSingleResult();
-            } catch (NoResultException ex) {
-                respuesta.setCodigo("002");
-                respuesta.setResultado("Usuario con el id especificado no existe");
-                return respuesta;
+                cc.edit(conversacion);
+            } catch (Exception ex) {
+                Logger.getLogger(AdminConversacion.class.getName()).log(Level.SEVERE, null, ex);
             }
+        } else {
             conversacion = new Conversacion();
             conversacion.setId(java.util.UUID.randomUUID().toString());
             conversacion.setFechaCreacion(new Date());
             conversacion.setServicio(servicio);
-
+            conversacion.getMensajes().add(m);
             ConversacionJpaController cc = new ConversacionJpaController(EntityManagerFactoryBuilder.INSTANCE.build());
             try {
                 cc.create(conversacion);
             } catch (Exception ex) {
                 Logger.getLogger(AdminConversacion.class.getName()).log(Level.SEVERE, null, ex);
             }
-            m.setUsuario(usuario);
+            m.setUsuario(conversacion.getServicio().getUsuario());
             m.setConversacion(conversacion);
         }
         MensajeJpaController mc = new MensajeJpaController(EntityManagerFactoryBuilder.INSTANCE.build());
