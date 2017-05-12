@@ -15,14 +15,11 @@ import com.ayax.website.procesos.AdminConversacion;
 import com.ayax.website.procesos.AdminFactura;
 import com.ayax.website.procesos.AdminProcesos;
 import com.ayax.website.procesos.AdminSuscriptor;
-import com.ayax.website.procesos.Respuesta;
-import com.ayax.website.util.Util;
 import java.util.List;
 import javax.persistence.Cache;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Query;
-import org.json.JSONArray;
 import spark.ModelAndView;
 import static spark.Spark.*;
 import spark.template.freemarker.FreeMarkerEngine;
@@ -189,7 +186,7 @@ public class RouteServer {
         get("/procesos/correos/calificacion", (req, res) -> {
             res.type("application/json");
             AdminProcesos adminProcesos = new AdminProcesos();
-            return adminProcesos.enviarCorreosCalificacion(req, res);
+            return adminProcesos.enviarCorreosCalificacion();
         }, toJson());
 
         post("/suscriptor", (req, res) -> {
@@ -205,15 +202,6 @@ public class RouteServer {
             String mensaje = req.queryParams("texto");
             AdminConversacion ac = new AdminConversacion();
             return ac.crearMensajeTransportador(idServicio, idTransportador, mensaje);
-        }, toJson());
-
-        post("/mensaje/servicio/:idServicio/conversacion/:idConversacion", (req, res) -> {
-            res.type("application/json");
-            String idServicio = req.params(":idServicio");
-            String idConversacion = req.params(":idConversacion");
-            String mensaje = req.queryParams("texto");
-            AdminConversacion ac = new AdminConversacion();
-            return ac.crearMensajeUsuario(idServicio, idConversacion, mensaje);
         }, toJson());
 
         post("/mensaje/servicio/:idServicio/conversacion/:idConversacion", (req, res) -> {

@@ -7,31 +7,21 @@ package com.ayax.website.procesos;
 
 import com.ayax.website.persistencia.EntityManagerFactoryBuilder;
 import com.ayax.website.persistencia.fachadas.ServicioJpaController;
-import com.ayax.website.persistencia.fachadas.UsuarioJpaController;
 import com.ayax.website.persistencia.entidades.Servicio;
-import com.ayax.website.persistencia.entidades.Usuario;
 import com.ayax.website.mail.Messenger;
 import com.ayax.website.mail.MessageCreator;
 import com.ayax.website.persistencia.entidades.Oferta;
-import com.ayax.website.persistencia.fachadas.exceptions.NonexistentEntityException;
-import java.math.BigInteger;
 import java.text.DateFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
 import javax.persistence.TemporalType;
-import javax.persistence.TypedQuery;
-import spark.Request;
-import spark.Response;
 
 /**
  *
@@ -42,7 +32,7 @@ public class AdminProcesos {
     public AdminProcesos() {
     }
 
-    public Respuesta enviarCorreosCalificacion(Request req, Response res) {
+    public Respuesta enviarCorreosCalificacion() {
         Respuesta respuesta = new Respuesta();
 
         ServicioJpaController uc = new ServicioJpaController(EntityManagerFactoryBuilder.INSTANCE.build());
@@ -58,10 +48,10 @@ public class AdminProcesos {
 
         DateFormat df = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
 
-// Get the date today using Calendar object.
+        // Get the date today using Calendar object.
         Date today = Calendar.getInstance().getTime();
-// Using DateFormat format method we can create a string 
-// representation of a date with the defined format.
+        // Using DateFormat format method we can create a string 
+        // representation of a date with the defined format.
         String reportDate = df.format(uDate);
 
         System.out.println("uDate: " + reportDate);

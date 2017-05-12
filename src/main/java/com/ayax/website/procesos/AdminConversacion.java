@@ -110,6 +110,7 @@ public class AdminConversacion {
         respuesta.setVerbo("POST");
         respuesta.setCodigo("000");
         respuesta.setResultado("exito");
+        respuesta.setValor(conversacion.getId());
         return respuesta;
     }
 
@@ -173,7 +174,7 @@ public class AdminConversacion {
         } catch (Exception ex) {
             Logger.getLogger(AdminConversacion.class.getName()).log(Level.SEVERE, null, ex);
         }
-        respuesta.setRecurso("/mensaje/servicio/transportador");
+        respuesta.setRecurso("/mensaje/servicio/usuario");
         respuesta.setVerbo("POST");
         respuesta.setCodigo("000");
         respuesta.setResultado("exito");
