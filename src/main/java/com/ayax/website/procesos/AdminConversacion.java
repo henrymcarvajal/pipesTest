@@ -110,7 +110,7 @@ public class AdminConversacion {
         respuesta.setVerbo("POST");
         respuesta.setCodigo("000");
         respuesta.setResultado("exito");
-        respuesta.setValor(conversacion.getId());
+        //respuesta.setValor(conversacion.getId());
         return respuesta;
     }
 
