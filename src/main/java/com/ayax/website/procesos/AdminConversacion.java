@@ -51,10 +51,10 @@ public class AdminConversacion {
 
         Conversacion conversacion = null;
         for (Conversacion c : servicio.getConversaciones()) {
-            if (c.getTransportador().getId().equalsIgnoreCase(idTransportador)) {
+            //if (c.getTransportador().getId().equalsIgnoreCase(idTransportador)) {
                 conversacion = c;
                 break;
-            }
+            //}
         }
 
         Mensaje m = new Mensaje();
@@ -114,7 +114,7 @@ public class AdminConversacion {
         return respuesta;
     }
 
-    public Respuesta crearMensajeUsuario(String idServicio, String idConversacion, String texto) {
+    public Respuesta crearMensajeUsuario(String idServicio, String texto) {
         Respuesta respuesta = new Respuesta();
 
         ServicioJpaController sc = new ServicioJpaController(EntityManagerFactoryBuilder.INSTANCE.build());
@@ -133,10 +133,10 @@ public class AdminConversacion {
 
         Conversacion conversacion = null;
         for (Conversacion c : servicio.getConversaciones()) {
-            if (c.getId().equalsIgnoreCase(idConversacion)) {
+            //if (c.getId().equalsIgnoreCase(idConversacion)) {
                 conversacion = c;
                 break;
-            }
+            //}
         }
 
         Mensaje m = new Mensaje();
@@ -183,7 +183,6 @@ public class AdminConversacion {
 
     public Respuesta obtenerConversacion(String idConversacion) {
         Respuesta respuesta = new Respuesta();
-        
         
         ConversacionJpaController sc = new ConversacionJpaController(EntityManagerFactoryBuilder.INSTANCE.build());
         EntityManager em = sc.getEntityManager();

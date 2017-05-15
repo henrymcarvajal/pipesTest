@@ -204,20 +204,12 @@ public class RouteServer {
             return ac.crearMensajeTransportador(idServicio, idTransportador, mensaje);
         }, toJson());
 
-        post("/mensaje/servicio/:idServicio/conversacion/:idConversacion", (req, res) -> {
+        post("/mensaje/servicio/:idServicio/usuario", (req, res) -> {
             res.type("application/json");
             String idServicio = req.params(":idServicio");
-            String idConversacion = req.params(":idConversacion");
             String mensaje = req.queryParams("texto");
             AdminConversacion ac = new AdminConversacion();
-            return ac.crearMensajeUsuario(idServicio, idConversacion, mensaje);
-        }, toJson());
-
-        get("/conversacion/:idConversacion", (req, res) -> {
-            res.type("application/json");
-            String idConversacion = req.params(":idConversacion");
-            AdminConversacion ac = new AdminConversacion();
-            return ac.obtenerConversacion(idConversacion);
+            return ac.crearMensajeUsuario(idServicio, mensaje);
         }, toJson());
 
         /*

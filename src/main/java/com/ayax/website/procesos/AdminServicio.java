@@ -12,6 +12,8 @@ import com.ayax.website.persistencia.entidades.Servicio;
 import com.ayax.website.persistencia.entidades.Usuario;
 import com.ayax.website.mail.Messenger;
 import com.ayax.website.mail.MessageCreator;
+import com.ayax.website.persistencia.entidades.Conversacion;
+import com.ayax.website.persistencia.entidades.Mensaje;
 import com.ayax.website.persistencia.entidades.Oferta;
 import com.ayax.website.persistencia.entidades.Transportador;
 import com.ayax.website.server.RouteServer;
@@ -264,9 +266,30 @@ public class AdminServicio {
             obj.put("distancia", item.getDistancia());
             obj.put("redondo", item.getRedondo());
             obj.put("descripcion", item.getDetalle());
-            String servicioGratis = AdminServicio.TIPO_USUARIO_ESERVICIOESPECIAL.
+            String servicioGratis = TIPO_USUARIO_ESERVICIOESPECIAL.
                     equalsIgnoreCase(item.getUsuario().getTipoUsuario()) ? "1" : null;
             obj.put("servicioGratis", servicioGratis);
+            if (!item.getConversaciones().isEmpty()) {
+                Conversacion conversacion = null;
+                for (Conversacion c : item.getConversaciones()) {
+                    conversacion = c;
+                    obj.put("conteoMensajes", conversacion.getMensajes().size());
+                    JSONArray array = new JSONArray();
+                    for (Mensaje m : conversacion.getMensajes()) {
+                        JSONObject mObj = new JSONObject();
+                        mObj.put("fechaCreacion", m.getFechaCreacion());
+                        if (m.getTransportador() != null) {
+                            mObj.put("transportador", m.getTransportador().getNombres());
+                        } else {
+                            mObj.put("usuario", m.getUsuario().getNombre());
+                        }
+                        mObj.put("texto", m.getTexto());
+                        array.put(mObj);
+                    }
+                    obj.put("mensajes", array);
+                    break;
+                }
+            }
         } catch (JSONException ex) {
             Logger.getLogger(RouteServer.class.getName()).log(Level.SEVERE, null, ex);
         }
