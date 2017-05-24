@@ -139,6 +139,8 @@ public class AdminOferta {
         OfertaFacade of = new OfertaFacade();
         Oferta oferta = of.buscarPorId(idOferta);
         if (oferta != null) {
+            System.out.println(oferta.getServicio().getHoraSalida().toString());
+            System.out.println(oferta.getServicio().getHoraLlegada().toString());
             if (oferta.getServicio().esActivo()) {
                 oferta.setAceptada(Boolean.TRUE);
                 of.actualizar(oferta);
