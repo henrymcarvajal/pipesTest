@@ -203,11 +203,15 @@ public class Transportador implements Serializable {
     }
 
     public BigDecimal getReputacion() {
-        return reputacion;
+        return (reputacion == null ? new BigDecimal(3.0) : reputacion);
     }
 
     public void setReputacion(BigDecimal reputacion) {
-        this.reputacion = reputacion;
+        if (reputacion == null) {
+            this.reputacion = new BigDecimal(3.0);
+        } else {
+            this.reputacion = reputacion;
+        }
     }
 
     public Short getServiciosCalificados() {

@@ -13,9 +13,6 @@ public enum ConfigManager {
 
     INSTANCE;
 
-    private static final String TEST_URL = "https://ayaxlandingpage-test.herokuapp.com";
-    private static final String PROD_URL = "https://www.ayax.co";
-
     public String getPort() {
         return System.getenv("PORT");
     }
@@ -25,21 +22,10 @@ public enum ConfigManager {
     }
 
     public String getEnvironment() {
-        if (isTestEnvironment()) {
-            return TEST_URL;
-        }
-        return PROD_URL;
+        return System.getenv("WEBSITE_URL");
     }
 
     public boolean isTestEnvironment() {
-        return System.getenv("ENV").equalsIgnoreCase("test");
-    }
-
-    public String getTestURL() {
-        return TEST_URL;
-    }
-
-    public String getProductionURL() {
-        return PROD_URL;
+        return !System.getenv("ENV").equalsIgnoreCase("live");
     }
 }
