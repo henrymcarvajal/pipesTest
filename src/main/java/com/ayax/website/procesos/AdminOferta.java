@@ -142,8 +142,8 @@ public class AdminOferta {
             System.out.println(oferta.getServicio().getHoraSalida().toString());
             System.out.println(oferta.getServicio().getHoraLlegada().toString());
             System.out.println("-----------------------------");
-            System.out.println(oferta.getServicio().getHoraSalida().toString());
-            System.out.println(oferta.getServicio().getHoraLlegada().toString());
+            System.out.println(oferta.getServicio().getHoraSalida().after(new Date()));
+            System.out.println(oferta.getServicio().getHoraLlegada().after(new Date()));
             if (oferta.getServicio().esActivo()) {
                 oferta.setAceptada(Boolean.TRUE);
                 of.actualizar(oferta);
