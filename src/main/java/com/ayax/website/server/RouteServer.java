@@ -27,7 +27,7 @@ import static com.ayax.website.util.json.JsonUtil.toJson;
 
 public class RouteServer {
 
-    private static void preloadEntities() {
+    /*private static void preloadEntities() {
 
         EntityManagerFactory emf = EntityManagerFactoryBuilder.INSTANCE.build();
         EntityManager em = emf.createEntityManager();
@@ -39,7 +39,7 @@ public class RouteServer {
         List<?> l = q.getResultList();
 
         System.out.println("Entities preloaded");
-    }
+    }*/
 
     public static void main(String[] args) {
 
