@@ -31,6 +31,7 @@
         <link rel="apple-touch-icon-precomposed" sizes="72x72" href="img/ico/apple-touch-icon-72-precomposed.png">
         <link rel="apple-touch-icon-precomposed" href="img/ico/apple-touch-icon-57-precomposed.png">
         <link rel="shortcut icon" href="img/ico/ayax.ico">
+        <script src="push/front-end/main.js"></script> 
        
 </head>
 <body id="top" data-spy="scroll" data-target=".navbar" data-offset="260">
