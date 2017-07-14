@@ -47,14 +47,14 @@ public class RouteServer {
         externalStaticFileLocation("src/main/resources/public/");
         staticFileLocation("/public");
 
-        preloadEntities();
+        //preloadEntities();
 
         get("/", (req, res) -> {
             return new ModelAndView(null, "index.ftl");
         }, new FreeMarkerEngine());
 
         //----- Operaciones sobre Acceso
-        post("/acceso", (req, res) -> {
+        /*post("/acceso", (req, res) -> {
             res.type("application/json");
             AdminAcceso adminAcceso = new AdminAcceso();
             return adminAcceso.ingresar(req, res);
