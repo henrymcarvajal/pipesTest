@@ -40,6 +40,10 @@
     <!-- 12/12/2016 11:29 pm AYAX-->
     <header data-spy="affix" data-offset-top="39" data-offset-bottom="0" class="large">
 
+<button disabled class="js-push-btn mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">
+        Enable Push Messaging
+      </button>
+      
         <div class="row container box">
             <div class="col-md-5">
                 <!-- Logo start -->
