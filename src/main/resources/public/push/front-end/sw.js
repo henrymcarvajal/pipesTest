@@ -72,7 +72,7 @@ self.addEventListener('pushsubscriptionchange', function(event) {
   event.waitUntil(
     self.registration.pushManager.subscribe({
       userVisibleOnly: true,
-      applicationServerKey: applicationServerKey
+      applicationServerKey: new urlBase64ToUint8Array(applicationServerKey)
     })
     .then(function(newSubscription) {
       // TODO: Send to application server
