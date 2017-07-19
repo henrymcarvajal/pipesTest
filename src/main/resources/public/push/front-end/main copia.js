@@ -23,7 +23,7 @@
 
 const applicationServerPublicKey = 'BMKhzaOd6Ry4ELWfXVuacN4yjEG-9ke6vJYS_MczNW6oUVIYwgINt2hqFuRh-KTgENOd1Y0mY7kOR7CK_u_vxIY';
 
-const pushButton = document.querySelector('#pushButton');
+const pushButton = document.querySelector('.js-push-btn');
 
 let isSubscribed = false;
 let swRegistration = null;
