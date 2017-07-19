@@ -42,20 +42,3 @@ function urlB64ToUint8Array(base64String) {
   }
   return outputArray;
 }
-
-if ('serviceWorker' in navigator && 'PushManager' in window) {
-  console.log('Service Worker and Push is supported');
-
-  navigator.serviceWorker.register('push/front-end/sw.js')
-  .then(function(swReg) {
-    console.log('Service Worker is registered', swReg);
-
-    swRegistration = swReg;
-  })
-  .catch(function(error) {
-    console.error('Service Worker Error', error);
-  });
-} else {
-  console.warn('Push messaging is not supported');
-  pushButton.textContent = 'Push Not Supported';
-}
