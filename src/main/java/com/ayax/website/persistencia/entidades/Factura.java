@@ -59,7 +59,7 @@ public class Factura implements Serializable {
     private String estadoTx;
     @Column(name = "generada")
     private Boolean generada;
-    @JoinColumn(name = "id_transportador", referencedColumnName = "id")
+    @JoinColumn(name = "transportador", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Transportador transportador;
 

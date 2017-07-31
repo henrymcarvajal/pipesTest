@@ -10,7 +10,7 @@ import spark.ResponseTransformer;
 
 /**
  *
- * @author hmcarvajal@ayax.co
+ * @author Mauris
  */
 public class JsonUtil {
 

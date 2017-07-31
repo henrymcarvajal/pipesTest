@@ -9,7 +9,7 @@ import java.text.DecimalFormat;
 
 /**
  *
- * @author hmcarvajal@ayax.co
+ * @author Mauris
  */
 public class EnglishNumberToWords {
 

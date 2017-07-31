@@ -5,11 +5,10 @@
  */
 package com.ayax.website.persistencia.entidades;
 
-import com.ayax.website.procesos.AdminServicio;
-import com.ayax.website.procesos.util.ImageUtils;
 import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -17,6 +16,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -35,8 +35,12 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Oferta.findByServicioAndTransportador", query = "SELECT o FROM Oferta o JOIN Transportador t JOIN Servicio s WHERE t.id = :idTransportador AND s.id = :idServicio"),
     @NamedQuery(name = "Oferta.findByValor", query = "SELECT o FROM Oferta o WHERE o.valor = :valor"),
     @NamedQuery(name = "Oferta.findByFecha", query = "SELECT o FROM Oferta o WHERE o.fecha = :fecha"),
-    @NamedQuery(name = "Oferta.findByAceptada", query = "SELECT o FROM Oferta o WHERE o.aceptada = :aceptada")})
+    @NamedQuery(name = "Oferta.findByEstado", query = "SELECT o FROM Oferta o WHERE o.estado = :estado"),
+    @NamedQuery(name = "Oferta.findByFactura", query = "SELECT o FROM Oferta o WHERE o.factura = :factura")})
 public class Oferta implements Serializable {
+    
+    public static final String ACEPTADA = "ACEPTADA";
+    public static final String CONFIRMADA = "CONFIRMADA";
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -48,14 +52,18 @@ public class Oferta implements Serializable {
     @Column(name = "fecha")
     @Temporal(TemporalType.TIMESTAMP)
     private Date fecha;
-    @Column(name = "aceptada")
-    private Boolean aceptada;
-    @JoinColumn(name = "id_servicio", referencedColumnName = "id")
+    @Column(name = "estado")
+    private String estado;
+    @Column(name = "factura")
+    private String factura;
+    @JoinColumn(name = "servicio", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Servicio servicio;
-    @JoinColumn(name = "id_transportador", referencedColumnName = "id")
+    @JoinColumn(name = "transportador", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Transportador transportador;
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "oferta")
+    private FacturaOferta facturaOferta;
 
     public Oferta() {
     }
@@ -88,12 +96,20 @@ public class Oferta implements Serializable {
         this.fecha = fecha;
     }
 
-    public Boolean isAceptada() {
-        return aceptada != null && aceptada;
+    public String getEstado() {
+        return estado;
     }
 
-    public void setAceptada(Boolean aceptada) {
-        this.aceptada = aceptada;
+    public void setEstado(String estado) {
+        this.estado = estado;
+    }
+
+    public String getFactura() {
+        return factura;
+    }
+
+    public void setFactura(String factura) {
+        this.factura = factura;
     }
 
     public Servicio getServicio() {
@@ -110,6 +126,14 @@ public class Oferta implements Serializable {
 
     public void setTransportador(Transportador transportador) {
         this.transportador = transportador;
+    }
+
+    public FacturaOferta getFacturaOferta() {
+        return facturaOferta;
+    }
+
+    public void setFacturaOferta(FacturaOferta facturaOferta) {
+        this.facturaOferta = facturaOferta;
     }
 
     @Override
@@ -137,130 +161,16 @@ public class Oferta implements Serializable {
         return "com.ayax.website.persistencia.entidades.Oferta[ id=" + id + " ]";
     }
 
-    public Double getComision() {
-        if (valor < 170000) {
-            return valor * (0.2 * valor) / 170000;
-        }
-        return 0.2 * valor;
+    public Integer getComision() {
+        return (Double.valueOf(0.16667 * valor).intValue() / 100 ) * 100;
+    }
+    
+    public Integer getReserva() {
+        return getComision() + ((Double.valueOf(getComision() * 0.03).intValue() / 100 ) * 100) + 800;
     }
 
-    public Oferta.OfertaDTO toDTO() {
-        
-        Oferta.OfertaDTO dto = new Oferta.OfertaDTO();
-        Vehiculo vehiculo = (Vehiculo) transportador.getVehiculos().iterator().next();
-        Usuario usuario = servicio.getUsuario();
-        boolean isEmpresaSEspecial = AdminServicio.TIPO_USUARIO_ESERVICIOESPECIAL.equalsIgnoreCase(usuario.getTipoUsuario());
-        dto.setNombreTransportador(transportador.getNombres());
-        dto.setMarcaVehiculo(vehiculo.getMarca());
-        dto.setModeloVehiculo(vehiculo.getModelo());
-        dto.setCapacidadVehiculo(Integer.parseInt(vehiculo.getNumeroPasajeros()));
-        dto.setValorOferta(valor);
-        dto.setReputacionTransportador(transportador.getReputacion().doubleValue());
-        dto.setServiciosEjecutados(transportador.getServiciosAtendidos());
-        dto.setAireAcondicionado(vehiculo.getAcondicionado());
-        dto.setFotoVehiculo(ImageUtils.encodeImage(vehiculo.getFotoVehiculo()));
-        
-        if (isEmpresaSEspecial) {
-            dto.setNumeroContacto(transportador.getNumeroContacto().toString());
-        }
-        
-        return dto;
+    public Integer getValorTotal() {
+        return valor + getReserva();
     }
-
-    public class OfertaDTO {
-
-        private String nombreTransportador;
-        private String modeloVehiculo;
-        private String marcaVehiculo;
-        private Integer capacidadVehiculo;
-        private Integer valorOferta;
-        private Double reputacionTransportador;
-        private Boolean aireAcondicionado;
-        private Short serviciosEjecutados;
-        private String fotoVehiculo;
-        private String numeroContacto;
-
-        public OfertaDTO() {
-        }
-
-        public String getFotoVehiculo() {
-            return fotoVehiculo;
-        }
-
-        public void setFotoVehiculo(String fotoVehiculo) {
-            this.fotoVehiculo = fotoVehiculo;
-        }
-
-        public String getNumeroContacto() {
-            return numeroContacto;
-        }
-
-        public void setNumeroContacto(String numeroContacto) {
-            this.numeroContacto = numeroContacto;
-        }
-        
-        public Boolean getAireAcondicionado() {
-            return aireAcondicionado;
-        }
-
-        public void setAireAcondicionado(Boolean aireAcondicionado) {
-            this.aireAcondicionado = aireAcondicionado;
-        }
-
-        public Short getServiciosEjecutados() {
-            return serviciosEjecutados;
-        }
-
-        public void setServiciosEjecutados(Short serviciosEjecutados) {
-            this.serviciosEjecutados = serviciosEjecutados;
-        }
-
-        public String getNombreTransportador() {
-            return nombreTransportador;
-        }
-
-        public void setNombreTransportador(String nombreTransportador) {
-            this.nombreTransportador = nombreTransportador;
-        }
-
-        public String getModeloVehiculo() {
-            return modeloVehiculo;
-        }
-
-        public void setModeloVehiculo(String modeloVehiculo) {
-            this.modeloVehiculo = modeloVehiculo;
-        }
-
-        public String getMarcaVehiculo() {
-            return marcaVehiculo;
-        }
-
-        public void setMarcaVehiculo(String marcaVehiculo) {
-            this.marcaVehiculo = marcaVehiculo;
-        }
-
-        public Integer getCapacidadVehiculo() {
-            return capacidadVehiculo;
-        }
-
-        public void setCapacidadVehiculo(Integer capacidadVehiculo) {
-            this.capacidadVehiculo = capacidadVehiculo;
-        }
-
-        public Integer getValorOferta() {
-            return valorOferta;
-        }
-
-        public void setValorOferta(Integer valorOferta) {
-            this.valorOferta = valorOferta;
-        }
-
-        public Double getReputacionTransportador() {
-            return reputacionTransportador;
-        }
-
-        public void setReputacionTransportador(Double reputacionTransportador) {
-            this.reputacionTransportador = reputacionTransportador;
-        }
-    }
+    
 }

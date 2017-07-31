@@ -8,17 +8,19 @@ package com.ayax.website.procesos;
 import com.ayax.website.mail.Messenger;
 import com.ayax.website.mail.MessageCreator;
 import com.ayax.website.persistencia.EntityManagerFactoryBuilder;
+import com.ayax.website.persistencia.dto.OfertaDTOBuilder;
 import com.ayax.website.persistencia.entidades.Oferta;
 import com.ayax.website.persistencia.entidades.Servicio;
 import com.ayax.website.persistencia.entidades.Transportador;
 import com.ayax.website.persistencia.entidades.Vehiculo;
 import com.ayax.website.persistencia.fachadas.OfertaFacade;
 import com.ayax.website.persistencia.fachadas.ServicioFacade;
-import com.ayax.website.persistencia.fachadas.ServicioJpaController;
-import com.ayax.website.persistencia.fachadas.TransportadorJpaController;
-import com.ayax.website.persistencia.fachadas.UsuarioJpaController;
-import com.ayax.website.persistencia.fachadas.exceptions.NonexistentEntityException;
+import com.ayax.website.persistencia.controladores.ServicioJpaController;
+import com.ayax.website.persistencia.controladores.TransportadorJpaController;
+import com.ayax.website.persistencia.controladores.UsuarioJpaController;
+import com.ayax.website.persistencia.controladores.exceptions.NonexistentEntityException;
 import com.ayax.website.procesos.util.singleton.OfertaPendienteSingleton;
+import com.ayax.website.server.ConfigManager;
 import com.ayax.website.util.Util;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -95,7 +97,7 @@ public class AdminOferta {
                         MessageCreator mc = new MessageCreator();
 
                         Messenger mess = new Messenger();
-                        mess.sendMail("Oferta de Servicio Especial en Ayax.co", mc.crearMensajeOfertaNueva(oferta), new String[]{oferta.getServicio().getUsuario().getBuzonElectronico()});
+                        mess.sendMail("Oferta de Servicio Especial en Ayax.co", mc.crearMensajeOfertaNueva(oferta, ConfigManager.INSTANCE.isTestEnvironment()), new String[]{oferta.getServicio().getUsuario().getBuzonElectronico()});
                     } else {
                         respuesta.setCodigo("003");
                         respuesta.setResultado("error de BD: ");
@@ -140,12 +142,11 @@ public class AdminOferta {
         Oferta oferta = of.buscarPorId(idOferta);
         if (oferta != null) {
             if (oferta.getServicio().esActivo()) {
-                oferta.setAceptada(Boolean.TRUE);
+                oferta.setEstado(Oferta.ACEPTADA);
                 of.actualizar(oferta);
                 MessageCreator mc = new MessageCreator();
-
                 Messenger mess = new Messenger();
-                mess.sendMail("Tu oferta ha sido aceptada en Ayax.co", mc.crearMensajeOfertaAceptada(oferta), new String[]{oferta.getTransportador().getBuzonElectronico()});
+                mess.sendMail("Tu oferta ha sido aceptada en Ayax.co", mc.crearMensajeOfertaAceptada(oferta, ConfigManager.INSTANCE.isTestEnvironment()), new String[]{oferta.getTransportador().getBuzonElectronico()});
                 respuesta.setCodigo("000");
                 respuesta.setResultado("Exito");
             } else {
@@ -170,7 +171,7 @@ public class AdminOferta {
         Oferta oferta = of.buscarPorId(idOferta);
         if (oferta != null) {
 
-            Collection<Vehiculo> veh = oferta.getTransportador().getVehiculos();
+            Collection<Vehiculo> veh = oferta.getTransportador().getVehiculoCollection();
             Object[] lveh = veh.toArray();
             Vehiculo v = (Vehiculo) lveh[0];
 
@@ -184,9 +185,9 @@ public class AdminOferta {
                 MessageCreator mc = new MessageCreator();
 
                 Messenger mess = new Messenger();
-                mess.sendMail("Datos de cliente para Servicio Especial en Ayax.co", mc.crearMensajeServicioIniciado(oferta.getServicio()), new String[]{oferta.getTransportador().getBuzonElectronico()});
+                mess.sendMail("Datos de cliente para Servicio Especial en Ayax.co", mc.crearMensajeServicioIniciado(oferta.getServicio(), oferta.getTransportador(), ConfigManager.INSTANCE.isTestEnvironment()), new String[]{oferta.getTransportador().getBuzonElectronico()});
 
-                mess.sendMail("Datos de tu transportador de Servicio Especial en Ayax.co", mc.crearMensajeServicioTerminado(oferta.getServicio(), oferta.getTransportador()), new String[]{oferta.getServicio().getUsuario().getBuzonElectronico()});
+                mess.sendMail("Datos de tu transportador de Servicio Especial en Ayax.co", mc.crearMensajeServicioTerminado(oferta.getServicio(), oferta.getTransportador(), ConfigManager.INSTANCE.isTestEnvironment()), new String[]{oferta.getServicio().getUsuario().getBuzonElectronico()});
 
                 respuesta.setCodigo("000");
                 respuesta.setResultado("Exito");
@@ -215,7 +216,7 @@ public class AdminOferta {
         if (oferta != null) {
             respuesta.setCodigo("000");
             respuesta.setResultado("exito");
-            respuesta.setValor(oferta.toDTO());
+            respuesta.setValor(OfertaDTOBuilder.toDTO(oferta));
         } else {
             respuesta.setCodigo("001");
             respuesta.setResultado("La oferta especificada no existe [" + idOferta + "]");

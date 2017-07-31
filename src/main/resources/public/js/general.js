@@ -22,3 +22,52 @@ var getUrlParameter = function getUrlParameter(sParam) {
         }
     }
 };
+
+function extractPhone (text)
+{
+  var phoneRegex= /(?:(?:\+?1\s*(?:[.-]\s*)?)?(?:\(\s*([2-9]1[02-9]|[2-9][02-8]1|[2-9][02-8][02-9])\s*\)|([2-9]1[02-9]|[2-9][02-8]1|[2-9][02-8][02-9]))\s*(?:[.-]\s*)?)?([2-9]1[02-9]|[2-9][02-9]1|[2-9][02-9]{2})\s*(?:[.-]\s*)?([0-9]{4})(?:\s*(?:#|x\.?|ext\.?|extension)\s*(\d+))?/img;
+  //alert(text.replace(phoneRegex,'*********'));
+  var phone=text.match(phoneRegex);
+  if(phone===null){
+    text=text.split(' ').join('');
+    phone=text.match(phoneRegex);
+    }
+   if(phone===null){
+    text=text.split('-').join('');
+    phone=text.match(phoneRegex);
+    }
+    if(phone===null){
+    text=text.split('.').join('');
+    phone=text.match(phoneRegex);
+    }
+  return phone;
+}
+function extractEmails (text)
+{
+	var phoneRegex=/([a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\.[a-zA-Z0-9._-]+)/gi;
+    var email= text.match(phoneRegex);
+	if(email===null){
+    text=text.split(' ').join('');
+    email=text.match(phoneRegex);
+    }
+   if(email===null){
+    text=text.split('-').join('');
+    email=text.match(phoneRegex);
+    }
+    if(email===null){
+    text=text.split('.').join('');
+    email=text.match(phoneRegex);
+    }
+	return email;
+}
+
+var dataSesion = {
+    storeUserDataInSession: function(data, nameVariable) {
+        var userObjectString = JSON.stringify(data);
+        window.sessionStorage.setItem(nameVariable, userObjectString);
+    },
+    getUserDataFromSession: function(nameVariable) {
+        var data = window.sessionStorage.getItem(nameVariable);
+        return JSON.parse(data);
+    }
+}

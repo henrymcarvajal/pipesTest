@@ -36,8 +36,8 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Transportador.findById", query = "SELECT t FROM Transportador t WHERE t.id = :id"),
     @NamedQuery(name = "Transportador.findByNombres", query = "SELECT t FROM Transportador t WHERE t.nombres = :nombres"),
     @NamedQuery(name = "Transportador.findByBuzonElectronico", query = "SELECT t FROM Transportador t WHERE t.buzonElectronico = :buzonElectronico"),
-    @NamedQuery(name = "Transportador.findByBuzonElectronicoYContrasena", query = "SELECT t FROM Transportador t WHERE t.buzonElectronico = :buzonElectronico AND t.contrasena = :contrasena"),
     @NamedQuery(name = "Transportador.findByBuzonElectronicoONumeroContacto", query = "SELECT t FROM Transportador t WHERE t.buzonElectronico = :buzonElectronico OR t.numeroContacto = :numeroContacto"),
+    @NamedQuery(name = "Transportador.findByBuzonElectronicoYContrasena", query = "SELECT t FROM Transportador t WHERE t.buzonElectronico = :buzonElectronico AND t.contrasena = :contrasena"),
     @NamedQuery(name = "Transportador.findByContrasena", query = "SELECT t FROM Transportador t WHERE t.contrasena = :contrasena"),
     @NamedQuery(name = "Transportador.findByCredito", query = "SELECT t FROM Transportador t WHERE t.credito = :credito"),
     @NamedQuery(name = "Transportador.findByServiciosAtendidos", query = "SELECT t FROM Transportador t WHERE t.serviciosAtendidos = :serviciosAtendidos"),
@@ -89,15 +89,15 @@ public class Transportador implements Serializable {
     @Column(name = "estado_registro")
     private String estadoRegistro;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "transportador")
-    private Collection<Vehiculo> vehiculos;
+    private Collection<Vehiculo> vehiculoCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "transportador")
-    private Collection<Conversacion> conversaciones;
+    private Collection<Conversacion> conversacionCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "transportador")
-    private Collection<Oferta> ofertas;
+    private Collection<Oferta> ofertaCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "transportador")
-    private Collection<Factura> facturas;
+    private Collection<Factura> facturaCollection;
     @OneToMany(mappedBy = "transportador")
-    private Collection<Mensaje> mensajes;
+    private Collection<Mensaje> mensajeCollection;
 
     public Transportador() {
     }
@@ -235,48 +235,48 @@ public class Transportador implements Serializable {
     }
 
     @XmlTransient
-    public Collection<Vehiculo> getVehiculos() {
-        return vehiculos;
+    public Collection<Vehiculo> getVehiculoCollection() {
+        return vehiculoCollection;
     }
 
-    public void setVehiculos(Collection<Vehiculo> vehiculos) {
-        this.vehiculos = vehiculos;
-    }
-
-    @XmlTransient
-    public Collection<Conversacion> getConversaciones() {
-        return conversaciones;
-    }
-
-    public void setConversaciones(Collection<Conversacion> conversaciones) {
-        this.conversaciones = conversaciones;
+    public void setVehiculoCollection(Collection<Vehiculo> vehiculoCollection) {
+        this.vehiculoCollection = vehiculoCollection;
     }
 
     @XmlTransient
-    public Collection<Oferta> getOfertas() {
-        return ofertas;
+    public Collection<Conversacion> getConversacionCollection() {
+        return conversacionCollection;
     }
 
-    public void setOfertas(Collection<Oferta> ofertas) {
-        this.ofertas = ofertas;
-    }
-
-    @XmlTransient
-    public Collection<Factura> getFacturas() {
-        return facturas;
-    }
-
-    public void setFacturas(Collection<Factura> facturas) {
-        this.facturas = facturas;
+    public void setConversacionCollection(Collection<Conversacion> conversacionCollection) {
+        this.conversacionCollection = conversacionCollection;
     }
 
     @XmlTransient
-    public Collection<Mensaje> getMensajes() {
-        return mensajes;
+    public Collection<Oferta> getOfertaCollection() {
+        return ofertaCollection;
     }
 
-    public void setMensajes(Collection<Mensaje> mensajes) {
-        this.mensajes = mensajes;
+    public void setOfertaCollection(Collection<Oferta> ofertaCollection) {
+        this.ofertaCollection = ofertaCollection;
+    }
+
+    @XmlTransient
+    public Collection<Factura> getFacturaCollection() {
+        return facturaCollection;
+    }
+
+    public void setFacturaCollection(Collection<Factura> facturaCollection) {
+        this.facturaCollection = facturaCollection;
+    }
+
+    @XmlTransient
+    public Collection<Mensaje> getMensajeCollection() {
+        return mensajeCollection;
+    }
+
+    public void setMensajeCollection(Collection<Mensaje> mensajeCollection) {
+        this.mensajeCollection = mensajeCollection;
     }
 
     @Override
@@ -308,105 +308,4 @@ public class Transportador implements Serializable {
         return tipoIdentificacion + "-" + numeroIdentificacion + "-" + System.currentTimeMillis();
     }
 
-    public TransportadorDTO toDTO() {
-        TransportadorDTO dto = new TransportadorDTO();
-        dto.setBuzonElectronico(buzonElectronico);
-        dto.setId(id);
-        dto.setCredito(credito);
-        dto.setNombre(nombres);
-        dto.setNumeroContacto((numeroContacto != null) ? numeroContacto.toString() : "");
-        dto.setServiciosAtendidos(serviciosAtendidos);
-        return dto;
-    }
-
-    public class TransportadorDTO {
-
-        private String id;
-        private String nombre;
-        private String buzonElectronico;
-        private String numeroContacto;
-        private Integer credito;
-        private Short serviciosAtendidos;
-
-        public TransportadorDTO() {
-        }
-
-        /**
-         * @return the id
-         */
-        public String getId() {
-            return id;
-        }
-
-        public Short getServiciosAtendidos() {
-            return serviciosAtendidos;
-        }
-
-        public void setServiciosAtendidos(Short serviciosAtendidos) {
-            this.serviciosAtendidos = serviciosAtendidos;
-        }
-
-        /**
-         * @param id the id to set
-         */
-        public void setId(String id) {
-            this.id = id;
-        }
-
-        /**
-         * @return the nombres
-         */
-        public String getNombre() {
-            return nombre;
-        }
-
-        /**
-         * @param nombre the nombres to set
-         */
-        public void setNombre(String nombre) {
-            this.nombre = nombre;
-        }
-
-        /**
-         * @return the buzonElectronico
-         */
-        public String getBuzonElectronico() {
-            return buzonElectronico;
-        }
-
-        /**
-         * @param buzonElectronico the buzonElectronico to set
-         */
-        public void setBuzonElectronico(String buzonElectronico) {
-            this.buzonElectronico = buzonElectronico;
-        }
-
-        /**
-         * @return the credito
-         */
-        public Integer getCredito() {
-            return credito;
-        }
-
-        /**
-         * @param credito the credito to set
-         */
-        public void setCredito(Integer credito) {
-            this.credito = credito;
-        }
-
-        /**
-         * @return the numeroContacto
-         */
-        public String getNumeroContacto() {
-            return numeroContacto;
-        }
-
-        /**
-         * @param numeroContacto the numeroContacto to set
-         */
-        public void setNumeroContacto(String numeroContacto) {
-            this.numeroContacto = numeroContacto;
-        }
-    }
 }

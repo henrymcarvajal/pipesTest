@@ -13,7 +13,7 @@ import java.net.URLConnection;
 
 /**
  *
- * @author hmcarvajal@ayax.co
+ * @author Mauris
  */
 public class Process {
 

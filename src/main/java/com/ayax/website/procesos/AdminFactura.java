@@ -5,20 +5,9 @@
  */
 package com.ayax.website.procesos;
 
-import com.ayax.website.mail.Messenger;
-import com.ayax.website.mail.MessageCreator;
 import com.ayax.website.persistencia.entidades.Factura;
-import com.ayax.website.persistencia.entidades.Oferta;
-import com.ayax.website.persistencia.entidades.Servicio;
-import com.ayax.website.persistencia.entidades.Transportador;
 import com.ayax.website.persistencia.fachadas.FacturaFacade;
-import com.ayax.website.persistencia.fachadas.OfertaFacade;
-import com.ayax.website.persistencia.fachadas.ServicioFacade;
 import com.ayax.website.persistencia.fachadas.TransportadorFacade;
-import com.ayax.website.server.ConfigManager;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.util.Date;
 import java.util.Map;
 import spark.ModelAndView;
 import spark.Request;
@@ -78,8 +67,8 @@ public class AdminFactura {
             respuesta.setCodigo("001");
             respuesta.setResultado("");
         }
-        ConfirmacionPago conf = new ConfirmacionPago();
-        Map model = conf.ejecutar(req, res);
+        ConfirmacionTransaccionEpayco conf = new ConfirmacionTransaccionEpayco();
+        Map model = conf.extrarDatos(req, res);
         model.put("factura", factura);
         return new ModelAndView(model, view);
     }

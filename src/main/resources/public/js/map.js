@@ -1,99 +1,71 @@
-function initMap() {
-  var origin_place_id = null;
-  var destination_place_id = null;
-  var travel_mode = google.maps.TravelMode.WALKING;
-  var map = new google.maps.Map(document.getElementById('map'), {
-    mapTypeControl: false,
-    center: {lat: 4.710988599999999, lng: -74.072092},
-    zoom: 13
-  });
-  var directionsService = new google.maps.DirectionsService;
-  var directionsDisplay = new google.maps.DirectionsRenderer;
-  directionsDisplay.setMap(map);
-
-  var origin_input = document.getElementById('origin-input');
-  var destination_input = document.getElementById('destination-input');
-  var modes = document.getElementById('mode-selector');
-
-  map.controls[google.maps.ControlPosition.TOP_LEFT].push(origin_input);
-  map.controls[google.maps.ControlPosition.TOP_LEFT].push(destination_input);
-  map.controls[google.maps.ControlPosition.TOP_LEFT].push(modes);
-
-  var origin_autocomplete = new google.maps.places.Autocomplete(origin_input);
-  origin_autocomplete.bindTo('bounds', map);
-  var destination_autocomplete =
-      new google.maps.places.Autocomplete(destination_input);
-  destination_autocomplete.bindTo('bounds', map);
-
-  // Sets a listener on a radio button to change the filter type on Places
-  // Autocomplete.
-  function setupClickListener(id, mode) {
-    var radioButton = document.getElementById(id);
-    radioButton.addEventListener('click', function() {
-      travel_mode = mode;
-    });
-  }
-  setupClickListener('changemode-walking', google.maps.TravelMode.WALKING);
-  setupClickListener('changemode-transit', google.maps.TravelMode.TRANSIT);
-  setupClickListener('changemode-driving', google.maps.TravelMode.DRIVING);
-
-  function expandViewportToFitPlace(map, place) {
-    if (place.geometry.viewport) {
-      map.fitBounds(place.geometry.viewport);
-    } else {
-      map.setCenter(place.geometry.location);
-      map.setZoom(17);
-    }
-  }
-
-  origin_autocomplete.addListener('place_changed', function() {
-    var place = origin_autocomplete.getPlace();
-    if (!place.geometry) {
-      window.alert("Autocomplete's returned place contains no geometry");
-      return;
-    }
-    expandViewportToFitPlace(map, place);
-
-    // If the place has a geometry, store its place ID and route if we have
-    // the other place ID
-    origin_place_id = place.place_id;
-    route(origin_place_id, destination_place_id, travel_mode,
-          directionsService, directionsDisplay);
-  });
-
-  destination_autocomplete.addListener('place_changed', function() {
-    var place = destination_autocomplete.getPlace();
-    if (!place.geometry) {
-      window.alert("Autocomplete's returned place contains no geometry");
-      return;
-    }
-    expandViewportToFitPlace(map, place);
-
-    // If the place has a geometry, store its place ID and route if we have
-    // the other place ID
-    destination_place_id = place.place_id;
-    route(origin_place_id, destination_place_id, travel_mode,
-          directionsService, directionsDisplay);
-  });
-
-  function route(origin_place_id, destination_place_id, travel_mode,
-                 directionsService, directionsDisplay) {
-	if (!origin_place_id || !destination_place_id) {
-      return;
+function route(origin_place_id, destination_place_id, travel_mode,
+        directionsService) {
+    if (!origin_place_id || !destination_place_id) {
+        return;
     }
     directionsService.route({
-      origin: {'placeId': origin_place_id},
-      destination: {'placeId': destination_place_id},
-      travelMode: travel_mode
+        origin: {'placeId': origin_place_id},
+        destination: {'placeId': destination_place_id},
+        travelMode: travel_mode
     }, function(response, status) {
-      if (status === google.maps.DirectionsStatus.OK) {
-        directionsDisplay.setDirections(response);
-		$('#distancia').val(response.routes[0].legs[0].distance.text);
-		$('#distancia-ph').text(response.routes[0].legs[0].distance.text);
-		
-      } else {
-        window.alert('Directions request failed due to ' + status);
-      }
+        if (status === google.maps.DirectionsStatus.OK) {
+
+            $('#distancia').val(response.routes[0].legs[0].distance.text);
+            var path = (response.routes[0].overview_path);
+            var texto = obtenerTextoCoordenadas(response) + '&capas=1Y2';
+            llamadoPeajes("https://crossorigin.me/https://app.invias.gov.co:8080/viajero/webresources/listaEvento?punto=" + texto, obtenerSumaPeaje);
+
+
+        } else {
+            window.alert('Directions request failed due to ' + status);
+        }
     });
-  }
+}
+
+function obtenerTextoCoordenadas(response) {
+    var nPoints = response.routes[0].overview_path.length;
+    var points_text = "";
+    for (var i = 0; i < nPoints; i++) {
+        points_text += response.routes[0].overview_path[i].lng().toFixed(5) + ',' + response.routes[0].overview_path[i].lat().toFixed(5) + 'Y';
+    }
+    return points_text;
+}
+
+function obtenerListadoPeajes(listadoPeajes) {
+    var numeroPeajes = listadoPeajes.length;
+    var listaPeajes = "";
+    for (var i = 0; i < numeroPeajes; i++) {
+        listaPeajes += listadoPeajes[i].id_localizacion + "Y";
+        ;
+    }
+    return listaPeajes;
+}
+
+function obtenerSumaPeaje(listadoP) {
+    var listaPeaje = obtenerListadoPeajes(listadoP);
+    var url = "https://crossorigin.me/https://app.invias.gov.co:8080/viajero/webresources/sumarPeaje?lstPeaje=" + listaPeaje + "&categoria=1";
+    llamadoPeajes(url, llamadoCotizar);
+}
+
+function llamadoPeajes(path, callback) {
+    $.ajax({
+        type: 'GET',
+        url: path,
+        dataType: 'json',
+        async: false,
+        cache: false,
+        success: function(data) {
+
+            callback(data);
+
+        },
+        error: function(xhr, type) {
+            // to do something
+            console.log(xhr);
+        }
+    });
+}
+
+function llamadoCotizar(precioPeajes) {
+    $('#precio-peajes').val(precioPeajes.valor);
 }

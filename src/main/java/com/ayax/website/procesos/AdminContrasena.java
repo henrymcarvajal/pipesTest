@@ -9,8 +9,9 @@ import com.ayax.website.persistencia.EntityManagerFactoryBuilder;
 import com.ayax.website.mail.Messenger;
 import com.ayax.website.mail.MessageCreator;
 import com.ayax.website.persistencia.entidades.Transportador;
-import com.ayax.website.persistencia.fachadas.TransportadorJpaController;
-import com.ayax.website.persistencia.fachadas.exceptions.NonexistentEntityException;
+import com.ayax.website.persistencia.controladores.TransportadorJpaController;
+import com.ayax.website.persistencia.controladores.exceptions.NonexistentEntityException;
+import com.ayax.website.server.ConfigManager;
 import com.ayax.website.util.Cryptographer;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
@@ -53,7 +54,7 @@ public class AdminContrasena {
                 codigo = "000";
                 descripcion = "exito";
                 MessageCreator mc = new MessageCreator();
-                String message = mc.crearMensajeRecuperarContrasena(transportador);
+                String message = mc.crearMensajeRecuperarContrasena(transportador, ConfigManager.INSTANCE.isTestEnvironment());
 
                 Messenger mess = new Messenger();
                 mess.sendMail("Solicitud de Recuperación de Contraseña en Ayax.co", message, new String[]{transportador.getBuzonElectronico()});

@@ -1,3 +1,7 @@
+var confirma_contrasena=$('#confirm-password')[0];
+//document.getElementById("confirm-password");
+var contrasena=$('#password');
+//document.getElementById("password");
 $("#formularioRegistro").submit(function (event) {
 
     event.preventDefault();
@@ -48,3 +52,15 @@ $("#formularioRegistro").submit(function (event) {
     }
 
 });
+
+$('#confirm-password').keyup(function(){
+    validarContrasena();
+});
+
+function validarContrasena(){
+    if($('#confirm-password').val() !== $('#password').val()){
+        confirma_contrasena.setCustomValidity("las contrase\u00f1as no coinciden");
+    }else{
+        confirma_contrasena.setCustomValidity('');
+    }
+}

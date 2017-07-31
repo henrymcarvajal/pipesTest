@@ -2,17 +2,21 @@
 <persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
   <persistence-unit name="AyaxDatabase" transaction-type="RESOURCE_LOCAL">
     <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
+    <class>com.ayax.website.persistencia.entidades.Conversacion</class>
     <class>com.ayax.website.persistencia.entidades.CupoVehiculo</class>
     <class>com.ayax.website.persistencia.entidades.Factura</class>
+    <class>com.ayax.website.persistencia.entidades.FacturaOferta</class>
+    <class>com.ayax.website.persistencia.entidades.Mensaje</class>
     <class>com.ayax.website.persistencia.entidades.Oferta</class>
     <class>com.ayax.website.persistencia.entidades.Servicio</class>
     <class>com.ayax.website.persistencia.entidades.Suscriptor</class>
     <class>com.ayax.website.persistencia.entidades.Transportador</class>
     <class>com.ayax.website.persistencia.entidades.Usuario</class>
     <class>com.ayax.website.persistencia.entidades.Vehiculo</class>
-    <class>com.ayax.website.persistencia.entidades.admin.AdminUsuario</class>
-    <class>com.ayax.website.persistencia.entidades.Mensaje</class>
-    <class>com.ayax.website.persistencia.entidades.Conversacion</class>
+    <class>com.ayax.website.persistencia.entidades.SuscripcionPush</class>
+    <class>com.ayax.website.persistencia.entidades.ParametrosVehiculo</class>
+    <class>com.ayax.website.persistencia.entidades.CotizacionSimple</class>
+    <class>com.ayax.website.persistencia.entidades.AnalisisCostos</class>
     <properties>
       <property name="eclipselink.logging.level" value="FINE"/>
       <!--

@@ -20,7 +20,7 @@ import spark.Request;
 
 /**
  *
- * @author hmcarvajal@ayax.co
+ * @author Mauris
  */
 public class UploadUtil {
 

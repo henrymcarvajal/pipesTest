@@ -9,6 +9,7 @@ import com.ayax.website.mail.MessageCreator;
 import com.ayax.website.mail.Messenger;
 import com.ayax.website.persistencia.entidades.Transportador;
 import com.ayax.website.persistencia.fachadas.TransportadorFacade;
+import com.ayax.website.server.ConfigManager;
 import com.ayax.website.util.Cryptographer;
 import java.math.BigInteger;
 import java.util.Date;
@@ -66,7 +67,7 @@ public class AdminTransportador {
 
                 MessageCreator mc = new MessageCreator();
                 Messenger mess = new Messenger();
-                mess.sendMail("Ayax.co - Registro de Transportador Nuevo", mc.crearMensajeTransportadorNuevo(transportador), 
+                mess.sendMail("Ayax.co - Registro de Transportador Nuevo", mc.crearMensajeTransportadorNuevo(transportador, ConfigManager.INSTANCE.isTestEnvironment()), 
                         new String[]{transportador.getBuzonElectronico()});
 
                 respuesta.setResultado("exito");

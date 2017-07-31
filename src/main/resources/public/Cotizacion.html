@@ -1,0 +1,226 @@
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Ayax</title>
+
+        <!-- Bootstrap -->
+        <link href="css/bootstrap.min.css" rel="stylesheet">
+
+        <!-- Bootstrap -->
+        <link href="css/animate.css" rel="stylesheet">
+
+        <!-- Google Font Lato -->
+        <link href='https://fonts.googleapis.com/css?family=Lato:400,700,900,400italic,700italic,900italic' rel='stylesheet'
+              type='text/css'>
+        <link rel="stylesheet" href="css/font-awesome.min.css">
+
+        <!-- Plugin Styles -->
+        <link href="css/datepicker.css" rel="stylesheet">
+		<link href="css/CrearSolicitud.css" rel="stylesheet">
+
+
+        <!-- Main Styles -->
+        <link href="css/styles.css" rel="stylesheet">
+        <link href="css/recuperarContrasena.css" rel="stylesheet">
+        <link rel="apple-touch-icon-precomposed" sizes="144x144" href="img/ico/apple-touch-icon-144-precomposed.png">
+        <link rel="apple-touch-icon-precomposed" sizes="114x114" href="img/ico/apple-touch-icon-114-precomposed.png">
+        <link rel="apple-touch-icon-precomposed" sizes="72x72" href="img/ico/apple-touch-icon-72-precomposed.png">
+        <link rel="apple-touch-icon-precomposed" href="img/ico/apple-touch-icon-57-precomposed.png">
+        <link rel="shortcut icon" href="img/ico/ayax.ico">
+
+
+    </head>
+    <body id="top" data-spy="scroll" data-target=".navbar" data-offset="260">
+        <!-- Header start -->
+        <header data-offset-top="39" data-offset-bottom="0" class="large">
+
+            <div class="row container box">
+                <div class="col-md-5">
+                    <!-- Logo start -->
+                    <div class="brand">
+                        <h1><a class="scroll-to" href="index.html#top"><img class="img-responsive" src="img/logo.png" alt="Ayax"></a></h1>
+                    </div>
+                    <!-- Logo end -->
+                </div>
+
+                <div class="col-md-7">
+                    <div class="pull-right">
+                        <div class="header-info pull-right">
+                            <div class="contact pull-left">CONTACTO: 322 880-4995</div>
+                            <!-- Language Switch start -->
+                        </div>
+                    </div>
+
+                    <div class="clearfix"></div>
+
+                    <!-- start navigation -->
+                    <nav class="navbar navbar-default" role="navigation">
+                        <div class="container-fluid">
+                            <!-- Toggle get grouped for better mobile display -->
+                            <div class="navbar-header">
+                                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                                    <span class="sr-only">Toggle navigation</span>
+                                    <span class="icon-bar"></span>
+                                    <span class="icon-bar"></span>
+                                    <span class="icon-bar"></span>
+                                </button>
+                                <a class="navbar-brand scroll-to" href="index.html#top"><img class="img-responsive"  src="img/logo.png" alt="Ayax"></a>
+                            </div>
+                            <!-- Collect the nav links, for toggling -->
+                            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                                <!-- Nav-Links start -->
+                                <ul class="nav navbar-nav navbar-right">
+                                    <li class="active"><a href="index.html" class="scroll-to">Necesito un Servicio</a></li>
+                                    <li><a href="login.html" class="scroll-to">Soy Transportador</a></li>
+                                </ul>
+                                <!-- Nav-Links end -->
+                            </div>
+                        </div>
+                    </nav>
+                    <!-- end navigation -->
+                </div>
+            </div>
+
+        </header>
+        <!-- Header end -->
+
+
+        <!-- Teaser start -->
+        <section id="teaser-blog">
+            <div class="container">
+                <div class="row">
+
+                    <div class="col-md-6">
+                        <h2 class="title">Cotizaci&oacute;n de servicio</h2>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- Teaser end -->
+
+        <section class="blog-posts error-page">
+            <div class="row">
+                <div class="col-sm-6">
+                    <blockquote>
+                        <p>A continuación podrás apreciar el m&iacute;nimo y m&aacute;ximo precio que puedes obtener para el servicio que necesitas</p>
+                        <br/>
+                        <h3>Precio Mínimo </h3>
+                        <span id="precio-minimo"></span>
+                        <br/>
+                        <h3>Precio Máximo </h3>
+                        <span id="precio-maximo"></span>
+                        <br/><br/>
+                        <p>Los precios anteriormente estimados son para alquiler con conductor solo incluyen lo estipulado en el detalle del servicio, para obtener 
+                            un precio exacto debes darnos las fechas y horas exactas del servicio, la descripción del servicio utilizalo para adicionar información cómo:
+                        <ul>
+                            <li>Forma de pago del servicio.</li>
+                            <li>Características adicionales del servicio o del vehículo.</li>
+                            <li>Si eres empresa, documentos necesarios para el cobro del servicio.</li>
+                            <li>Cualquier información adicional.</li>
+                        </ul>	
+                        <p>Una vez ingreses la información necesaria presiona el botón conseguir transportador para que los transportadores de la plataforma sean
+                            notificados de tu necesidad y puedan darte un precio exacto, el cual llegará al correo que nos proporcionaste previamente.</p>
+                    </blockquote>
+                </div>
+                <div class="col-sm-6"> 
+                    <h3>Detalle de servicio</h3>
+                    <label>Ubicación Origen</label> &nbsp;
+                    <span id="ubic-origen"></span><br/>
+                    <label>Ubicación Destino</label> &nbsp;
+                    <span id="ubic-destino"></span><br/>
+                    <label>Número pasajeros</label> &nbsp;
+                    <span id="num-pasajeros"></span><br/>
+                    
+                </div>
+            </div>
+            <div class="row" style="margin: 0 auto; width:40%;">
+                <div class='input-group date' id='fechaInicio' style="width: 50%;float: left;">
+                    <input type='text' class="form-control" name="pick-up" id="pick-up" placeholder="Fecha inicio"/>
+                    <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-calendar"></span>
+                    </span>
+                </div>
+                <div class='input-group date' id='fechaFin' style="width: 50%;">
+                    <input type='text' class="form-control" name="drop-off" id="drop-off" placeholder="Fecha fin"/>
+                    <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-calendar"></span>
+                    </span>
+                </div>
+                <div class="form-row">
+                    <label>
+                        Datos de usuario
+                    </label>
+                </div>
+                <div class="form-row" id="datosUsuario">
+                    <div id="divUsuarioNoRegistrado">
+                        <input type="text" name="first-name" id="first-name" placeholder="Nombre Completo" required="required"  style="width: 100%;float:left;">
+                        <input type="email" name="email-address" id="email-address" placeholder="Correo Electrónico" required="required"  style="width: 50%;float:left;">
+                        <input type="number" name="phone-number" id="phone-number" placeholder="Número de contacto" required="required"  style="width: 50%">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <label>
+                        Ingresa instrucciones sobre el servicio (paradas, duración o datos adicionales)
+                    </label>
+                </div>
+                <div class="form-row">
+                    <div class="alert alert-danger hidden" id="datos-contacto">
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                        <strong>Nota:</strong> No son permitidos los números celular o cualquier dato de contacto.
+                        <span id="errorGenerico" style="color:red;"></span>
+                    </div>
+                    <textarea class="form-control" rows="5" id="text_detalle" placeholder="Ingresa paradas, presupuesto,forma de pago, duración, indicaciones, características adicionales del vehículo o cualquier detalle que no puedas ingresar en los campos anteriores"></textarea>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Footer start -->
+        <footer>
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12 text-center">
+                        <ul class="footer-nav">
+                            <li class="active"><a href="index.html" class="scroll-to">Necesito un Servicio</a></li>
+                            <li><a href="login.html" class="scroll-to">Soy Transportador</a></li>
+                        </ul>
+                        <div class="clearfix"></div>
+                        <p class="copyright">©2016 Ayax, All Rights Reserved.</p>
+                    </div>
+                </div>
+            </div>
+        </footer>
+        <!-- Footer end -->
+
+
+        <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+        <script src="js/jquery-1.11.0.min.js"></script>
+        <!-- Include all compiled plugins (below), or include individual files as needed -->
+        
+        <script src="js/bootstrap.min.js"></script>
+        <script src="js/jquery.autocomplete.min.js"></script>
+        <script src="js/jquery.placeholder.js"></script>
+        <script src="js/locations-autocomplete.js"></script>
+        <script src="js/bootstrap-datepicker.js"></script>
+        <script src="js/gmap3.min.js"></script>
+        <script src="js/recuperarContrasena.js"></script>
+        <!--[if !(gte IE 8)]><!-->
+        <script src="js/wow.min.js"></script>
+        <script src="js/general.js"></script>
+        <script src="js/cargaCotizacion.js"></script>
+        <script>
+            // Initialize WOW
+            //-------------------------------------------------------------
+            new WOW({mobile: false}).init();
+        </script>
+        <!--<![endif]-->
+
+        <script src="js/custom.js"></script>
+
+
+    </body>
+</html>

@@ -184,3 +184,74 @@ CREATE TABLE l4_admin_usuario
 );
 
 ALTER TABLE l4_admin_usuario ADD buzon_electronico character varying(32);
+
+CREATE TABLE l4_factura_oferta
+(
+  oferta character varying(64) NOT NULL,
+  valor bigint,
+  fecha_hora_tx character varying(32),
+  codigo_aprobacion integer,
+  numero_referencia_payco integer,
+  codigo_respuesta smallint,
+  descripcion_respuesta character varying(64),
+  estado_tx character varying(16),
+  generada boolean,
+  CONSTRAINT l4_factura_oferta_pk PRIMARY KEY (oferta),
+  CONSTRAINT oferta_factura_oferta_fk FOREIGN KEY (oferta)
+      REFERENCES public.l4_oferta (id) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION
+);
+
+CREATE TABLE l4_conversacion
+(
+  id character varying(64) NOT NULL,
+  servicio character varying(64) NOT NULL,
+  transportador character varying(64) NOT NULL,
+  fecha_creacion timestamp without time zone,
+  CONSTRAINT conversacion_pk PRIMARY KEY (id),
+  CONSTRAINT servicio_conversacion_fk FOREIGN KEY (servicio)
+      REFERENCES public.l4_servicio (id) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION,
+  CONSTRAINT transportador_conversacion_fk FOREIGN KEY (transportador)
+      REFERENCES public.l4_transportador (id) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION
+);
+
+CREATE TABLE l4_mensaje
+(
+  id character varying(64) NOT NULL,
+  conversacion character varying(64) NOT NULL,
+  fecha_creacion timestamp without time zone,
+  transportador character varying(64),
+  usuario character varying(64),
+  texto character varying(200),
+  CONSTRAINT l4_mensaje_pk PRIMARY KEY (id),
+  CONSTRAINT conversacion_mensaje_fk FOREIGN KEY (conversacion)
+      REFERENCES public.l4_conversacion (id) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION,
+  CONSTRAINT transportador_mensaje_fk FOREIGN KEY (transportador)
+      REFERENCES public.l4_transportador (id) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION,
+  CONSTRAINT usuario_mensaje_fk FOREIGN KEY (usuario)
+      REFERENCES public.l4_usuario (id) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION
+)
+
+alter table l4_oferta rename column id_servicio to servicio;
+alter table l4_oferta rename column id_transportador to transportador;
+alter table l4_oferta rename column id_factura to factura;
+alter table l4_factura_oferta rename column id_oferta to oferta;
+alter table l4_vehiculo rename column id_transportador to transportador;
+alter table l4_servicio rename column id_usuario to usuario;
+alter table l4_factura rename column id_transportador to transportador;
+alter table l4_conversacion rename column id_servicio to servicio;
+alter table l4_conversacion rename column id_transportador to transportador;
+alter table l4_mensaje rename column id_conversacion to conversacion;
+alter table l4_mensaje rename column id_transportador to transportador;
+alter table l4_mensaje rename column id_usuario to usuario;
+
+alter table l4_servicio alter column distancia set data type numeric(5,1);
+
+alter table l4_oferta rename column aceptada to estado;
+
+alter table l4_oferta alter column estado set data type character varying(16);

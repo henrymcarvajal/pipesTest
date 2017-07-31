@@ -48,7 +48,13 @@
                     <a href style="text-align:right;" id="cerrar-sesion">Salir</a>	<br/>
                     <div class="pull-right" id="usuario-sesion">
                         <div class="header-info pull-right">
-                            <div class="contact pull-left"><span id="nombreUsuario"></span> Crédito: <span id="valorRecargado"></span><form action="/cuenta" method="post"><input type ="number" min="30000" name="monto" style="width:40%;height:40%;"> <input type="submit" class="btn submit-message recargar-cuenta" style ="background-color: #ffbf00;" value="RECARGA TU CUENTA"/></form></div>
+                            <div class="contact pull-left">
+<!--
+                                <span id="nombreUsuario"></span> Crédito: <span id="valorRecargado"></span><form action="/cuenta" method="post"><input type ="number" min="30000" name="monto" style="width:40%;height:40%;">
+                                <input type="submit" class="btn submit-message recargar-cuenta" style ="background-color: #ffbf00;" value="RECARGA TU CUENTA"/></form>
+-->
+      <button disabled id="pushButton">Suscribirme</button>
+                            </div>
                         </div>
                     </div>
 
@@ -221,6 +227,7 @@
             new WOW({mobile: false}).init();
         </script>
         <!--<![endif]-->
+        <script src="js/push/main.js"></script>
 
     </body>
 </html>

@@ -16,6 +16,7 @@
         <!-- Main Styles -->
         <link href="css/styles.css" rel="stylesheet">
         <link href="css/CrearSolicitud.css" rel="stylesheet">
+        <link href="css/bootstrap-datetimepicker.min.css" rel="stylesheet">
         <!-- Available main styles: styles-red.css, styles-green.css -->
 
 
@@ -126,18 +127,18 @@
                             <input type="text" name="pickup-location" placeholder="dirección origen" required="required"  style="width: 50%;float:left;">
                             <input type="text" name="dropoff-location" placeholder="dirección destino" required="required"  style="width: 50%">
                             <div class='input-group date' id='fechaInicio' style="width: 50%;float: left;">
-                                <input type='text' class="form-control" name="pick-up" placeholder="fecha inicio"/>
+                                <input type='text' class="form-control" name="pick-up" id="pick-up" placeholder="Fecha inicio"/>
                                 <span class="input-group-addon">
                                     <span class="glyphicon glyphicon-calendar"></span>
                                 </span>
                             </div>
                             <div class='input-group date' id='fechaFin' style="width: 50%;">
-                                <input type='text' class="form-control" name="pick-off" placeholder="fecha fin"/>
+                                <input type='text' class="form-control" name="drop-off" id="drop-off" placeholder="Fecha fin"/>
                                 <span class="input-group-addon">
                                     <span class="glyphicon glyphicon-calendar"></span>
                                 </span>
                             </div>
-                            <input type="number" name="car-select" placeholder="Número pasajeros" required="required"  style="width: 100%;">
+                            <input type="number" name="selected-car" id="selected-car" placeholder="Número pasajeros" required="required"  style="width: 100%;">
                         </div>
                         <div class="form-row">
                             <label>
@@ -149,6 +150,7 @@
                                 <input id="usuarioRegistrado" type="checkbox" name="usuarioregistrado" value="yes" style="width:auto;margin:0px;">
                                 <label for="usuarioRegistrado" style="color:#a0a0ec;font-size: 0.8em;">Ya he pedido servicios antes</label>
                             </div>
+                            <input type="number" name="nit" id="nit" placeholder="Número de identificación" required="required"  style="width: 100%;">
                             <div id="divUsuarioNoRegistrado">
                                 <input type="text" name="first-name" id="first-name" placeholder="Nombre Completo" required="required"  style="width: 60%;float:left;">
                                 <input type="text" name="nombres" placeholder="Código promocional"  style="width: 40%">
@@ -167,7 +169,7 @@
                         <div class="form-row">
                             <div class="alert alert-danger hidden" id="datos-contacto">
                                 <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-                                <strong>Nota:</strong> No son permitidos los números ni los datos de contacto.
+                                <strong>Nota:</strong> No son permitidos los números celular o cualquier dato de contacto.
                                 <span id="errorGenerico" style="color:red;"></span>
                             </div>
                             <textarea class="form-control" rows="5" id="text_detalle" placeholder="Ingresa paradas, presupuesto,forma de pago, duración, indicaciones, características adicionales del vehículo o cualquier detalle que no puedas ingresar en los campos anteriores"></textarea>
@@ -184,8 +186,12 @@
                         </div>
                         <div class="alert alert-danger hidden" id="tipo-servicio-falta">
                             <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-                            <strong>Nota:</strong> Falta un campo obligatorio
+                            <strong>Nota:</strong> Debes aceptar términos y condiciones
                             <span id="errorGenerico" style="color:red;"></span>
+                        </div>
+                        <div class="alert alert-danger hidden" id="divMensajeError_usuario">
+                            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                            <strong>Error!</strong> <span id="errorMensaje">Mensaje de error</span>
                         </div>
 
                     </div>
@@ -214,9 +220,9 @@
         <!-- Include all compiled plugins (below), or include individual files as needed -->
 
         <script src="js/bootstrap.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.6/moment.min.js"></script>   
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/js/bootstrap-datetimepicker.min.js"></script>
-
+        <script src="js/moment.min.js"></script>
+        <script src="js/bootstrap-datetimepicker.min.js"></script>
+        <script src="js/bootstrap-datetimepicker.es.js"></script>
         <script src="js/jquery.autocomplete.min.js"></script>
         <script src="js/jquery.placeholder.js"></script>
         <script src="js/CrearSolicitud.js"></script>

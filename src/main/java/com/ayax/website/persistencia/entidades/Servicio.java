@@ -34,8 +34,8 @@ import javax.xml.bind.annotation.XmlTransient;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Servicio.findAll", query = "SELECT s FROM Servicio s"),
-    @NamedQuery(name = "Servicio.findAllActive", query = "SELECT s, o FROM Servicio s LEFT JOIN s.ofertas o WHERE s.fechaCreacion > :fechaLimite AND s.fechaEjecucion is null"),
-    @NamedQuery(name = "Servicio.findAllFinished", query = "SELECT s, o FROM Servicio s JOIN s.ofertas o WHERE s.fechaTerminacion < :fecha AND o.aceptada = true"),
+    @NamedQuery(name = "Servicio.findAllActive", query = "SELECT s, o FROM Servicio s LEFT JOIN s.ofertaCollection o WHERE s.horaSalida > :fechaLimite AND s.id NOT IN (SELECT DISTINCT s.id FROM Oferta o JOIN o.servicio s WHERE o.estado = 'ACEPTADA') ORDER BY s.fechaCreacion DESC"),
+    @NamedQuery(name = "Servicio.findAllFinished", query = "SELECT s, o FROM Servicio s JOIN s.ofertaCollection o WHERE s.fechaTerminacion < :fecha AND o.estado = 'ACEPTADA'"),
     @NamedQuery(name = "Servicio.findById", query = "SELECT s FROM Servicio s WHERE s.id = :id"),
     @NamedQuery(name = "Servicio.findByOrigen", query = "SELECT s FROM Servicio s WHERE s.origen = :origen"),
     @NamedQuery(name = "Servicio.findByDestino", query = "SELECT s FROM Servicio s WHERE s.destino = :destino"),
@@ -97,10 +97,10 @@ public class Servicio implements Serializable {
     @Column(name = "detalle")
     private String detalle;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "servicio")
-    private Collection<Conversacion> conversaciones;
+    private Collection<Conversacion> conversacionCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "servicio")
-    private Collection<Oferta> ofertas;
-    @JoinColumn(name = "id_usuario", referencedColumnName = "id")
+    private Collection<Oferta> ofertaCollection;
+    @JoinColumn(name = "usuario", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Usuario usuario;
 
@@ -248,21 +248,21 @@ public class Servicio implements Serializable {
     }
 
     @XmlTransient
-    public Collection<Conversacion> getConversaciones() {
-        return conversaciones;
+    public Collection<Conversacion> getConversacionCollection() {
+        return conversacionCollection;
     }
 
-    public void setConversaciones(Collection<Conversacion> conversaciones) {
-        this.conversaciones = conversaciones;
+    public void setConversacionCollection(Collection<Conversacion> conversacionCollection) {
+        this.conversacionCollection = conversacionCollection;
     }
 
     @XmlTransient
-    public Collection<Oferta> getOfertas() {
-        return ofertas;
+    public Collection<Oferta> getOfertaCollection() {
+        return ofertaCollection;
     }
 
-    public void setOfertas(Collection<Oferta> ofertas) {
-        this.ofertas = ofertas;
+    public void setOfertaCollection(Collection<Oferta> ofertaCollection) {
+        this.ofertaCollection = ofertaCollection;
     }
 
     public Usuario getUsuario() {
@@ -302,4 +302,5 @@ public class Servicio implements Serializable {
         Date today = new Date();
         return horaSalida.after(today) && horaLlegada.after(today);
     }
+
 }

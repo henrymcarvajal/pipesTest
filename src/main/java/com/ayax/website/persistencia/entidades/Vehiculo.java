@@ -37,18 +37,18 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({
     @NamedQuery(name = "Vehiculo.findAll", query = "SELECT v FROM Vehiculo v"),
     @NamedQuery(name = "Vehiculo.findById", query = "SELECT v FROM Vehiculo v WHERE v.id = :id"),
-    @NamedQuery(name = "Vehiculo.findByPlaca", query = "SELECT v FROM Vehiculo v WHERE v.placa = :placa"),
-    @NamedQuery(name = "Vehiculo.findByNumeroPasajeros", query = "SELECT v FROM Vehiculo v WHERE v.numeroPasajeros = :numeroPasajeros"),
+    @NamedQuery(name = "Vehiculo.findByPlaca", query = "SELECT v FROM Vehiculo v WHERE UPPER(v.placa) = UPPER(:placa)"),
+    @NamedQuery(name = "Vehiculo.findByNumeroPasajeros", query = "SELECT v FROM Vehiculo v WHERE v.numeroPasajeros BETWEEN :numeroPasajerosMinimo AND :numeroPasajerosMaximo"),
     @NamedQuery(name = "Vehiculo.findByCiudad", query = "SELECT v FROM Vehiculo v WHERE v.ciudad = :ciudad"),
     @NamedQuery(name = "Vehiculo.findByFechaCreacion", query = "SELECT v FROM Vehiculo v WHERE v.fechaCreacion = :fechaCreacion"),
     @NamedQuery(name = "Vehiculo.findByMarca", query = "SELECT v FROM Vehiculo v WHERE v.marca = :marca"),
     @NamedQuery(name = "Vehiculo.findByModelo", query = "SELECT v FROM Vehiculo v WHERE v.modelo = :modelo"),
     @NamedQuery(name = "Vehiculo.findByAcondicionado", query = "SELECT v FROM Vehiculo v WHERE v.acondicionado = :acondicionado"),
-    @NamedQuery(name = "Vehiculo.findByFechaVenSoat", query = "SELECT v FROM Vehiculo v WHERE v.fechaVencimientoSoat = :fechaVenSoat"),
-    @NamedQuery(name = "Vehiculo.findByFechaVenTecnome", query = "SELECT v FROM Vehiculo v WHERE v.fechaVencimientoTecnomecanica = :fechaVenTecnome"),
-    @NamedQuery(name = "Vehiculo.findByFechaVenScontractual", query = "SELECT v FROM Vehiculo v WHERE v.fechaVencimientoScontractual = :fechaVenScontractual"),
-    @NamedQuery(name = "Vehiculo.findByFechaVenSecontractual", query = "SELECT v FROM Vehiculo v WHERE v.fechaVencimientoSecontractual = :fechaVenSecontractual"),
-    @NamedQuery(name = "Vehiculo.findByFechaVenToperacion", query = "SELECT v FROM Vehiculo v WHERE v.fechaVencimientoToperacion = :fechaVenToperacion")})
+    @NamedQuery(name = "Vehiculo.findByFechaVencimientoSoat", query = "SELECT v FROM Vehiculo v WHERE v.fechaVencimientoSoat = :fechaVencimientoSoat"),
+    @NamedQuery(name = "Vehiculo.findByFechaVencimientoTecnomecanica", query = "SELECT v FROM Vehiculo v WHERE v.fechaVencimientoTecnomecanica = :fechaVencimientoTecnomecanica"),
+    @NamedQuery(name = "Vehiculo.findByFechaVencimientoScontractual", query = "SELECT v FROM Vehiculo v WHERE v.fechaVencimientoScontractual = :fechaVencimientoScontractual"),
+    @NamedQuery(name = "Vehiculo.findByFechaVencimientoSecontractual", query = "SELECT v FROM Vehiculo v WHERE v.fechaVencimientoSecontractual = :fechaVencimientoSecontractual"),
+    @NamedQuery(name = "Vehiculo.findByFechaVencimientoToperacion", query = "SELECT v FROM Vehiculo v WHERE v.fechaVencimientoToperacion = :fechaVencimientoToperacion")})
 public class Vehiculo implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -89,25 +89,25 @@ public class Vehiculo implements Serializable {
     private String modelo;
     @Column(name = "acondicionado")
     private Boolean acondicionado;
-    @Column(name = "fecha_ven_soat")
+    @Column(name = "fecha_vencimiento_soat")
     @Temporal(TemporalType.TIMESTAMP)
     private Date fechaVencimientoSoat;
-    @Column(name = "fecha_ven_tecnome")
+    @Column(name = "fecha_vencimiento_tecnomecanica")
     @Temporal(TemporalType.TIMESTAMP)
     private Date fechaVencimientoTecnomecanica;
-    @Column(name = "fecha_ven_scontractual")
+    @Column(name = "fecha_vencimiento_scontractual")
     @Temporal(TemporalType.TIMESTAMP)
     private Date fechaVencimientoScontractual;
-    @Column(name = "fecha_ven_secontractual")
+    @Column(name = "fecha_vencimiento_secontractual")
     @Temporal(TemporalType.TIMESTAMP)
     private Date fechaVencimientoSecontractual;
-    @Column(name = "fecha_ven_toperacion")
+    @Column(name = "fecha_vencimiento_toperacion")
     @Temporal(TemporalType.TIMESTAMP)
     private Date fechaVencimientoToperacion;
     @Lob
     @Column(name = "tarjeta_operacion")
     private byte[] tarjetaOperacion;
-    @JoinColumn(name = "id_transportador", referencedColumnName = "id")
+    @JoinColumn(name = "transportador", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Transportador transportador;
 

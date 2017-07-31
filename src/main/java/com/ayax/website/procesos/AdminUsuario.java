@@ -8,7 +8,7 @@ package com.ayax.website.procesos;
 import com.ayax.website.persistencia.EntityManagerFactoryBuilder;
 import com.ayax.website.persistencia.entidades.Servicio;
 import com.ayax.website.persistencia.entidades.Usuario;
-import com.ayax.website.persistencia.fachadas.UsuarioJpaController;
+import com.ayax.website.persistencia.controladores.UsuarioJpaController;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;

@@ -6,11 +6,12 @@
 package com.ayax.website.procesos;
 
 import com.ayax.website.persistencia.EntityManagerFactoryBuilder;
-import com.ayax.website.persistencia.fachadas.ServicioJpaController;
+import com.ayax.website.persistencia.controladores.ServicioJpaController;
 import com.ayax.website.persistencia.entidades.Servicio;
 import com.ayax.website.mail.Messenger;
 import com.ayax.website.mail.MessageCreator;
 import com.ayax.website.persistencia.entidades.Oferta;
+import com.ayax.website.server.ConfigManager;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -74,10 +75,10 @@ public class AdminProcesos {
                 System.out.println("Oferta: " + oferta.getId());
 
                 if (oferta.getServicio().getCalificacionUsuario() == 0) {
-                    mess.sendMail("Ayax.co - Calificaci&oacute;n de transportador", mc.crearMensajeCalificarTransportador(oferta), new String[]{oferta.getServicio().getUsuario().getBuzonElectronico()});
+                    mess.sendMail("Ayax.co - Calificaci&oacute;n de transportador", mc.crearMensajeCalificarTransportador(oferta, ConfigManager.INSTANCE.isTestEnvironment()), new String[]{oferta.getServicio().getUsuario().getBuzonElectronico()});
                 }
                 if (oferta.getServicio().getCalificacionTransportador() == 0) {
-                    mess.sendMail("Ayax.co - Calificaci&oacute;n de usuario", mc.crearMensajeCalificarUsuario(oferta), new String[]{oferta.getTransportador().getBuzonElectronico()});
+                    mess.sendMail("Ayax.co - Calificaci&oacute;n de usuario", mc.crearMensajeCalificarUsuario(oferta, ConfigManager.INSTANCE.isTestEnvironment()), new String[]{oferta.getTransportador().getBuzonElectronico()});
                 }
             });
         }

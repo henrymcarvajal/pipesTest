@@ -1,185 +1,187 @@
 
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Ayax</title>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Ayax</title>
 
-    <!-- Bootstrap -->
-    <link href="css/bootstrap.min.css" rel="stylesheet">
-
-
-	<link href="css/form-register.css" rel="stylesheet">
-
-    <!-- Main Styles -->
-    <link href="css/styles.css" rel="stylesheet">
-	<link href="css/subirDocV.css" rel="stylesheet">
-    <!-- Available main styles: styles-red.css, styles-green.css -->
+        <!-- Bootstrap -->
+        <link href="css/bootstrap.min.css" rel="stylesheet">
 
 
+        <link href="css/form-register.css" rel="stylesheet">
 
-    <!-- Fav and touch icons -->
-    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="img/ico/apple-touch-icon-144-precomposed.png">
-    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="img/ico/apple-touch-icon-114-precomposed.png">
-    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="img/ico/apple-touch-icon-72-precomposed.png">
-    <link rel="apple-touch-icon-precomposed" href="img/ico/apple-touch-icon-57-precomposed.png">
-    <link rel="shortcut icon" href="img/ico/ayax.ico">
+        <!-- Main Styles -->
+        <link href="css/styles.css" rel="stylesheet">
+        <link href="css/subirDocV.css" rel="stylesheet">
+        <!-- Available main styles: styles-red.css, styles-green.css -->
 
-</head>
-<body id="top" data-spy="scroll" data-target=".navbar" data-offset="260">
 
-<!-- Header start -->
-<header class="large">
 
-    <div class="row container box">
-        <div class="col-md-5">
-            <!-- Logo start -->
-            <div class="brand">
-                <h1><a class="scroll-to" href="#top"><img class="img-responsive" src="img/logo.png" alt="Ayax"></a></h1>
-            </div>
-            <!-- Logo end -->
-        </div>
+        <!-- Fav and touch icons -->
+        <link rel="apple-touch-icon-precomposed" sizes="144x144" href="img/ico/apple-touch-icon-144-precomposed.png">
+        <link rel="apple-touch-icon-precomposed" sizes="114x114" href="img/ico/apple-touch-icon-114-precomposed.png">
+        <link rel="apple-touch-icon-precomposed" sizes="72x72" href="img/ico/apple-touch-icon-72-precomposed.png">
+        <link rel="apple-touch-icon-precomposed" href="img/ico/apple-touch-icon-57-precomposed.png">
+        <link rel="shortcut icon" href="img/ico/ayax.ico">
 
-        <div class="col-md-7">
-            <div class="pull-right">
-                <div class="header-info pull-right">
-                    <div class="contact pull-left">CONTACTO WHATSAPP: 322 880-4995</div>
-                    <!-- Language Switch start -->
-                    <!-- Language Switch end -->
+    </head>
+    <body id="top" data-spy="scroll" data-target=".navbar" data-offset="260">
+
+        <!-- Header start -->
+        <header class="large">
+
+            <div class="row container box">
+                <div class="col-md-5">
+                    <!-- Logo start -->
+                    <div class="brand">
+                        <h1><a class="scroll-to" href="#top"><img class="img-responsive" src="img/logo.png" alt="Ayax"></a></h1>
+                    </div>
+                    <!-- Logo end -->
                 </div>
-            </div>
 
-            <div class="clearfix"></div>
-
-            <!-- start navigation -->
-            <nav class="navbar navbar-default" role="navigation">
-                <div class="container-fluid">
-                    <!-- Toggle get grouped for better mobile display -->
-                    <div class="navbar-header">
-                        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-                            <span class="sr-only">Toggle navigation</span>
-                            <span class="icon-bar"></span>
-                            <span class="icon-bar"></span>
-                            <span class="icon-bar"></span>
-                        </button>
-                        <a class="navbar-brand scroll-to" href="#top"><img class="img-responsive"  src="img/logo.png" alt="Ayax"></a>
-                    </div>
-                    <!-- Collect the nav links, for toggling -->
-                    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                        <!-- Nav-Links start -->
-                        <ul class="nav navbar-nav navbar-right">
-							<li class="active"><a href="index.html" class="scroll-to">Necesito un Servicio</a></li>
-							<li><a href="login.html" class="scroll-to">Soy Transportador</a></li>
-                        </ul>
-                        <!-- Nav-Links end -->
-                    </div>
-                </div>
-            </nav>
-            <!-- end navigation -->
-        </div>
-    </div>
-
-</header>
-<!-- Header end -->
-
-<section id="teaser-blog">
-    <div class="container">
-        <div class="row">
-
-            <div class="col-md-6">
-                <h2 class="title">Foto del vehículo</h2>
-            </div>
-        </div>
-    </div>
-</section>
-</br>
-<section class="container">
-	 <form class="form-register-vehiculo" id="formularioRegistro" enctype="multipart/form-data" method="POST" action="#">
-
-            <div class="form-register-with-email">
-
-                <div class="form-white-background">
-
-                    <div class="form-title-row">
-                        <h1>Sube la foto de tu vehículo</h1>
-                    </div>
-                    <div class="form-row">
-                        <label class="btn btn-default btn-file subir-archivo-boton">
-                        Seleccionar Foto<input type="file" name="Fvehiculo" id="Fvehiculo" style="display: none;">
-                        </label>
-                        <label>
-                            <input type="text" name="F-vehiculo" id="F-vehiculo"  required="required" placeholder="Foto del vehículo">
-                        </label>
-                    </div>
-                    <div id="placa">
-                        <div class="form-row">
-                            <label id="label-placa">
-                                Digita tu placa:
-                            </label>
-                            <label>
-                                <input type="text" name="Vplaca" id="Vplaca"  placeholder="Placa del vehículo">
-                            </label>
+                <div class="col-md-7">
+                    <div class="pull-right">
+                        <div class="header-info pull-right">
+                            <div class="contact pull-left">CONTACTO WHATSAPP: 322 880-4995</div>
+                            <!-- Language Switch start -->
+                            <!-- Language Switch end -->
                         </div>
                     </div>
-                    <div class="form-row">
-                        <button type="submit">Enviar foto</button>
+
+                    <div class="clearfix"></div>
+
+                    <!-- start navigation -->
+                    <nav class="navbar navbar-default" role="navigation">
+                        <div class="container-fluid">
+                            <!-- Toggle get grouped for better mobile display -->
+                            <div class="navbar-header">
+                                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                                    <span class="sr-only">Toggle navigation</span>
+                                    <span class="icon-bar"></span>
+                                    <span class="icon-bar"></span>
+                                    <span class="icon-bar"></span>
+                                </button>
+                                <a class="navbar-brand scroll-to" href="#top"><img class="img-responsive"  src="img/logo.png" alt="Ayax"></a>
+                            </div>
+                            <!-- Collect the nav links, for toggling -->
+                            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                                <!-- Nav-Links start -->
+                                <ul class="nav navbar-nav navbar-right">
+                                    <li class="active"><a href="index.html" class="scroll-to">Necesito un Servicio</a></li>
+                                    <li><a href="login.html" class="scroll-to">Soy Transportador</a></li>
+                                </ul>
+                                <!-- Nav-Links end -->
+                            </div>
+                        </div>
+                    </nav>
+                    <!-- end navigation -->
+                </div>
+            </div>
+
+        </header>
+        <!-- Header end -->
+
+        <section id="teaser-blog">
+            <div class="container">
+                <div class="row">
+
+                    <div class="col-md-6">
+                        <h2 class="title">Foto del vehículo</h2>
                     </div>
-                    <div class="alert alert-danger hidden" id="documentosFalta">
-                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-                        <strong>Nota:</strong> Falta un campo obligatorio
-                        <span id="errorGenerico" style="color:red;"></span>
+                </div>
+            </div>
+        </section>
+        <br/>
+        <section class="container">
+            <form class="form-register-vehiculo" id="uploadImageForm" enctype="multipart/form-data" method="POST" action="#">
+
+                <div class="form-register-with-email">
+
+                    <div class="form-white-background">
+
+                        <div class="form-title-row">
+                            <h1>Sube la foto de tu vehículo</h1>
+                        </div>
+                        <div id="placa">
+                            <div class="alert alert-danger hidden" id="placa-obligatoria">
+                                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                                <strong>Nota:</strong> Debes digitar la placa primero y después seleccionar la foto de nuevo.
+                                <span id="errorGenerico" style="color:red;"></span>
+                            </div>
+                            <div class="form-row">
+                                <label id="label-placa">
+                                    Primero Digita tu placa:
+                                </label>
+                                <label>
+                                    <input type="text" name="Vplaca" id="Vplaca"  placeholder="Placa del vehículo">
+                                </label>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <label class="btn btn-default btn-file subir-archivo-boton">
+                                Seleccionar Foto<input type="file" name="Fvehiculo" id="Fvehiculo" style="display: none;">
+                            </label>
+                            <label>
+                                <input type="text" name="F-vehiculo" id="F-vehiculo"  required="required" placeholder="Foto del vehículo">
+                            </label>
+                        </div>
+                        <div class="alert alert-danger hidden" id="documentosFalta">
+                            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                            <strong>Nota:</strong> Falta un campo obligatorio
+                            <span id="errorGenerico" style="color:red;"></span>
+                        </div>
+
                     </div>
 
                 </div>
 
-            </div>
+                <!--<div class="form-sign-in-with-social">
+    
+                    <div class="form-row form-title-row">
+                        <span class="form-title">Sign in with</span>
+                    </div>
+                    <a href="https://www.facebook.com/ayaxcolombia/" class="form-facebook-button">Facebook</a>
+                </div>-->
 
-            <!--<div class="form-sign-in-with-social">
-
-                <div class="form-row form-title-row">
-                    <span class="form-title">Sign in with</span>
+            </form>
+        </section>
+        <!-- Footer start -->
+        <footer>
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12 text-center">
+                        <ul class="footer-nav">
+                            <li class="active"><a href="index.html" class="scroll-to">Necesito un Servicio</a></li>
+                            <li><a href="login.html" class="scroll-to">Soy Transportador</a></li>
+                        </ul>
+                        <div class="clearfix"></div>
+                        <p class="copyright">©2016 Ayax, All Rights Reserved</p>
+                    </div>
                 </div>
-                <a href="https://www.facebook.com/ayaxcolombia/" class="form-facebook-button">Facebook</a>
-            </div>-->
-
-        </form>
-</section>
-<!-- Footer start -->
-<footer>
-    <div class="container">
-        <div class="row">
-            <div class="col-md-12 text-center">
-                <ul class="footer-nav">
-                    <li class="active"><a href="index.html" class="scroll-to">Necesito un Servicio</a></li>
-                    <li><a href="login.html" class="scroll-to">Soy Transportador</a></li>
-                </ul>
-                <div class="clearfix"></div>
-                <p class="copyright">©2016 Ayax, All Rights Reserved</p>
             </div>
-        </div>
-    </div>
-</footer>
+        </footer>
 
 
 
-<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-<script src="js/jquery-1.11.0.min.js"></script>
-<!-- Include all compiled plugins (below), or include individual files as needed -->
+        <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+        <script src="js/jquery-1.11.0.min.js"></script>
+        <!-- Include all compiled plugins (below), or include individual files as needed -->
 
-<script src="js/bootstrap.min.js"></script>
-<script src="js/jquery.placeholder.js"></script>
-<script src="js/subirDocumento.js"></script>
-<script src="js/general.js"></script>
-<!--[if !(gte IE 8)]><!-->
-<script src="js/wow.min.js"></script>
-<script>
-    // Initialize WOW
-    //-------------------------------------------------------------
-    new WOW({mobile: false}).init();
-</script>
-<!--<![endif]-->
+        <script src="js/bootstrap.min.js"></script>
+        <script src="js/jquery.placeholder.js"></script>
+        <script src="js/subirDocumento.js"></script>
+        <script src="js/general.js"></script>
+        <!--[if !(gte IE 8)]><!-->
+        <script src="js/wow.min.js"></script>
+        <script>
+            // Initialize WOW
+            //-------------------------------------------------------------
+            new WOW({mobile: false}).init();
+        </script>
+        <!--<![endif]-->
 
-</body>
+    </body>
 </html>

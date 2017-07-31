@@ -5,6 +5,7 @@
  */
 package com.ayax.website.persistencia.fachadas;
 
+import com.ayax.website.persistencia.controladores.SuscriptorJpaController;
 import com.ayax.website.persistencia.EntityManagerFactoryBuilder;
 import com.ayax.website.persistencia.entidades.Suscriptor;
 import java.util.logging.Level;

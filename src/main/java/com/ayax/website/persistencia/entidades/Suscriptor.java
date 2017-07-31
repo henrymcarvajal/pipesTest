@@ -17,7 +17,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author Ayax
+ * @author hmcarvajal@ayax.co
  */
 @Entity
 @Table(name = "l4_suscriptor")
@@ -89,5 +89,5 @@ public class Suscriptor implements Serializable {
     public String toString() {
         return "com.ayax.website.persistencia.entidades.Suscriptor[ id=" + id + " ]";
     }
-    
+	
 }

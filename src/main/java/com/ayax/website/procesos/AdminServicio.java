@@ -6,8 +6,8 @@
 package com.ayax.website.procesos;
 
 import com.ayax.website.persistencia.EntityManagerFactoryBuilder;
-import com.ayax.website.persistencia.fachadas.ServicioJpaController;
-import com.ayax.website.persistencia.fachadas.UsuarioJpaController;
+import com.ayax.website.persistencia.controladores.ServicioJpaController;
+import com.ayax.website.persistencia.controladores.UsuarioJpaController;
 import com.ayax.website.persistencia.entidades.Servicio;
 import com.ayax.website.persistencia.entidades.Usuario;
 import com.ayax.website.mail.Messenger;
@@ -16,6 +16,8 @@ import com.ayax.website.persistencia.entidades.Conversacion;
 import com.ayax.website.persistencia.entidades.Mensaje;
 import com.ayax.website.persistencia.entidades.Oferta;
 import com.ayax.website.persistencia.entidades.Transportador;
+import com.ayax.website.persistencia.fachadas.ServicioFacade;
+import com.ayax.website.server.ConfigManager;
 import com.ayax.website.server.RouteServer;
 import com.ayax.website.util.Util;
 import java.math.BigDecimal;
@@ -53,8 +55,8 @@ public class AdminServicio {
     public AdminServicio() {
     }
 
-    private static final String CODIGO_ESERVICIO_ESPECIAL = "CESE1A";
-    public static final String TIPO_USUARIO_ESERVICIOESPECIAL = "1";
+    private static final String CODIGO_SERVICIO_ESPECIAL = "CESE1A";
+    public static final String TIPO_USUARIO_SERVICIOESPECIAL = "1";
 
     public Respuesta crearServicio(Request req, Response res) {
         Respuesta respuesta = new Respuesta();
@@ -120,6 +122,7 @@ public class AdminServicio {
             respuesta.setResultado("Correo ya registrado.");
             return respuesta;
         }
+
         if (usuario == null && !esRegistrado) {
             esUsuarioNuevo = true;
             usuario = new Usuario();
@@ -132,11 +135,10 @@ public class AdminServicio {
             usuario.setFechaCreacion(new Date(System.currentTimeMillis()));
             System.out.println("Codigo promocional : " + codigo_promocional);
 
-            if (CODIGO_ESERVICIO_ESPECIAL.equalsIgnoreCase(codigo_promocional)) {
-
-                usuario.setTipoUsuario(TIPO_USUARIO_ESERVICIOESPECIAL);
+            if (CODIGO_SERVICIO_ESPECIAL.equalsIgnoreCase(codigo_promocional)) {
+                usuario.setTipoUsuario(TIPO_USUARIO_SERVICIOESPECIAL);
             } else if (!"".equalsIgnoreCase(codigo_promocional) && codigo_promocional != null
-                    && !CODIGO_ESERVICIO_ESPECIAL.equalsIgnoreCase(codigo_promocional)) {
+                    && !CODIGO_SERVICIO_ESPECIAL.equalsIgnoreCase(codigo_promocional)) {
 
                 Logger.getLogger(AdminServicio.class.getName()).log(Level.INFO, "Codigo promocional incorrecto");
                 respuesta.setRecurso("servicio");
@@ -169,7 +171,7 @@ public class AdminServicio {
         servicio.setDestino(dropoff_location);
         servicio.setOrigen(pickup_location);
         servicio.setFechaCreacion(new Date(System.currentTimeMillis()));
-        servicio.setDistancia(new BigDecimal(distancia));
+        servicio.setDistancia(new BigDecimal(this.parseDecimal(distancia)));
         servicio.setDisponibilidad(disponibilidad != null && disponibilidad.equalsIgnoreCase("true"));
         servicio.setRedondo(redondo != null && redondo.equalsIgnoreCase("true"));
         servicio.setNumeroPasajeros(selected_car);
@@ -203,8 +205,10 @@ public class AdminServicio {
             MessageCreator mc = new MessageCreator();
 
             Messenger mess = new Messenger();
-            mess.sendMail("Solicitud de Servicio en Ayax.co", mc.crearMensajeServicioNuevo(servicio), new String[]{usuario.getBuzonElectronico()});
+            mess.sendMail("Solicitud de Servicio en Ayax.co", mc.crearMensajeServicioNuevo(servicio, ConfigManager.INSTANCE.isTestEnvironment()), new String[]{usuario.getBuzonElectronico(), "lespinosa@ayax.co"});
 
+            AdminSuscripcionPush adminPush = new AdminSuscripcionPush();
+            adminPush.notificarSuscripciones(servicio.getId());
         } catch (Exception exception) {
             descripcion = exception.toString();
             descripcion += pick_up_value.toString();
@@ -224,8 +228,7 @@ public class AdminServicio {
         //TypedQuery<Servicio> q = em.createNamedQuery("Servicio.findAllActive", Servicio.class);
         Query q = em.createNamedQuery("Servicio.findAllActive");
         LocalDate date = LocalDate.now();
-        date.minusDays(30);
-        java.util.Date uDate = Date.from(date.minusDays(30).atStartOfDay(ZoneId.systemDefault()).toInstant());
+        java.util.Date uDate = Date.from(date.atStartOfDay(ZoneId.systemDefault()).toInstant());
         q.setParameter("fechaLimite", uDate, TemporalType.DATE);
         List<Object[]> list = (List<Object[]>) q.getResultList();
         return list;
@@ -254,46 +257,47 @@ public class AdminServicio {
 
     public JSONObject obtenerServicioObj(String id) {
         Servicio item = obtenerServicio(id);
-        JSONObject obj = new JSONObject();
+        JSONObject jsonServicio = new JSONObject();
         try {
-            obj.put("id", item.getId());
-            obj.put("origen", item.getOrigen());
-            obj.put("destino", item.getDestino());
-            obj.put("horaLlegada", item.getHoraLlegada());
-            obj.put("horaSalida", item.getHoraSalida());
-            obj.put("numeroPasajeros", item.getNumeroPasajeros());
-            obj.put("fechaCreacion", item.getFechaCreacion());
-            obj.put("distancia", item.getDistancia());
-            obj.put("redondo", item.getRedondo());
-            obj.put("descripcion", item.getDetalle());
-            String servicioGratis = TIPO_USUARIO_ESERVICIOESPECIAL.
+            jsonServicio.put("id", item.getId());
+            jsonServicio.put("origen", item.getOrigen());
+            jsonServicio.put("destino", item.getDestino());
+            jsonServicio.put("horaLlegada", item.getHoraLlegada());
+            jsonServicio.put("horaSalida", item.getHoraSalida());
+            jsonServicio.put("numeroPasajeros", item.getNumeroPasajeros());
+            jsonServicio.put("fechaCreacion", item.getFechaCreacion());
+            jsonServicio.put("distancia", item.getDistancia());
+            jsonServicio.put("redondo", item.getRedondo());
+            jsonServicio.put("descripcion", item.getDetalle());
+            jsonServicio.put("disponibilidad", item.getDisponibilidad());
+            String servicioGratis = TIPO_USUARIO_SERVICIOESPECIAL.
                     equalsIgnoreCase(item.getUsuario().getTipoUsuario()) ? "1" : null;
-            obj.put("servicioGratis", servicioGratis);
-            if (!item.getConversaciones().isEmpty()) {
-                Conversacion conversacion = null;
-                for (Conversacion c : item.getConversaciones()) {
-                    conversacion = c;
-                    obj.put("conteoMensajes", conversacion.getMensajes().size());
-                    JSONArray array = new JSONArray();
-                    for (Mensaje m : conversacion.getMensajes()) {
-                        JSONObject mObj = new JSONObject();
-                        mObj.put("fechaCreacion", m.getFechaCreacion());
+            jsonServicio.put("servicioGratis", servicioGratis);
+
+            if (!item.getConversacionCollection().isEmpty()) {
+                JSONArray conversaciones = new JSONArray();
+                for (Conversacion c : item.getConversacionCollection()) {
+                    JSONArray conversacion = new JSONArray();
+                    //conversacion.put("conteoMensajes", c.getMensajes().size());
+                    for (Mensaje m : c.getMensajeCollection()) {
+                        JSONObject mensaje = new JSONObject();
+                        mensaje.put("fechaCreacion", m.getFechaCreacion());
                         if (m.getTransportador() != null) {
-                            mObj.put("transportador", m.getTransportador().getNombres());
+                            mensaje.put("transportador", m.getTransportador().getNombres());
                         } else {
-                            mObj.put("usuario", m.getUsuario().getNombre());
+                            mensaje.put("usuario", m.getUsuario().getNombre());
                         }
-                        mObj.put("texto", m.getTexto());
-                        array.put(mObj);
+                        mensaje.put("texto", m.getTexto());
+                        conversacion.put(mensaje);
                     }
-                    obj.put("mensajes", array);
-                    break;
+                    conversaciones.put(conversacion);
                 }
+                jsonServicio.put("comentarios", conversaciones);
             }
         } catch (JSONException ex) {
             Logger.getLogger(RouteServer.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return obj;
+        return jsonServicio;
     }
 
     public Respuesta obtenerServiciosPorTransportador(Transportador transportador) {
@@ -374,9 +378,12 @@ public class AdminServicio {
     }
 
     private Double parseDecimal(String number) {
+
         if (number == null) {
             return null;
         }
+
+        number = number.replaceAll("[^\\d,]", "");
 
         DecimalFormat df = new DecimalFormat();
         DecimalFormatSymbols sfs = new DecimalFormatSymbols();
@@ -397,5 +404,73 @@ public class AdminServicio {
         }
 
         return null;
+    }
+
+    public Respuesta modificarServicioCreado(Request req, Response res) {
+        Respuesta respuesta = new Respuesta();
+
+        try {
+            String pick_up = req.queryParams("pick-up");
+            String id = req.params(":id");
+            String pickup_location = req.queryParams("pickup-location");
+
+            String drop_off = req.queryParams("drop-off");
+            String dropoff_location = req.queryParams("dropoff-location");
+
+            String selected_car = req.queryParams("selected-car");
+            String redondo = req.queryParams("idayvueltas");
+            String disponibilidad = req.queryParams("con-disponibilidad");
+            String detalle = req.queryParams("descripcion-servicio");
+
+            DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd 'at' hh:mm");
+            Servicio servicio = obtenerServicio(id);
+            servicio.setDestino(dropoff_location);
+            servicio.setOrigen(pickup_location);
+            servicio.setFechaCreacion(new Date(System.currentTimeMillis()));
+            servicio.setDisponibilidad(disponibilidad != null && disponibilidad.equalsIgnoreCase("true"));
+            servicio.setRedondo(redondo != null && redondo.equalsIgnoreCase("true"));
+            servicio.setNumeroPasajeros(selected_car);
+            servicio.setDetalle(detalle);
+
+            servicio.setHoraSalida(formatter.parse(pick_up));
+
+            servicio.setHoraLlegada(formatter.parse(drop_off));
+
+            ServicioJpaController sc = new ServicioJpaController(EntityManagerFactoryBuilder.INSTANCE.build());
+            EntityManager em = sc.getEntityManager();
+            em.getTransaction().begin();
+            em.merge(servicio);
+            em.getTransaction().commit();
+
+        } catch (Exception e) {
+
+            Logger.getLogger(AdminServicio.class.getName()).log(Level.SEVERE, null, e);
+            respuesta.setCodigo("001");
+            respuesta.setResultado("ha ocurrido un error");
+        }
+        String descripcion = "exito", codigo = "000";
+        respuesta.setRecurso("servicio");
+        respuesta.setVerbo("POST");
+        respuesta.setCodigo(codigo);
+        respuesta.setResultado(descripcion);
+        return respuesta;
+    }
+
+    public Respuesta reenviarCorreoServicioNuevo(String idServicio) {
+        Respuesta respuesta = new Respuesta();
+
+        ServicioFacade sf = new ServicioFacade();
+        Servicio servicio = sf.buscarPorId(idServicio);
+
+        MessageCreator mc = new MessageCreator();
+
+        Messenger mess = new Messenger();
+        mess.sendMail("Solicitud de Servicio en Ayax.co", mc.crearMensajeServicioNuevo(servicio, ConfigManager.INSTANCE.isTestEnvironment()), new String[]{servicio.getUsuario().getBuzonElectronico(), "lespinosa@ayax.co", "hmcarvajal@ayax.co"});
+
+        respuesta.setRecurso("servicio");
+        respuesta.setVerbo("GET");
+        respuesta.setCodigo("001");
+        respuesta.setResultado("OK");
+        return respuesta;
     }
 }

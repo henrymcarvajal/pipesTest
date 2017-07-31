@@ -40,7 +40,7 @@ if(terminos){
   $.ajax({
     type: "POST",
     url: "/servicio",
-    data: $("#checkout-form").serialize(),
+    data: $("#crear-solicitud").serialize(),
     dataType: "json",
     success: function(data) {
 		var mensaje="";
@@ -122,8 +122,22 @@ $(function(){
 
 function extractPhone (text)
 {
-  
-  return text.match( /\d+/);
+  var phoneRegex= /(?:(?:\+?1\s*(?:[.-]\s*)?)?(?:\(\s*([2-9]1[02-9]|[2-9][02-8]1|[2-9][02-8][02-9])\s*\)|([2-9]1[02-9]|[2-9][02-8]1|[2-9][02-8][02-9]))\s*(?:[.-]\s*)?)?([2-9]1[02-9]|[2-9][02-9]1|[2-9][02-9]{2})\s*(?:[.-]\s*)?([0-9]{4})(?:\s*(?:#|x\.?|ext\.?|extension)\s*(\d+))?/img;
+  //alert(text.replace(phoneRegex,'*********'));
+  var phone=text.match(phoneRegex);
+  if(phone===null){
+    text=text.split(' ').join('');
+    phone=text.match(phoneRegex);
+    }
+   if(phone===null){
+    text=text.split('-').join('');
+    phone=text.match(phoneRegex);
+    }
+    if(phone===null){
+    text=text.split('.').join('');
+    phone=text.match(phoneRegex);
+    }
+  return phone;
 }
 function extractEmails (text)
 {

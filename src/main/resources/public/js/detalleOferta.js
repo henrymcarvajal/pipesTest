@@ -52,7 +52,7 @@ $.fn.stars = function(valor) {
     });
 };
 
-$("#boton-contratar").click(function() {
+/*$("#boton-contratar").click(function() {
   $.ajax({
         type: "GET",
         url: "/oferta/" + idOferta+"/transportador",
@@ -69,6 +69,9 @@ $("#boton-contratar").click(function() {
             window.location.href = url;
         }
     });
-});
+});*/
 
+$("#boton-contratar").click(function() {
+    window.location.href = "/oferta/" + idOferta+"/reserva";
+});
 

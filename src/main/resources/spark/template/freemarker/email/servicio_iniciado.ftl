@@ -6,10 +6,22 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
     </head>
     <body>
+        <#if test>
+        <table bgcolor="#FF0000" width="100%">
+          <tr>
+            <th><p style="color:white">Prueba</p></th>
+          </tr>
+        </table>
+        </#if>
         <p><img style="display: block; margin-left: auto; margin-right: auto;" src="${url_ayax}/img/ayax-logo.jpg" alt="Ayax" width="230" height="220" /></p>
         <p>A continuaci&oacute;n encontrar&aacute;s los datos del servicio y la informaci&oacute;n de contacto del solicitante:</p>
         <p>&nbsp;</p>
         <table style="margin-left: auto; margin-right: auto;" border="1">
+            <thead>
+                <tr>
+                    <th colspan="3">Solicitante</th>
+                </tr>
+            </thead>
             <tbody>
                 <tr>
                     <td>Nombre</td>
@@ -24,7 +36,7 @@
 				<tr>
                     <td>Tel&eacute;fono</td>
                     <td>:</td>
-                    <td>${servicio.usuario.telefono}</td>
+                    <td>${servicio.usuario.telefono?string.computer}</td>
                 </tr>
                 <tr>
                     <td>Origen</td>
@@ -71,6 +83,9 @@
                 </tr>
             </tbody>
         </table>
+        <#if !docsAlDia>
+        <p><b>Es necesario poner al d&iacute;a los documentos del veh&iacute;culo para prestar un excelente servicio.</b></p>
+        </#if>
         <p>&nbsp;</p>
         <p>Cordialmente,</p>
         <p>&nbsp;</p>

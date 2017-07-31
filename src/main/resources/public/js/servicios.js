@@ -73,7 +73,7 @@ function renderizarServicios(id, response) {
             item = item.map;
             var idayvuelta = (item.redondo === 'true')? "si" : "no";
             //var link = (item.idTransportador === id)? "$ " + item.valorOferta : '<a href="#modal-ofertar" data-distancia="' + item.distancia + '" data-id="' + item.id + '" data-toggle="modal" class="btn btn-success ofertar-servicio"> Ofertar </a>';
-            var link='<a target="_blank" href="/detalleServicio.html?id='+item.id+'"> ver Detalle</a>';
+            var link='<a target="_blank" href="/detalleServicio.html?id='+item.id+'"> ver detalle</a>';
 			var $tr = $('<tr>').append(
                     $('<td>').text(indice++),
                     $('<td>').text(item.origen),

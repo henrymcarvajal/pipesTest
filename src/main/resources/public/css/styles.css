@@ -250,10 +250,10 @@ header.large .brand {
 /* Teaser
 -------------------------------------*/
 #teaser {
-  height: 600px;
+  height: 750px;
   padding: 60px 0;
-  background-color: #0088cc;
-  background: linear-gradient(to bottom, #0088cc 0%, #82c5e6 50%, #0088cc 100%);
+  background-color: #3ea9f5;
+ -- background: linear-gradient(to bottom, #0088cc 0%, #82c5e6 50%, #0088cc 100%);
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='@mainColor', endColorstr='@mainColor', GradientType=0);
 }
 #teaser .reservation-form-shadow {
@@ -269,16 +269,16 @@ header.large .brand {
   padding: 10px 15px;
 }
 #teaser form ::-webkit-input-placeholder {
-  color: #ffbf00 !important;
+  color: #ffff !important;
 }
 #teaser form :-moz-placeholder {
-  color: #ffbf00 !important;
+  color: #ffff !important;
 }
 #teaser form ::-moz-placeholder {
-  color: #ffbf00 !important;
+  color: #ffff !important;
 }
 #teaser form :-ms-input-placeholder {
-  color: #ffbf00 !important;
+  color: #ffff !important;
 }
 #teaser form .styled-select-car {
   border: 2px solid #efe9e9;
@@ -315,9 +315,10 @@ header.large .brand {
   margin-bottom: 11px;
 }
 #teaser form .form-control {
-  height: 43px;
+  height: 60px;
   border: 2px solid #efe9e9;
   box-shadow: none;
+  width: 250px;
 }
 #teaser form .input-group {
   width: 100%;
@@ -388,11 +389,10 @@ header.large .brand {
 }
 #teaser form .submit {
   width: 100%;
-  background-color: #ffbf00;
+  background-color: #D1A8ED;
   color: #fff;
   border: none;
-  border-radius: 0;
-  box-shadow: 6px 6px 0 #efe9e9;
+  border-radius: 0.5;
   text-align: center;
   font-size: 24px;
   text-transform: uppercase;
@@ -1154,6 +1154,7 @@ header.large .brand {
 }
 #vehicles .vehicle-img img {
   display: inline-block;
+  height:300px;
 }
 #vehicles .vehicle-price {
   background-color: rgba(255, 191, 0, 0.4);
@@ -2043,6 +2044,14 @@ footer .footer-nav li a {
   footer .footer-nav li a {
     font-size: 16px;
   }
+}
+
+.servicios-diferentes{
+    color: white;
+    font-size: 1.1em;
+}
+.servicios-diferentes:hover{
+    color: black;
 }
 /* Medium devices (desktops, 992px and up) */
 @media (max-width: 992px) {

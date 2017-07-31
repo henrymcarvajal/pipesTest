@@ -6,7 +6,7 @@
     </head>
     <body>
         <!--#include "../../common/bar.ftl"-->
-        <p><img style="display: block; margin-left: auto; margin-right: auto;" src="img/ayax-logo.jpg" alt="Ayax" width="230" height="220" /></p>
+        <p><img style="display: block; margin-left: auto; margin-right: auto;" src="${url_ayax}/img/ayax-logo.jpg" alt="Ayax" width="230" height="220" /></p>
         <center>
             <div class="container">
                 <div class="row">

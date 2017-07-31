@@ -5,10 +5,11 @@
  */
 package com.ayax.website.persistencia.fachadas;
 
+import com.ayax.website.persistencia.controladores.OfertaJpaController;
+import com.ayax.website.persistencia.controladores.exceptions.NonexistentEntityException;
+import com.ayax.website.persistencia.controladores.exceptions.PreexistingEntityException;
 import com.ayax.website.persistencia.EntityManagerFactoryBuilder;
 import com.ayax.website.persistencia.entidades.Oferta;
-import com.ayax.website.persistencia.fachadas.exceptions.NonexistentEntityException;
-import com.ayax.website.persistencia.fachadas.exceptions.PreexistingEntityException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.persistence.EntityManager;
@@ -24,7 +25,7 @@ public class OfertaFacade {
     public Oferta buscarPorServicioTransportador(String idServicio, String idTransportador) {
         OfertaJpaController ojc = new OfertaJpaController(EntityManagerFactoryBuilder.INSTANCE.build());
         EntityManager em = ojc.getEntityManager();
-        Query q = em.createNativeQuery("select * from l4_oferta where id_Servicio = ?idServicio and id_Transportador = ?idTransportador", Oferta.class);
+        Query q = em.createNativeQuery("select * from l4_oferta where servicio = ?idServicio and transportador = ?idTransportador", Oferta.class);
         q.setParameter("idServicio", idServicio);
         q.setParameter("idTransportador", idTransportador);
 

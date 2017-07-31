@@ -10,7 +10,7 @@ import java.io.StringWriter;
 
 /**
  *
- * @author hmcarvajal@ayax.co
+ * @author Mauris
  */
 public class Util {
 

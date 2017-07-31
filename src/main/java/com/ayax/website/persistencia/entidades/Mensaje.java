@@ -44,13 +44,13 @@ public class Mensaje implements Serializable {
     private Date fechaCreacion;
     @Column(name = "texto")
     private String texto;
-    @JoinColumn(name = "id_conversacion", referencedColumnName = "id")
+    @JoinColumn(name = "conversacion", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Conversacion conversacion;
-    @JoinColumn(name = "id_transportador", referencedColumnName = "id")
+    @JoinColumn(name = "transportador", referencedColumnName = "id")
     @ManyToOne
     private Transportador transportador;
-    @JoinColumn(name = "id_usuario", referencedColumnName = "id")
+    @JoinColumn(name = "usuario", referencedColumnName = "id")
     @ManyToOne
     private Usuario usuario;
 

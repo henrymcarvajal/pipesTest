@@ -46,15 +46,15 @@ public class Conversacion implements Serializable {
     @Column(name = "fecha_creacion")
     @Temporal(TemporalType.TIMESTAMP)
     private Date fechaCreacion;
-    @JoinColumn(name = "id_servicio", referencedColumnName = "id")
+    @JoinColumn(name = "servicio", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Servicio servicio;
-    @JoinColumn(name = "id_transportador", referencedColumnName = "id")
+    @JoinColumn(name = "transportador", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Transportador transportador;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "conversacion")
     @OrderBy("fechaCreacion ASC")
-    private Collection<Mensaje> mensajes;
+    private Collection<Mensaje> mensajeCollection;
 
     public Conversacion() {
     }
@@ -96,12 +96,12 @@ public class Conversacion implements Serializable {
     }
 
     @XmlTransient
-    public Collection<Mensaje> getMensajes() {
-        return mensajes;
+    public Collection<Mensaje> getMensajeCollection() {
+        return mensajeCollection;
     }
 
-    public void setMensajes(Collection<Mensaje> mensajes) {
-        this.mensajes = mensajes;
+    public void setMensajeCollection(Collection<Mensaje> mensajeCollection) {
+        this.mensajeCollection = mensajeCollection;
     }
 
     @Override

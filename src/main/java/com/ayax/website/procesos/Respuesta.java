@@ -7,14 +7,15 @@ package com.ayax.website.procesos;
 
 /**
  *
- * @author hmcarvajal@ayax.co
+ * @author Mauris
  */
 public class Respuesta {
+
     private String recurso;
     private String verbo;
     private String resultado;
-    private String codigo; 
-    private Object valor; 
+    private String codigo;
+    private Object valor;
 
     /**
      * @return the resultado
@@ -84,5 +85,11 @@ public class Respuesta {
      */
     public void setValor(Object valor) {
         this.valor = valor;
+    }
+
+    @Override
+    public String toString() {
+        return " codigo : " + codigo
+                + " resultado " + resultado;
     }
 }

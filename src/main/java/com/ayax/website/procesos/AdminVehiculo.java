@@ -30,7 +30,7 @@ import spark.Response;
 
 /**
  *
- * @author hmcarvajal@ayax.co
+ * @author Mauris
  */
 public class AdminVehiculo {
 

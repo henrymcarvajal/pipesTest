@@ -6,6 +6,13 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
     </head>
     <body>
+        <#if test>
+        <table bgcolor="#FF0000" width="100%">
+          <tr>
+            <th><p style="color:white">Prueba</p></th>
+          </tr>
+        </table>
+        </#if>
         <p><img style="display: block; margin-left: auto; margin-right: auto;" src="${url_ayax}/img/ayax-logo.jpg" alt="Ayax" width="230" height="220" /></p>
         <p>Has solicitado un servicio de transporte especial en <a href="${url_ayax}">Ayax.co</a>, con las siguientes caracter&iacute;sticas:</p>
         <p>&nbsp;</p>
@@ -57,6 +64,13 @@
             </tbody>
         </table>
         <p>&nbsp;</p>
+		<p>&nbsp;Si deseas ver o editar la solicitud que acabas de hacer, puedes hacerlo entrando al siguiente enlace:</p><br/>
+					<center>
+                        <a href="${url_ayax}/EditarSolicitud.html?id=${servicio.id}">Editar Solicitud</a>
+                    </center>
+					<center>
+                        <a href="${url_ayax}/detalleServicio.html?id=${servicio.id}">Ver Solicitud</a>
+                    </center>
         <p>&nbsp;Por correo recibir&aacute;s ofertas de nuestros transportadores. Est&aacute; atento/atenta a su llegada.</p>
         <p>&nbsp;</p>
         <table style="margin-left: auto; margin-right: auto;" border="1">

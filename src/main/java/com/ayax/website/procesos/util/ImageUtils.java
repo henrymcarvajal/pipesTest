@@ -9,7 +9,7 @@ import java.util.Base64;
 
 /**
  *
- * @author hmcarvajal@ayax.co
+ * @author Mauris
  */
 public class ImageUtils {
 

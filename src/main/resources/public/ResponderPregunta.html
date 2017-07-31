@@ -1,0 +1,158 @@
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Ayax</title>
+
+        <!-- Bootstrap -->
+        <link href="css/bootstrap.min.css" rel="stylesheet">
+
+        <!-- Bootstrap -->
+        <link href="css/animate.css" rel="stylesheet">
+        <link href="css/detalleServicio.css" rel="stylesheet">
+
+        <!-- Google Font Lato -->
+        <link href='https://fonts.googleapis.com/css?family=Lato:400,700,900,400italic,700italic,900italic' rel='stylesheet' type='text/css'>
+        <link rel="stylesheet" href="css/font-awesome.min.css">
+
+        <link href="css/map.css" rel="stylesheet">
+        <!-- Main Styles -->
+        <link href="css/styles.css" rel="stylesheet">
+        <!-- Available main styles: styles-red.css, styles-green.css -->
+        <!-- Fav and touch icons -->
+        <link rel="apple-touch-icon-precomposed" sizes="144x144" href="img/ico/apple-touch-icon-144-precomposed.png">
+        <link rel="apple-touch-icon-precomposed" sizes="114x114" href="img/ico/apple-touch-icon-114-precomposed.png">
+        <link rel="apple-touch-icon-precomposed" sizes="72x72" href="img/ico/apple-touch-icon-72-precomposed.png">
+        <link rel="apple-touch-icon-precomposed" href="img/ico/apple-touch-icon-57-precomposed.png">
+        <link rel="shortcut icon" href="img/ico/ayax.ico">
+
+    </head>
+    <body id="top" data-spy="scroll" data-target=".navbar" data-offset="260">
+
+        <!-- Header start -->
+        <!-- 12/12/2016 11:29 pm AYAX-->
+        <header>
+
+            <div class="row container box">
+                <div class="col-md-5">
+                    <!-- Logo start -->
+                    <div class="brand">
+                        <h1><a class="scroll-to" href="#top"><img class="img-responsive" src="img/logo.png" alt="Ayax"></a></h1>
+                    </div>
+                    <!-- Logo end -->
+                </div>
+
+                <div class="col-md-7">
+                    <div class="pull-right">
+                        <div class="header-info pull-right">
+                            <div class="contact pull-left">CONTACTO WHATSAPP: 322 880-4995</div>
+                            <!-- Language Switch start -->
+                            <!-- Language Switch end -->
+                        </div>
+                    </div>
+
+                    <div class="clearfix"></div>
+
+                    <!-- start navigation -->
+                    <nav class="navbar navbar-default" role="navigation">
+                        <div class="container-fluid">
+                            <!-- Toggle get grouped for better mobile display -->
+                            <div class="navbar-header">
+                                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                                    <span class="sr-only">Toggle navigation</span>
+                                    <span class="icon-bar"></span>
+                                    <span class="icon-bar"></span>
+                                    <span class="icon-bar"></span>
+                                </button>
+                                <a class="navbar-brand scroll-to" href="#top"><img class="img-responsive"  src="img/logo.png" alt="Ayax"></a>
+                            </div>
+                            <!-- Collect the nav links, for toggling -->
+                            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                                <!-- Nav-Links start -->
+                                <ul class="nav navbar-nav navbar-right">
+                                    <li><a href="login.html" class="scroll-to">Soy Transportador</a></li>
+                                    <!--<li><a href="#contact" class="scroll-to">Contactanos</a></li>-->
+                                </ul>
+                                <!-- Nav-Links end -->
+                            </div>
+                        </div>
+                    </nav>
+                    <!-- end navigation -->
+                </div>
+            </div>
+
+        </header>
+
+        <section id="comentarios" class="container">
+            <ul>
+                <li>
+                    <article><p><span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span> <span id="pregunta"></span></p></article>
+                    <article class="respuesta-article">
+                        <form class="responder-class">
+                            <div class="alert alert-danger hidden" id="datos-contacto">
+                                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                                <strong>Nota:</strong> No son permitidos los números ni los datos de contacto.
+                                <span id="errorGenerico" style="color:red;"></span>
+                            </div>
+                            <textarea name="comentario-texto" onkeyup="validarDatosContacto()" id="comentario-text" rows="4" style="width:90%;" placeholder="escribe tu respuesta aca"></textarea><br/>
+                            <input type="submit" value="responder" id="boton-responder" class="btn btn-success" disabled>
+                        </form>
+                    </article>
+                <li>
+            </ul>
+
+
+        </section>
+        <!-- Footer start -->
+        <footer>
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12 text-center">
+                        <ul class="footer-nav">
+                            <li><a class="scroll-to" href="login.html">Soy transportador</a></li>
+                            <!--<li><a class="scroll-to" href="#contact">Contactanos</a></li>-->
+                        </ul>
+                        <div class="clearfix"></div>
+                        <p class="copyright">©2016 Ayax, All Rights Reserved</p>
+                    </div>
+                </div>
+            </div>
+        </footer>
+        <!-- Footer end -->
+        <div class="modal fade" id="mensaje-informativo" style="width:60%; margin:0 auto;" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static">	
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title" id="titulo-informativo">Modal Header</h4>
+                </div>
+                <div class="modal-body">
+                    <span id="mensaje-informativo-texto">Some text in the modal.</span>
+                    <div id="boton-inicio"></div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Finalizar</button>
+                </div>
+            </div>
+        </div>
+
+        <script src="js/jquery-1.11.0.min.js"></script>
+        <script src="js/general.js"></script>
+        <script src="js/ResponderPregunta.js"></script>
+        <script src="js/bootstrap.min.js"></script>
+        <script src="js/jquery.autocomplete.min.js"></script>
+        <script src="js/jquery.placeholder.js"></script>
+
+        <!--[if !(gte IE 8)]><!-->
+        <script src="js/wow.min.js"></script>
+        <script>
+                                // Initialize WOW
+                                //-------------------------------------------------------------
+                                new WOW({mobile: false}).init();
+        </script>
+        <!--<![endif]-->
+    </body>
+</html>

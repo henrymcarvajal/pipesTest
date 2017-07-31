@@ -9,7 +9,7 @@ import com.ayax.website.persistencia.EntityManagerFactoryBuilder;
 import com.ayax.website.persistencia.entidades.Factura;
 import com.ayax.website.persistencia.entidades.Transportador;
 import com.ayax.website.persistencia.entidades.Vehiculo;
-import com.ayax.website.persistencia.fachadas.FacturaJpaController;
+import com.ayax.website.persistencia.controladores.FacturaJpaController;
 import com.ayax.website.procesos.util.Encriptador;
 import com.ayax.website.server.ConfigManager;
 import java.math.BigInteger;
@@ -35,7 +35,7 @@ public class AdminCuenta {
 
         String monto = req.queryParams("monto");
         Transportador transportador = (Transportador) req.session().attribute("usuario");
-        Collection<Vehiculo> veh = transportador.getVehiculos();
+        Collection<Vehiculo> veh = transportador.getVehiculoCollection();
         Object[] lveh = veh.toArray();
         Vehiculo v = (Vehiculo) lveh[0];
         

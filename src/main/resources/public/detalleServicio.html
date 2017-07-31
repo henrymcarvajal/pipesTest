@@ -10,10 +10,11 @@
 
         <!-- Bootstrap -->
         <link href="css/bootstrap.min.css" rel="stylesheet">
+        <link href="css/form-register.css" rel="stylesheet">
 
         <!-- Bootstrap -->
         <link href="css/animate.css" rel="stylesheet">
-        <link href="css/servicios.css" rel="stylesheet">
+        <link href="css/detalleServicio.css" rel="stylesheet">
 
         <!-- Google Font Lato -->
         <link href='https://fonts.googleapis.com/css?family=Lato:400,700,900,400italic,700italic,900italic' rel='stylesheet' type='text/css'>
@@ -130,11 +131,15 @@
                                     <td>Ida y vuelta</td>
                                     <td><span id="ida-vuelta"></span></td>
                                 </tr>
+                                <tr>
+                                    <td>Disponibilidad</td>
+                                    <td><span id="disponibilidad"></span></td>
+                                </tr>
                                 <tr class="valor-cobra">
                                     <td>¿Cuánto cobras?</td>
                                     <td>
                                         <input class="form-control" id="valor" min="1000" style="width:50%;" type="number" placeholder="Ingresa el valor que cobrás por el servicio" onkeyup="mostrarValor();
-                                                                                return false;"/>
+                                                return false;"/>
                                         <span id="valor_oferta"></span>
                                     </td>
                                 </tr>
@@ -145,7 +150,28 @@
                             <input type="hidden" id="valorServicio" name="valor" value=""/>
                         </div>
 
-                        <center><a href="#" id="boton-ofertar" class="reserve-button scroll-to">Ofertar</center></a>
+                        <center><a href="#" id="boton-ofertar" class="reserve-button scroll-to">Ofertar</a></center>
+                        <br/><br/>
+                        <div class="comentarios">
+                            <h2>Realiza las preguntas que necesites al solicitante, antes de ofertar:</H2><br/>
+                            <div class="pregunta">
+                                <form class="preguntar-class">
+                                    <div class="alert alert-danger hidden" id="datos-contacto">
+                                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                                        <strong>Nota:</strong> No son permitidos los números ni los datos de contacto.
+                                        <span id="errorGenerico" style="color:red;"></span>
+                                    </div>
+                                    <textarea name="comentario-texto" onkeyup="validarDatosContacto()" id="comentario-text" rows="4" style="width:90%;" placeholder="escribe tu pregunta aca"></textarea><br/>
+                                    <input type="submit" value="preguntar" id="boton-preguntar" class="btn btn-success" disabled>
+                                </form>
+                            </div><br/>
+                            <div class="div-preguntas">
+                                <ul class="listado_de_preguntas">
+
+                                </ul>
+                            </div>
+                        </div>
+
                     </div>
                 </div>
         </section>
@@ -173,6 +199,7 @@
                 </div>
                 <div class="modal-body">
                     <span id="mensaje-informativo-texto">Some text in the modal.</span>
+                    <div id="Entradas_adicionales"></div><br/>
                     <div id="boton-inicio"></div>
                 </div>
                 <div class="modal-footer">

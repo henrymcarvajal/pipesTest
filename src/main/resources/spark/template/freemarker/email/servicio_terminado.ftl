@@ -6,13 +6,20 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
     </head>
     <body>
+        <#if test>
+        <table bgcolor="#FF0000" width="100%">
+          <tr>
+            <th><p style="color:white">Prueba</p></th>
+          </tr>
+        </table>
+        </#if>
         <p><img style="display: block; margin-left: auto; margin-right: auto;" src="${url_ayax}/img/ayax-logo.jpg" alt="Ayax" width="230" height="220" /></p>
-        <>A continuaci&oacute;n encontrar&aacute;s la informaci&oacute; de contacto de tu transportador:</p>
+        <p>A continuaci&oacute;n encontrar&aacute;s la informaci&oacute;n de contacto de tu transportador:</p>
         <p>&nbsp;</p>
         <table style="margin-left: auto; margin-right: auto;" border="1">
             <thead>
                 <tr>
-                    <th span="3">Transportador</td>
+                    <th colspan="3">Transportador</th>
                 </tr>
             </thead>
             <tbody>

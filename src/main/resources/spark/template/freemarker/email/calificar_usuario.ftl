@@ -6,6 +6,13 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
     </head>
     <body>
+        <#if test>
+        <table bgcolor="#FF0000" width="100%">
+          <tr>
+            <th><p style="color:white">Prueba</p></th>
+          </tr>
+        </table>
+        </#if>
         <p><img style="display: block; margin-left: auto; margin-right: auto;" src="${url_ayax}/img/ayax-logo.jpg" alt="Ayax" width="230" height="220" /></p>
         <p>Es hora de calificar a tu usuario.</p>
         <p>&nbsp;</p>

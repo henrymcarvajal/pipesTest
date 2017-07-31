@@ -6,8 +6,9 @@
 package com.ayax.website.procesos;
 
 import com.ayax.website.persistencia.EntityManagerFactoryBuilder;
+import com.ayax.website.persistencia.dto.TransportadorDTOBuilder;
 import com.ayax.website.persistencia.entidades.Transportador;
-import com.ayax.website.persistencia.fachadas.TransportadorJpaController;
+import com.ayax.website.persistencia.controladores.TransportadorJpaController;
 import com.ayax.website.util.Cryptographer;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
@@ -20,8 +21,6 @@ import spark.Response;
  * @author hmcarvajal@ayax.co
  */
 public class AdminAcceso {
-
-    private static final String ROUTE = "/";
 
     public Respuesta ingresar(Request req, Response res) {
         Respuesta respuesta = new Respuesta();
@@ -51,7 +50,7 @@ public class AdminAcceso {
                         req.session().attribute("usuario", transportador);
                         respuesta.setCodigo("000");
                         respuesta.setResultado("exito");
-                        respuesta.setValor(transportador.toDTO());
+                        respuesta.setValor(TransportadorDTOBuilder.toDTO(transportador));
                      
                 } else {
                     respuesta.setCodigo("002");

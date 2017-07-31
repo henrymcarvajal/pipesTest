@@ -5,10 +5,11 @@
  */
 package com.ayax.website.persistencia.fachadas;
 
+import com.ayax.website.persistencia.controladores.TransportadorJpaController;
+import com.ayax.website.persistencia.controladores.exceptions.NonexistentEntityException;
+import com.ayax.website.persistencia.controladores.exceptions.PreexistingEntityException;
 import com.ayax.website.persistencia.EntityManagerFactoryBuilder;
 import com.ayax.website.persistencia.entidades.Transportador;
-import com.ayax.website.persistencia.fachadas.exceptions.NonexistentEntityException;
-import com.ayax.website.persistencia.fachadas.exceptions.PreexistingEntityException;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;

@@ -10,7 +10,7 @@ import java.util.ArrayList;
 
 /**
  *
- * @author hmcarvajal@ayax.co
+ * @author Mauris
  */
 public enum DiasFestivos {
     
