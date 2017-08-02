@@ -269,12 +269,12 @@ public class RouteServer {
             AdminSuscripcionPush adminPush = new AdminSuscripcionPush();
             return adminPush.notificarSuscripciones("f4818e4d-55c1-4316-a3fc-46dbf840c16a");
         }, toJson());
+*/
         
         post("/cotizar", (req, res) -> {
             res.type("application/json");
             AdminCotizacion adminContizacion = new AdminCotizacion();
             return adminContizacion.obtenerCotizacion(req, res);
         }, toJson());
-*/
     }
 }
