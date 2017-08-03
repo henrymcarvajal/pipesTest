@@ -1,5 +1,6 @@
-const urlLocalizacion = "https://crossorigin.me/https://app.invias.gov.co:8080/viajero/webresources/listaEvento?punto=";
-const urlPeajes = "https://crossorigin.me/https://app.invias.gov.co:8080/viajero/webresources/sumarPeaje?lstPeaje=";
+//https://crossorigin.me/
+const urlLocalizacion = "https://app.invias.gov.co:8080/viajero/webresources/listaEvento?punto=";
+const urlPeajes = "https://app.invias.gov.co:8080/viajero/webresources/sumarPeaje?lstPeaje=";
 
 function route(origin_place_id, destination_place_id, travel_mode,
         directionsService) {
