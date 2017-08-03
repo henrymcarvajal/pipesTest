@@ -1,3 +1,6 @@
+const urlLocalizacion = "https://crossorigin.me/https://app.invias.gov.co:8080/viajero/webresources/listaEvento?punto=";
+const urlPeajes = "https://crossorigin.me/https://app.invias.gov.co:8080/viajero/webresources/sumarPeaje?lstPeaje=";
+
 function route(origin_place_id, destination_place_id, travel_mode,
         directionsService) {
     if (!origin_place_id || !destination_place_id) {
@@ -9,13 +12,10 @@ function route(origin_place_id, destination_place_id, travel_mode,
         travelMode: travel_mode
     }, function(response, status) {
         if (status === google.maps.DirectionsStatus.OK) {
-
             $('#distancia').val(response.routes[0].legs[0].distance.text);
             var path = (response.routes[0].overview_path);
             var texto = obtenerTextoCoordenadas(response) + '&capas=1Y2';
-            llamadoPeajes("https://crossorigin.me/https://app.invias.gov.co:8080/viajero/webresources/listaEvento?punto=" + texto, obtenerSumaPeaje);
-
-
+            llamadoPeajes(urlLocalizacion + texto, obtenerSumaPeaje);
         } else {
             window.alert('Directions request failed due to ' + status);
         }
@@ -43,7 +43,7 @@ function obtenerListadoPeajes(listadoPeajes) {
 
 function obtenerSumaPeaje(listadoP) {
     var listaPeaje = obtenerListadoPeajes(listadoP);
-    var url = "https://crossorigin.me/https://app.invias.gov.co:8080/viajero/webresources/sumarPeaje?lstPeaje=" + listaPeaje + "&categoria=1";
+    var url = urlPeajes + listaPeaje + "&categoria=1";
     llamadoPeajes(url, llamadoCotizar);
 }
 
