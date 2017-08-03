@@ -52,13 +52,11 @@ function llamadoPeajes(path, callback) {
     $.ajax({
         type: 'GET',
         url: path,
-        dataType: 'json',
+        dataType: 'jsonp',
         async: false,
         cache: false,
         success: function(data) {
-
             callback(data);
-
         },
         error: function(xhr, type) {
             // to do something
